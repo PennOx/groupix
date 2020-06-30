@@ -1,9 +1,12 @@
-package tk.pankajb.groupix;
+package tk.pankajb.groupix.Home;
 
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+
+import tk.pankajb.groupix.Albums;
+import tk.pankajb.groupix.Images;
 
 public class SectionAdapter extends FragmentPagerAdapter {
 

@@ -12,7 +12,7 @@ import com.google.firebase.storage.StorageReference;
 
 public class DataStore {
 
-    FirebaseAuth Auth = FirebaseAuth.getInstance();
+    public FirebaseAuth Auth = FirebaseAuth.getInstance();
     private FirebaseUser CurrentUser;
 
     private String CurrentUserId;

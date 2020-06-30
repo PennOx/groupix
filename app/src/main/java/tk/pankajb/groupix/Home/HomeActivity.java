@@ -1,4 +1,4 @@
-package tk.pankajb.groupix;
+package tk.pankajb.groupix.Home;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -37,6 +37,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import tk.pankajb.groupix.DataStore;
+import tk.pankajb.groupix.EditProfile;
+import tk.pankajb.groupix.R;
 
 
 public class HomeActivity extends AppCompatActivity {
@@ -286,7 +289,7 @@ public class HomeActivity extends AppCompatActivity {
 
         if (AppData.Auth.getCurrentUser() == null) {
             Toast.makeText(this, "Not Signed in", Toast.LENGTH_SHORT).show();
-            Intent SendToLogIn = new Intent(HomeActivity.this, StartActivity.class);
+            Intent SendToLogIn = new Intent(HomeActivity.this, tk.pankajb.groupix.Credentials.StartActivity.class);
             startActivity(SendToLogIn);
             finish();
         }
@@ -316,7 +319,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void LogOut() {
-        Intent LogoutIntend = new Intent(HomeActivity.this, StartActivity.class);
+        Intent LogoutIntend = new Intent(HomeActivity.this, tk.pankajb.groupix.Credentials.StartActivity.class);
         LogoutIntend.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         AppData.Auth.signOut();
         startActivity(LogoutIntend);

@@ -1,4 +1,4 @@
-package tk.pankajb.groupix;
+package tk.pankajb.groupix.Credentials;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,6 +22,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
+
+import tk.pankajb.groupix.DataStore;
+import tk.pankajb.groupix.Home.HomeActivity;
+import tk.pankajb.groupix.R;
 
 public class SignInActivity extends AppCompatActivity {
 

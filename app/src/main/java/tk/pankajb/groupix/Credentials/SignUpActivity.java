@@ -1,4 +1,4 @@
-package tk.pankajb.groupix;
+package tk.pankajb.groupix.Credentials;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -19,6 +19,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.HashMap;
+
+import tk.pankajb.groupix.DataStore;
+import tk.pankajb.groupix.R;
 
 public class SignUpActivity extends AppCompatActivity {
 

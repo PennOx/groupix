@@ -14,32 +14,32 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".HomeActivity">
+        <activity android:name=".Home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".StartActivity" />
+        <activity android:name=".Credentials.StartActivity" />
         <activity
-            android:name=".SignInActivity"
-            android:parentActivityName=".StartActivity" />
+            android:name=".Credentials.SignInActivity"
+            android:parentActivityName=".Credentials.StartActivity" />
 
         <activity
-            android:name=".SignUpActivity"
-            android:parentActivityName=".StartActivity" />
+            android:name=".Credentials.SignUpActivity"
+            android:parentActivityName=".Credentials.StartActivity" />
 
         <activity
             android:name=".EditProfile"
-            android:parentActivityName=".HomeActivity" />
+            android:parentActivityName=".Home.HomeActivity" />
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
 
         <activity
             android:name=".AlbumOverview"
-            android:parentActivityName=".HomeActivity" />
+            android:parentActivityName=".Home.HomeActivity" />
 
         <activity
             android:name=".SingleImageView"
