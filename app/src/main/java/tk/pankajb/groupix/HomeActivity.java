@@ -183,6 +183,7 @@ public class HomeActivity extends AppCompatActivity {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                 NewAlbumCoverImg = taskSnapshot.getDownloadUrl().toString();
+
                             }
                         });
                     }

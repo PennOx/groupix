@@ -82,7 +82,7 @@ public class AlbumOverview extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-//      setAddBtn();
+        setAddBtn();
 
         AppData.getAlbumsDataRef().child("allalbums").child(AlbumId).addValueEventListener(new ValueEventListener() {
             @Override
@@ -101,7 +101,7 @@ public class AlbumOverview extends AppCompatActivity {
                         AlbumNameTextView.setText(dataSnapshot.child("name").getValue().toString());
                         AlbumDescTextView.setText(dataSnapshot.child("description").getValue().toString());
 
-                        if (!dataSnapshot.child("coverimg").getValue().toString().isEmpty()) {
+                        if (!dataSnapshot.child("coverimg").getValue().toString().equals("default")) {
                             Glide.with(getApplicationContext()).load(dataSnapshot.child("coverimg").getValue().toString()).into(AlbumCoverImageView);
                         }
                     }
