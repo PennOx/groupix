@@ -33,8 +33,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.UploadTask;
 
 import tk.pankajb.groupix.DataStore;
-import tk.pankajb.groupix.ImageDataModel;
-import tk.pankajb.groupix.ImagesRecyclerAdapter;
+import tk.pankajb.groupix.Image.ImageDataModel;
+import tk.pankajb.groupix.Image.ImagesRecyclerAdapter;
 import tk.pankajb.groupix.R;
 
 public class AlbumOverview extends AppCompatActivity {

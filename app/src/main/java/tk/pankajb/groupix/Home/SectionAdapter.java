@@ -6,7 +6,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import tk.pankajb.groupix.Album.Albums;
-import tk.pankajb.groupix.Images;
+import tk.pankajb.groupix.Image.Images;
 
 public class SectionAdapter extends FragmentPagerAdapter {
 
