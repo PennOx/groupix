@@ -161,8 +161,6 @@ public class SingleImageView extends AppCompatActivity {
                 }
             });
         }
-
-
     }
 
     @Override
