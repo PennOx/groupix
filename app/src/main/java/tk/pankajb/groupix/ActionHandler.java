@@ -101,14 +101,14 @@ public class ActionHandler {
         AppData.getAlbumsStorageRef().child(OwnerId).child(AlbumId).child("images").child(ImageId).child("image").delete();
     }
 
-    void DisplaySingleImage(Context currentContext, String ImageId) {
+    public void DisplaySingleImage(Context currentContext, String ImageId) {
         Intent DisplayImage = new Intent(currentContext, SingleImageView.class);
         DisplayImage.putExtra("Type", "Single");
         DisplayImage.putExtra("ImageId", ImageId);
         currentContext.startActivity(DisplayImage);
     }
 
-    void DisplaySingleImage(Context currentContext, String AlbumId, String ImageId) {
+    public void DisplaySingleImage(Context currentContext, String AlbumId, String ImageId) {
         Intent DisplayImage = new Intent(currentContext, SingleImageView.class);
         DisplayImage.putExtra("Type", "Album");
         DisplayImage.putExtra("AlbumId", AlbumId);

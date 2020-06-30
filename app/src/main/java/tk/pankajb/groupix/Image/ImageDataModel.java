@@ -1,4 +1,4 @@
-package tk.pankajb.groupix;
+package tk.pankajb.groupix.Image;
 
 public class ImageDataModel {
     String image;

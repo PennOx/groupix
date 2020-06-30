@@ -1,5 +1,4 @@
-package tk.pankajb.groupix;
-
+package tk.pankajb.groupix.Image;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +14,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+
+import tk.pankajb.groupix.R;
 
 public class Images extends Fragment {
 
@@ -37,7 +38,7 @@ public class Images extends Fragment {
 
         Query ImagesQuery = FirebaseDatabase.getInstance().getReference().child("images").child(CurrentUser.getUid()).limitToLast(50);
 
-        FirebaseRecyclerOptions<ImageDataModel> ImagesOptions = new FirebaseRecyclerOptions.Builder<ImageDataModel>().setQuery(ImagesQuery, ImageDataModel.class).build();
+        FirebaseRecyclerOptions<tk.pankajb.groupix.Image.ImageDataModel> ImagesOptions = new FirebaseRecyclerOptions.Builder<tk.pankajb.groupix.Image.ImageDataModel>().setQuery(ImagesQuery, ImageDataModel.class).build();
 
         ImagesRecycler = view.findViewById(R.id.Images_Recycler);
         ImagesRecycler.setHasFixedSize(true);
