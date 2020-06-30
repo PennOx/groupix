@@ -121,7 +121,48 @@ public class SingleImageView extends AppCompatActivity {
         } else if (Type.equals("Album")) {
             AlbumName.setVisibility(View.VISIBLE);
             AlbumId = getIntent().getStringExtra("AlbumId");
+
+            AppData.getAlbumsDataRef().child("allimages").child(ImageId).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    OwnerId = (String) dataSnapshot.getValue();
+
+                    AppData.getVerifiedUserDataRef().child(OwnerId).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            UserName.setText(dataSnapshot.child("name").getValue() + " " + dataSnapshot.child("lastname").getValue());
+
+                            Glide.with(getApplicationContext()).load((String) dataSnapshot.child("profileThumbImage").getValue()).into(UserProfileImage);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                    AppData.getAlbumsDataRef().child(OwnerId).child(AlbumId).addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            AlbumName.setText((String) dataSnapshot.child("name").getValue());
+                            Glide.with(getApplicationContext()).load((String) dataSnapshot.child("images").child(ImageId).child("image").getValue()).into(ImageView);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
         }
+
+
     }
 
     @Override

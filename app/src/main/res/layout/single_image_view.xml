@@ -58,6 +58,8 @@
         android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/SingleImageview_ImageAlbum_Text"
+        app:layout_constraintEnd_toStartOf="@+id/SingleImageView_CloseButton"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/SingleImageview_UserProfileImage"
         app:layout_constraintTop_toTopOf="@+id/SingleImageview_UserProfileImage" />
 
@@ -72,6 +74,8 @@
         android:textSize="10sp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/SingleImageview_UserProfileImage"
+        app:layout_constraintEnd_toStartOf="@+id/SingleImageView_CloseButton"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/SingleImageview_UserProfileImage" />
 
     <ImageButton
