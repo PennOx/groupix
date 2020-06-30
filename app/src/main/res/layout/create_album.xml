@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_constraintBottom_toBottomOf="parent">
+
+    <View
+        android:id="@+id/CreateAlbum_Mainview"
+        android:layout_width="0dp"
+        android:layout_height="350dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/shape_createalbum"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <View
+        android:id="@+id/CreateAlbum_Toolbarview"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@drawable/shape_custom_toolbar_createalbum"
+        app:layout_constraintEnd_toEndOf="@+id/CreateAlbum_Mainview"
+        app:layout_constraintStart_toStartOf="@+id/CreateAlbum_Mainview"
+        app:layout_constraintTop_toTopOf="@+id/CreateAlbum_Mainview" />
+
+    <Button
+        android:id="@+id/CreateAlbum_CloseButton"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/close"
+        app:layout_constraintBottom_toBottomOf="@+id/CreateAlbum_Toolbarview"
+        app:layout_constraintEnd_toEndOf="@+id/CreateAlbum_Toolbarview"
+        app:layout_constraintTop_toTopOf="@+id/CreateAlbum_Toolbarview" />
+
+    <TextView
+        android:id="@+id/CreateAlbum_ToolbarText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="Create Album"
+        android:textAlignment="textStart"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/CreateAlbum_Toolbarview"
+        app:layout_constraintStart_toStartOf="@+id/CreateAlbum_Toolbarview"
+        app:layout_constraintTop_toTopOf="@+id/CreateAlbum_Toolbarview" />
+
+    <ImageView
+        android:id="@+id/CreateAlbum_CoverImg"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/shape_createalbm_image"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="@+id/CreateAlbum_Mainview"
+        app:layout_constraintStart_toStartOf="@+id/CreateAlbum_Mainview"
+        app:layout_constraintTop_toBottomOf="@+id/CreateAlbum_Toolbarview" />
+
+    <ImageButton
+        android:id="@+id/CreateAlbum_AddCoverButton"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:background="@drawable/add_colored"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/CreateAlbum_CoverImg"
+        app:layout_constraintEnd_toEndOf="@+id/CreateAlbum_CoverImg"
+        app:layout_constraintStart_toStartOf="@+id/CreateAlbum_CoverImg"
+        app:layout_constraintTop_toTopOf="@+id/CreateAlbum_CoverImg" />
+
+    <EditText
+        android:id="@+id/CreateAlbum_AlbumName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/shape_custom_edittext"
+        android:hint="Album Name"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        app:layout_constraintEnd_toEndOf="@+id/CreateAlbum_Mainview"
+        app:layout_constraintStart_toStartOf="@+id/CreateAlbum_Mainview"
+        app:layout_constraintTop_toBottomOf="@+id/CreateAlbum_CoverImg" />
+
+    <EditText
+        android:id="@+id/CreateAlbum_AlbumDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/shape_custom_edittext"
+        android:hint="Album Description"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        app:layout_constraintEnd_toEndOf="@+id/CreateAlbum_Mainview"
+        app:layout_constraintStart_toStartOf="@+id/CreateAlbum_Mainview"
+        app:layout_constraintTop_toBottomOf="@+id/CreateAlbum_AlbumName" />
+
+    <Button
+        android:id="@+id/CreateAlbum_CreateAlbumButton"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/shape_cutom_button"
+        android:text="create album"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/CreateAlbum_Mainview"
+        app:layout_constraintEnd_toEndOf="@+id/CreateAlbum_Mainview"
+        app:layout_constraintStart_toStartOf="@+id/CreateAlbum_Mainview"
+        app:layout_constraintTop_toBottomOf="@+id/CreateAlbum_AlbumDescription" />
+
+
+</android.support.constraint.ConstraintLayout>

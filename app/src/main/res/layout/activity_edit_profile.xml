@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditProfile">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/EditProfile_Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="0dp"
+        android:background="@drawable/shape_custom_toolbar"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <View
+        android:id="@+id/EditProfile_Upperview"
+        android:layout_width="0dp"
+        android:layout_height="145dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/shape_editprofile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EditProfile_Toolbar" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/EditProfile_UserImage"
+        android:layout_width="51dp"
+        android:layout_height="51dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/user"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/EditProfile_Upperview" />
+
+    <TextView
+        android:id="@+id/EditProfile_UserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:fontFamily="sans-serif"
+        android:textAlignment="center"
+        android:textColor="@android:color/white"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/EditProfile_UserImage"
+        app:layout_constraintStart_toEndOf="@+id/EditProfile_UserImage"
+        app:layout_constraintTop_toTopOf="@+id/EditProfile_UserImage" />
+
+    <TextView
+        android:id="@+id/EditProfile_Desc"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
+        android:fontFamily="sans-serif"
+        android:textColor="@android:color/white"
+        android:textSize="13sp"
+        app:layout_constraintBottom_toBottomOf="@+id/EditProfile_Upperview"
+        app:layout_constraintEnd_toStartOf="@+id/EditProfile_EditProfileButtonImage"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/EditProfile_UserName"
+        app:layout_constraintTop_toBottomOf="@+id/EditProfile_UserName"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageButton
+        android:id="@+id/EditProfile_EditProfileButtonImage"
+        android:layout_width="37dp"
+        android:layout_height="37dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/shape_custombutton_round"
+        android:src="@drawable/edit"
+        app:layout_constraintBottom_toBottomOf="@+id/EditProfile_Upperview"
+        app:layout_constraintEnd_toEndOf="@+id/EditProfile_Upperview" />
+
+    <View
+        android:id="@+id/EditProfile_Midview"
+        android:layout_width="0dp"
+        android:layout_height="130dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/shape_editprofile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EditProfile_Upperview" />
+
+    <ImageView
+        android:id="@+id/EditProfile_MailIcon"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="17dp"
+        app:layout_constraintStart_toStartOf="@+id/EditProfile_Midview"
+        app:layout_constraintTop_toTopOf="@+id/EditProfile_Midview"
+        app:srcCompat="@drawable/mail" />
+
+    <TextView
+        android:id="@+id/EditProfile_UserEmail"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:textAlignment="textStart"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="@+id/EditProfile_MailIcon"
+        app:layout_constraintStart_toEndOf="@+id/EditProfile_MailIcon"
+        app:layout_constraintTop_toTopOf="@+id/EditProfile_MailIcon" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:text="Email"
+        android:textAlignment="textEnd"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/EditProfile_UserEmail"
+        app:layout_constraintEnd_toEndOf="@+id/EditProfile_Midview"
+        app:layout_constraintTop_toTopOf="@+id/EditProfile_UserEmail" />
+
+    <View
+
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/shape_cutom_button"
+        android:backgroundTint="@android:color/white"
+        app:layout_constraintEnd_toEndOf="@+id/EditProfile_Midview"
+        app:layout_constraintStart_toStartOf="@+id/EditProfile_Midview"
+        app:layout_constraintTop_toBottomOf="@+id/EditProfile_MailIcon" />
+
+
+</android.support.constraint.ConstraintLayout>

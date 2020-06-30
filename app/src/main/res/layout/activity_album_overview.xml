@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AlbumOverview">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/AlbumOverview_Toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_custom_toolbar"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
+
+    <ImageView
+        android:id="@+id/AlbumOverview_AlbumCover"
+        android:layout_width="match_parent"
+        android:layout_height="166dp"
+        android:layout_marginTop="1dp"
+        android:alpha="153"
+        android:background="@drawable/shape_albumoverview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/AlbumOverview_Toolbar" />
+
+    <View
+        android:id="@+id/AlbumOverview_TextShade"
+        android:layout_width="match_parent"
+        android:layout_height="74dp"
+        android:alpha="100"
+        android:background="@drawable/shape_albumoverview_textshade"
+        app:layout_constraintBottom_toBottomOf="@+id/AlbumOverview_AlbumCover"
+        app:layout_constraintEnd_toEndOf="@+id/AlbumOverview_AlbumCover"
+        app:layout_constraintStart_toStartOf="@+id/AlbumOverview_AlbumCover" />
+
+    <TextView
+        android:id="@+id/AlbumOverview_AlbumName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="8dp"
+        android:text="Text View"
+        android:textAlignment="textStart"
+        android:textColor="@android:color/white"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/AlbumOverview_TextShade" />
+
+    <TextView
+        android:id="@+id/AlbumOverview_AlbumDesc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:text="TextView"
+        android:textColor="@android:color/white"
+        android:textSize="15dp"
+        app:layout_constraintStart_toStartOf="@+id/AlbumOverview_TextShade"
+        app:layout_constraintTop_toBottomOf="@+id/AlbumOverview_AlbumName" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/AlbumOverview_ImagesRecycler"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/AlbumOverview_TextShade" />
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/AlbumOverview_AddImagesBtn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/add"
+        android:visibility="gone"
+        app:backgroundTint="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+</android.support.constraint.ConstraintLayout>

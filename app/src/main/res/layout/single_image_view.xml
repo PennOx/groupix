@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/shape_single_imageview">
+
+    <View
+        android:id="@+id/SingleImageview_Mainview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/shape_single_imageview"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/SingleImageView_Image"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/colorPrimary"
+        android:scaleType="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/SingleImageview_Mainview"
+        app:layout_constraintStart_toStartOf="@+id/SingleImageview_Mainview"
+        app:layout_constraintTop_toTopOf="@+id/SingleImageview_UpperShade" />
+
+    <View
+        android:id="@+id/SingleImageview_UpperShade"
+        android:layout_width="0dp"
+        android:layout_height="57.5dp"
+        android:layout_margin="0dp"
+        android:alpha="0.5"
+        android:background="@color/textShade"
+        app:layout_constraintEnd_toEndOf="@+id/SingleImageview_Mainview"
+        app:layout_constraintStart_toStartOf="@+id/SingleImageview_Mainview"
+        app:layout_constraintTop_toTopOf="@+id/SingleImageview_Mainview" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/SingleImageview_UserProfileImage"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/user"
+        app:layout_constraintBottom_toBottomOf="@+id/SingleImageview_UpperShade"
+        app:layout_constraintStart_toStartOf="@+id/SingleImageview_UpperShade"
+        app:layout_constraintTop_toTopOf="@+id/SingleImageview_UpperShade" />
+
+    <TextView
+        android:id="@+id/SingleImageview_UserName_Text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:singleLine="true"
+        android:textAlignment="textStart"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/SingleImageview_ImageAlbum_Text"
+        app:layout_constraintStart_toEndOf="@+id/SingleImageview_UserProfileImage"
+        app:layout_constraintTop_toTopOf="@+id/SingleImageview_UserProfileImage" />
+
+    <TextView
+        android:id="@+id/SingleImageview_ImageAlbum_Text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:singleLine="true"
+        android:textAlignment="textStart"
+        android:textColor="@android:color/white"
+        android:textSize="10sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/SingleImageview_UserProfileImage"
+        app:layout_constraintStart_toEndOf="@+id/SingleImageview_UserProfileImage" />
+
+    <ImageButton
+        android:id="@+id/SingleImageView_CloseButton"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/close"
+        app:layout_constraintBottom_toBottomOf="@+id/SingleImageview_UpperShade"
+        app:layout_constraintEnd_toEndOf="@+id/SingleImageview_UpperShade"
+        app:layout_constraintTop_toTopOf="@+id/SingleImageview_UpperShade" />
+
+    <View
+        android:id="@+id/SingleImageview_LowerShade"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_margin="0dp"
+        android:alpha="0.5"
+        android:background="@color/textShade"
+        app:layout_constraintBottom_toBottomOf="@+id/SingleImageview_Mainview"
+        app:layout_constraintEnd_toEndOf="@+id/SingleImageview_Mainview"
+        app:layout_constraintStart_toStartOf="@+id/SingleImageview_Mainview" />
+
+    <ImageButton
+        android:id="@+id/SingleImageView_DownlaodButton"
+        android:layout_width="100dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:fadingEdge="none"
+        android:src="@drawable/download"
+        app:layout_constraintBottom_toBottomOf="@+id/SingleImageview_LowerShade"
+        app:layout_constraintStart_toStartOf="@+id/SingleImageview_LowerShade"
+        app:layout_constraintTop_toTopOf="@+id/SingleImageview_LowerShade"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageButton
+        android:id="@+id/SingleImageView_DeleteButton"
+        android:layout_width="100dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/delete"
+        app:layout_constraintBottom_toBottomOf="@+id/SingleImageview_LowerShade"
+        app:layout_constraintEnd_toEndOf="@+id/SingleImageview_LowerShade"
+        app:layout_constraintTop_toTopOf="@+id/SingleImageview_LowerShade" />
+
+    <ImageButton
+        android:id="@+id/SingleImageView_ShareButton"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:alpha="150"
+        android:background="@color/textShade"
+        android:src="@drawable/share"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/SingleImageview_LowerShade"
+        app:layout_constraintEnd_toStartOf="@+id/SingleImageView_DeleteButton"
+        app:layout_constraintStart_toEndOf="@+id/SingleImageView_DownlaodButton"
+        app:layout_constraintTop_toTopOf="@+id/SingleImageview_LowerShade" />
+
+
+</android.support.constraint.ConstraintLayout>
