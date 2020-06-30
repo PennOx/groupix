@@ -44,8 +44,6 @@ public class SectionAdapter extends FragmentPagerAdapter {
                 return "Images";
             default:
                 return super.getPageTitle(position);
-
-
         }
 
     }
