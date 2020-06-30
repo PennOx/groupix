@@ -1,18 +1,14 @@
 <resources>
     <string name="app_name">Groupix</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="Email_Required">Email required</string>
     <string name="Password_Required">Password required</string>
     <string name="Name_Required">Name required</string>
     <string name="LastName_Required">Last name required</string>
 
-    <string name="Invalid_Credentials">Invalid credentials</string>
     <string name="Invalid_Password">Invalid password</string>
 
     <string name="Password_Length">Password must be 6 characters long</string>
     <string name="Verification_Mail_Sent">Email verification link is sent to your provided email. Please verify your email and sign in to your account.</string>
-
-    <string name="Image_Upload_Error">Image upload failed.</string>
 
 </resources>
