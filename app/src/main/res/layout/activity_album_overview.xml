@@ -10,7 +10,7 @@
         android:id="@+id/AlbumOverview_Toolbar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_custom_toolbar"
+        android:background="@color/colorPrimary"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
