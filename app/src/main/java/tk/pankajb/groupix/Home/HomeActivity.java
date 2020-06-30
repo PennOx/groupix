@@ -98,17 +98,6 @@ public class HomeActivity extends AppCompatActivity {
         ImageUploadProgressBar = new ProgressDialog(HomeActivity.this);
         ImageUploadProgressBar.setTitle("Uploading Image");
 
-        createAlbumDialog = new Dialog(HomeActivity.this, android.R.style.Theme_Black_NoTitleBar);
-        createAlbumDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(100, 0, 0, 0)));
-        createAlbumDialog.setContentView(R.layout.create_album);
-        createAlbumDialog.setCancelable(true);
-
-        NewAlbumNameLayout = createAlbumDialog.getWindow().findViewById(R.id.CreateAlbum_AlbumName);
-        NewAlbumDescLayout = createAlbumDialog.getWindow().findViewById(R.id.CreateAlbum_AlbumDescription);
-        NewAlbumCoverImageView = createAlbumDialog.getWindow().findViewById(R.id.CreateAlbum_CoverImg);
-        NewAlbumAddCoverButton = createAlbumDialog.getWindow().findViewById(R.id.CreateAlbum_AddCoverButton);
-        NewAlbumCloseDialog = createAlbumDialog.getWindow().findViewById(R.id.CreateAlbum_CloseButton);
-        NewAlbumCreateButton = createAlbumDialog.getWindow().findViewById(R.id.CreateAlbum_CreateAlbumButton);
 
     }
 
@@ -121,6 +110,41 @@ public class HomeActivity extends AppCompatActivity {
         setAddBtn();
 
         setCreateAlbumDialog();
+
+
+    }
+
+    private void CheckCredentials() {
+
+        if (AppData.Auth.getCurrentUser() == null) {
+            Toast.makeText(this, "Not Signed in", Toast.LENGTH_SHORT).show();
+            Intent SendToLogIn = new Intent(HomeActivity.this, tk.pankajb.groupix.Credentials.StartActivity.class);
+            startActivity(SendToLogIn);
+            finish();
+        }
+        if (AppData.Auth.getCurrentUser() != null) {
+
+            AppData.getVerifiedUserDataRef().child(AppData.getCurrentUserId()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+
+                    String CurrentUserProfileThumb = dataSnapshot.child("profileThumbImage").getValue(String.class);
+
+                    if (!CurrentUserProfileThumb.equals("default")) {
+                        Glide.with(HomeActivity.this).load(CurrentUserProfileThumb).into(UserProfileImg);
+                    }
+
+                    String UserName = AppData.getCurrentUser().getDisplayName() + " " + dataSnapshot.child("lastname").getValue(String.class);
+
+                    UserNameText.setText(UserName);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 
     private void setAddBtn() {
@@ -145,6 +169,18 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setCreateAlbumDialog() {
+
+        createAlbumDialog = new Dialog(HomeActivity.this, android.R.style.Theme_Black_NoTitleBar);
+        createAlbumDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(100, 0, 0, 0)));
+        createAlbumDialog.setContentView(R.layout.create_album);
+        createAlbumDialog.setCancelable(true);
+
+        NewAlbumNameLayout = createAlbumDialog.getWindow().findViewById(R.id.CreateAlbum_AlbumName);
+        NewAlbumDescLayout = createAlbumDialog.getWindow().findViewById(R.id.CreateAlbum_AlbumDescription);
+        NewAlbumCoverImageView = createAlbumDialog.getWindow().findViewById(R.id.CreateAlbum_CoverImg);
+        NewAlbumAddCoverButton = createAlbumDialog.getWindow().findViewById(R.id.CreateAlbum_AddCoverButton);
+        NewAlbumCloseDialog = createAlbumDialog.getWindow().findViewById(R.id.CreateAlbum_CloseButton);
+        NewAlbumCreateButton = createAlbumDialog.getWindow().findViewById(R.id.CreateAlbum_CreateAlbumButton);
 
         NewAlbumAddCoverButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -285,38 +321,7 @@ public class HomeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void CheckCredentials() {
 
-        if (AppData.Auth.getCurrentUser() == null) {
-            Toast.makeText(this, "Not Signed in", Toast.LENGTH_SHORT).show();
-            Intent SendToLogIn = new Intent(HomeActivity.this, tk.pankajb.groupix.Credentials.StartActivity.class);
-            startActivity(SendToLogIn);
-            finish();
-        }
-        if (AppData.Auth.getCurrentUser() != null) {
-
-            AppData.getVerifiedUserDataRef().child(AppData.getCurrentUserId()).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-
-                    String CurrentUserProfileThumb = dataSnapshot.child("profileThumbImage").getValue(String.class);
-
-                    if (!CurrentUserProfileThumb.equals("default")) {
-                        Glide.with(HomeActivity.this).load(CurrentUserProfileThumb).into(UserProfileImg);
-                    }
-
-                    String UserName = AppData.getCurrentUser().getDisplayName() + " " + dataSnapshot.child("lastname").getValue(String.class);
-
-                    UserNameText.setText(UserName);
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
-        }
-    }
 
     private void LogOut() {
         Intent LogoutIntend = new Intent(HomeActivity.this, tk.pankajb.groupix.Credentials.StartActivity.class);

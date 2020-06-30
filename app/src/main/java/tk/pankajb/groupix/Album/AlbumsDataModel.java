@@ -1,4 +1,4 @@
-package tk.pankajb.groupix;
+package tk.pankajb.groupix.Album;
 
 public class AlbumsDataModel {
 

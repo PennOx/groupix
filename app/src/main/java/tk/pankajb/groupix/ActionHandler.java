@@ -51,7 +51,11 @@ public class ActionHandler {
         });
     }
 
-    void DeleteSingleImage(String ImageId, String OwnerId) {
+    public void DownloadSingleImage(String AlbumId, String ImageId, String OwnerId, Context context) {
+        Toast.makeText(context, "Download Album Image Clicked", Toast.LENGTH_LONG).show();
+    }
+
+    public void DeleteSingleImage(String ImageId, String OwnerId) {
 
         AppData.getImagesDataRef().child(OwnerId).child(ImageId).setValue(null);
         AppData.getImagesDataRef().child("allimages").child(ImageId).setValue(null);
@@ -59,6 +63,12 @@ public class ActionHandler {
         AppData.getImagesStorageRef().child(OwnerId).child(ImageId).child("image").delete();
     }
 
+    public void DeleteSingleImage(String AlbumId, String ImageId, String OwnerId) {
+        AppData.getAlbumsDataRef().child("allimages").child(ImageId).setValue(null);
+        AppData.getAlbumsDataRef().child(OwnerId).child(AlbumId).child("images").child(ImageId).setValue(null);
+
+        AppData.getAlbumsStorageRef().child(OwnerId).child(AlbumId).child("images").child(ImageId).delete();
+    }
 
     void DisplaySingleImage(Context currentContext, String ImageId) {
         Intent DisplayImage = new Intent(currentContext, SingleImageView.class);

@@ -1,4 +1,4 @@
-package tk.pankajb.groupix;
+package tk.pankajb.groupix.Album;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +14,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+
+import tk.pankajb.groupix.R;
 
 
 public class Albums extends Fragment {

@@ -1,4 +1,4 @@
-package tk.pankajb.groupix;
+package tk.pankajb.groupix.Album;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,6 +14,8 @@ import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
+import tk.pankajb.groupix.R;
+
 public class AlbumsRecyclerAdapter extends FirebaseRecyclerAdapter<AlbumsDataModel, AlbumsRecyclerAdapter.AlbumsHolder> {
 
     Context currentContext;
@@ -24,7 +26,7 @@ public class AlbumsRecyclerAdapter extends FirebaseRecyclerAdapter<AlbumsDataMod
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull AlbumsHolder holder, final int position, @NonNull final AlbumsDataModel model) {
+    protected void onBindViewHolder(@NonNull final AlbumsHolder holder, int position, @NonNull final AlbumsDataModel model) {
 
         holder.AlbumName.setText(model.getName());
         holder.AlbumDesc.setText(model.getDescription());
@@ -37,7 +39,7 @@ public class AlbumsRecyclerAdapter extends FirebaseRecyclerAdapter<AlbumsDataMod
             @Override
             public void onClick(View view) {
                 Intent SendToAlbumOverview = new Intent(currentContext, AlbumOverview.class);
-                SendToAlbumOverview.putExtra("AlbumId", getRef(position).getKey());
+                SendToAlbumOverview.putExtra("AlbumId", getRef(holder.getAdapterPosition()).getKey());
                 currentContext.startActivity(SendToAlbumOverview);
             }
         });

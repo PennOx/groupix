@@ -1,4 +1,4 @@
-package tk.pankajb.groupix;
+package tk.pankajb.groupix.Album;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -31,6 +31,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.UploadTask;
+
+import tk.pankajb.groupix.DataStore;
+import tk.pankajb.groupix.ImageDataModel;
+import tk.pankajb.groupix.ImagesRecyclerAdapter;
+import tk.pankajb.groupix.R;
 
 public class AlbumOverview extends AppCompatActivity {
 

@@ -38,7 +38,7 @@
             android:theme="@style/Base.Theme.AppCompat" />
 
         <activity
-            android:name=".AlbumOverview"
+            android:name=".Album.AlbumOverview"
             android:parentActivityName=".Home.HomeActivity" />
 
         <activity

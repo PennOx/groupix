@@ -184,9 +184,7 @@ public class SingleImageView extends AppCompatActivity {
                         @Override
                         public void onClick(View view) {
                             AppAction.DeleteSingleImage(ImageId, OwnerId);
-
                             finish();
-
                         }
                     });
 
@@ -194,7 +192,32 @@ public class SingleImageView extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
+                }
+            });
+        } else if (Type.equals("Album")) {
+            AppData.getAlbumsDataRef().child("allalbums").child(AlbumId).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    OwnerId = (String) dataSnapshot.getValue();
 
+                    DownloadButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            AppAction.DownloadSingleImage(AlbumId, ImageId, OwnerId, getApplicationContext());
+                        }
+                    });
+
+                    DeleteButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            AppAction.DeleteSingleImage(AlbumId, ImageId, OwnerId);
+                            finish();
+                        }
+                    });
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
                 }
             });
         }
