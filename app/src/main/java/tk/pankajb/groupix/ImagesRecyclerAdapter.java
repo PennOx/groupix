@@ -20,7 +20,14 @@ public class ImagesRecyclerAdapter extends FirebaseRecyclerAdapter<ImageDataMode
     ActionHandler AppAction = new ActionHandler();
     private Context currentContext;
     private Dialog SingleImageViewingDialog;
+    private String albumId = "";
 
+
+    public ImagesRecyclerAdapter(@NonNull FirebaseRecyclerOptions<ImageDataModel> options, Context context, String albumId) {
+        super(options);
+        currentContext = context;
+        this.albumId = albumId;
+    }
 
     public ImagesRecyclerAdapter(@NonNull FirebaseRecyclerOptions<ImageDataModel> options, Context context) {
         super(options);
@@ -38,7 +45,12 @@ public class ImagesRecyclerAdapter extends FirebaseRecyclerAdapter<ImageDataMode
         holder.SingleImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AppAction.DisplaySingleImage(currentContext, ImageId);
+                if (albumId.isEmpty()) {
+                    AppAction.DisplaySingleImage(currentContext, ImageId);
+                } else {
+                    AppAction.DisplaySingleImage(currentContext, albumId, ImageId);
+                }
+
             }
         });
 

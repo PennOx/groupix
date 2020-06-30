@@ -116,7 +116,7 @@ public class AlbumOverview extends AppCompatActivity {
 
                 FirebaseRecyclerOptions<ImageDataModel> AlbumImagesOptions = new FirebaseRecyclerOptions.Builder<ImageDataModel>().setQuery(AlbumImagesQuery, ImageDataModel.class).build();
 
-                ImagesAdapter = new ImagesRecyclerAdapter(AlbumImagesOptions, getApplicationContext());
+                ImagesAdapter = new ImagesRecyclerAdapter(AlbumImagesOptions, getApplicationContext(), AlbumId);
 
                 AlbumImagesRecycler.setAdapter(ImagesAdapter);
 
@@ -178,7 +178,7 @@ public class AlbumOverview extends AppCompatActivity {
             InputImage = data.getData();
             NewImageId = System.currentTimeMillis();
 
-            UploadTask OriginalImageUpload = AppData.getAlbumsStorageRef().child(AppData.getCurrentUserId()).child(AlbumId).child("images").child(String.valueOf(NewImageId)).putFile(InputImage);
+            UploadTask OriginalImageUpload = AppData.getAlbumsStorageRef().child(AppData.getCurrentUserId()).child(AlbumId).child("images").child(String.valueOf(NewImageId)).child("image").putFile(InputImage);
 
 
             OriginalImageUpload.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -186,7 +186,7 @@ public class AlbumOverview extends AppCompatActivity {
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     String OriginalImageUrl = taskSnapshot.getDownloadUrl().toString();
 
-                    AppData.getAlbumsDataRef().child(AppData.getCurrentUserId()).child(AlbumId).child("images").child(String.valueOf(NewImageId)).setValue(OriginalImageUrl);
+                    AppData.getAlbumsDataRef().child(AppData.getCurrentUserId()).child(AlbumId).child("images").child(String.valueOf(NewImageId)).child("image").setValue(OriginalImageUrl);
                     AppData.getAlbumsDataRef().child("allimages").child(String.valueOf(NewImageId)).setValue(AppData.getCurrentUserId());
                 }
             });

@@ -67,7 +67,7 @@ public class ActionHandler {
         currentContext.startActivity(DisplayImage);
     }
 
-    void DisplaySingleImageFromAlbum(Context currentContext, String AlbumId, String ImageId) {
+    void DisplaySingleImage(Context currentContext, String AlbumId, String ImageId) {
         Intent DisplayImage = new Intent(currentContext, SingleImageView.class);
         DisplayImage.putExtra("Type", "Album");
         DisplayImage.putExtra("AlbumId", AlbumId);
