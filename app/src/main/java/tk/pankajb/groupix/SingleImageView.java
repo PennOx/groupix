@@ -82,7 +82,8 @@ public class SingleImageView extends AppCompatActivity {
             AppData.getImagesDataRef().child("allimages").child(ImageId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    OwnerId = (String) dataSnapshot.getValue();
+
+                    OwnerId = dataSnapshot.getValue(String.class);
 
                     AppData.getVerifiedUserDataRef().child(OwnerId).addValueEventListener(new ValueEventListener() {
                         @Override
@@ -110,6 +111,8 @@ public class SingleImageView extends AppCompatActivity {
 
                         }
                     });
+
+
                 }
 
                 @Override
