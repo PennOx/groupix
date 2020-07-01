@@ -181,8 +181,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private void setCreateAlbumDialog() {
 
-
-
         NewAlbumAddCoverButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -29,12 +29,8 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.UploadTask;
@@ -65,9 +61,6 @@ public class AlbumOverview extends AppCompatActivity {
     EditText EditAlbumAlbumDesc;
     Button EditAlbumEditButton;
 
-    FirebaseUser CurrentUser;
-    DatabaseReference AlbumsDataRef;
-
     FirebaseRecyclerAdapter ImagesAdapter;
 
     DataStore AppData = new DataStore();
@@ -89,9 +82,6 @@ public class AlbumOverview extends AppCompatActivity {
         AlbumDescTextView = findViewById(R.id.AlbumOverview_AlbumDesc);
         AlbumImagesRecycler = findViewById(R.id.AlbumOverview_ImagesRecycler);
         AlbumAddImgBtn = findViewById(R.id.AlbumOverview_AddImagesBtn);
-
-        CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
-        AlbumsDataRef = FirebaseDatabase.getInstance().getReference().child("albums");
 
         setSupportActionBar(OverviewToolbar);
         getSupportActionBar().setTitle("Album");
@@ -130,7 +120,6 @@ public class AlbumOverview extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 AlbumOwnerId = dataSnapshot.getValue().toString();
-
                 AppData.getAlbumsDataRef().child(AlbumOwnerId).child(AlbumId).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -141,7 +130,6 @@ public class AlbumOverview extends AppCompatActivity {
 
                         AlbumNameTextView.setText(dataSnapshot.child("name").getValue().toString());
                         AlbumDescTextView.setText(dataSnapshot.child("description").getValue().toString());
-
                         if (!dataSnapshot.child("coverimg").getValue().toString().equals("default")) {
                             Glide.with(getApplicationContext()).load(dataSnapshot.child("coverimg").getValue().toString()).into(AlbumCoverImageView);
                         }
@@ -152,18 +140,11 @@ public class AlbumOverview extends AppCompatActivity {
 
                     }
                 });
-
                 Query AlbumImagesQuery = AppData.getAlbumsDataRef().child(AlbumOwnerId).child(AlbumId).child("images").limitToLast(50);
-
                 FirebaseRecyclerOptions<ImageDataModel> AlbumImagesOptions = new FirebaseRecyclerOptions.Builder<ImageDataModel>().setQuery(AlbumImagesQuery, ImageDataModel.class).build();
-
                 ImagesAdapter = new ImagesRecyclerAdapter(AlbumImagesOptions, getApplicationContext(), AlbumId);
-
                 AlbumImagesRecycler.setAdapter(ImagesAdapter);
-
                 ImagesAdapter.startListening();
-
-
             }
 
             @Override
@@ -171,13 +152,6 @@ public class AlbumOverview extends AppCompatActivity {
 
             }
         });
-
-
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
 
     }
 
@@ -244,6 +218,85 @@ public class AlbumOverview extends AppCompatActivity {
     }
 
     private void EditAlbum() {
-        Toast.makeText(this, "Edit Album Selected", Toast.LENGTH_SHORT).show();
+        AppData.getAlbumsDataRef().child("allalbums").child(AlbumId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String OwnerId = dataSnapshot.getValue(String.class);
+
+                AppData.getAlbumsDataRef().child(OwnerId).child(AlbumId).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        String coverimg = dataSnapshot.child("coverimg").getValue(String.class);
+                        String desc = dataSnapshot.child("description").getValue(String.class);
+                        String name = dataSnapshot.child("name").getValue(String.class);
+
+                        EditAlbumAlbumName.setText(name);
+                        EditAlbumAlbumDesc.setText(desc);
+                        if (!coverimg.equals("default")) {
+                            Glide.with(AlbumOverview.this).load(coverimg).into(EditAlbumCoverImage);
+                            EditAlbumAddCoverButton.setVisibility(View.GONE);
+                            EditAlbumButtonLayout.setVisibility(View.VISIBLE);
+                        } else {
+                            Glide.with(AlbumOverview.this).load(R.drawable.home_background).into(EditAlbumCoverImage);
+                            EditAlbumAddCoverButton.setVisibility(View.VISIBLE);
+                            EditAlbumButtonLayout.setVisibility(View.GONE);
+                        }
+                        EditAlbumDialog.show();
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        EditAlbumCloseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditAlbumDialog.dismiss();
+            }
+        });
+
+        EditAlbumDeleteCoverButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(AlbumOverview.this, "Delete Cover Clicked", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        EditAlbumEditCoverButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(AlbumOverview.this, "Edit Cover Clicked", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        EditAlbumAddCoverButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(AlbumOverview.this, "Add Cover Clicked", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        EditAlbumEditButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(AlbumOverview.this, "Edit album Clicked", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        EditAlbumDeleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(AlbumOverview.this, "Delete album Clicked", Toast.LENGTH_LONG).show();
+            }
+        });
     }
 }
