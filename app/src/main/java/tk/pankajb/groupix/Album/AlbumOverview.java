@@ -267,7 +267,16 @@ public class AlbumOverview extends AppCompatActivity {
         EditAlbumDeleteCoverButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(AlbumOverview.this, "Delete Cover Clicked", Toast.LENGTH_LONG).show();
+                Toast.makeText(AlbumOverview.this, "Delete Cover Clicked ", Toast.LENGTH_LONG).show();
+                AppData.getAlbumsDataRef().child(AlbumOwnerId).child(AlbumId).child("coverimg")
+                        .setValue("default").addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        AppData.getAlbumsStorageRef().child(AlbumOwnerId).child(AlbumId).child("coverimg").delete();
+                        EditAlbumAddCoverButton.setVisibility(View.VISIBLE);
+                        EditAlbumButtonLayout.setVisibility(View.GONE);
+                    }
+                });
             }
         });
 
