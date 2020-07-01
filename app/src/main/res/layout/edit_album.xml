@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <View
+        android:id="@+id/EditAlbum_Mainview"
+        android:layout_width="0dp"
+        android:layout_height="365dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="30dp"
+        android:background="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <View
+        android:id="@+id/EditAlbum_Toolbarview"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimaryDark"
+        app:layout_constraintEnd_toEndOf="@+id/EditAlbum_Mainview"
+        app:layout_constraintStart_toStartOf="@+id/EditAlbum_Mainview"
+        app:layout_constraintTop_toTopOf="@+id/EditAlbum_Mainview" />
+
+    <Button
+        android:id="@+id/EditAlbum_CloseButton"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/close"
+        app:layout_constraintBottom_toBottomOf="@+id/EditAlbum_Toolbarview"
+        app:layout_constraintEnd_toEndOf="@+id/EditAlbum_Toolbarview"
+        app:layout_constraintTop_toTopOf="@+id/EditAlbum_Toolbarview" />
+
+    <Button
+        android:id="@+id/EditAlbum_DeleButton"
+        android:layout_width="33dp"
+        android:layout_height="33dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/delete"
+        app:layout_constraintBottom_toBottomOf="@+id/EditAlbum_Toolbarview"
+        app:layout_constraintEnd_toStartOf="@+id/EditAlbum_CloseButton"
+        app:layout_constraintTop_toTopOf="@+id/EditAlbum_Mainview" />
+
+    <TextView
+        android:id="@+id/EditAlbum_ToolbarText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:text="Edit Album"
+        android:textAlignment="textStart"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/EditAlbum_Toolbarview"
+        app:layout_constraintEnd_toStartOf="@+id/EditAlbum_CloseButton"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/EditAlbum_Toolbarview"
+        app:layout_constraintTop_toTopOf="@+id/EditAlbum_Toolbarview" />
+
+    <ImageView
+        android:id="@+id/EditAlbum_CoverImg"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@color/colorPrimaryDark"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="@+id/EditAlbum_Mainview"
+        app:layout_constraintStart_toStartOf="@+id/EditAlbum_Mainview"
+        app:layout_constraintTop_toBottomOf="@+id/EditAlbum_Toolbarview" />
+
+    <ImageButton
+        android:id="@+id/EditAlbum_AddCoverButton"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:background="@drawable/add_colored"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/EditAlbum_CoverImg"
+        app:layout_constraintEnd_toEndOf="@+id/EditAlbum_CoverImg"
+        app:layout_constraintStart_toStartOf="@+id/EditAlbum_CoverImg"
+        app:layout_constraintTop_toTopOf="@+id/EditAlbum_CoverImg" />
+
+
+    <LinearLayout
+        android:id="@+id/EditAlbum_CoverButtonLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/EditAlbum_CoverImg"
+        app:layout_constraintEnd_toEndOf="@+id/EditAlbum_CoverImg"
+        app:layout_constraintStart_toStartOf="@+id/EditAlbum_CoverImg"
+        app:layout_constraintTop_toTopOf="@+id/EditAlbum_CoverImg">
+
+        <ImageButton
+            android:id="@+id/EditAlbum_EditCoverButton"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/edit"
+            android:visibility="visible" />
+
+        <ImageButton
+            android:id="@+id/EditAlbum_DeleteCoverButton"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:background="@drawable/delete_colored"
+            android:visibility="visible" />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/EditAlbum_AlbumName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/shape_custom_edittext"
+        android:hint="Album Name"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        app:layout_constraintEnd_toEndOf="@+id/EditAlbum_Mainview"
+        app:layout_constraintStart_toStartOf="@+id/EditAlbum_Mainview"
+        app:layout_constraintTop_toBottomOf="@+id/EditAlbum_CoverImg" />
+
+    <EditText
+        android:id="@+id/EditAlbum_AlbumDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/shape_custom_edittext"
+        android:hint="Album Description"
+        android:padding="10dp"
+        android:singleLine="true"
+        android:textColor="@android:color/white"
+        android:textColorHint="@android:color/white"
+        app:layout_constraintEnd_toEndOf="@+id/EditAlbum_Mainview"
+        app:layout_constraintStart_toStartOf="@+id/EditAlbum_Mainview"
+        app:layout_constraintTop_toBottomOf="@+id/EditAlbum_AlbumName" />
+
+    <Button
+        android:id="@+id/EditAlbum_EditAlbumButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/shape_cutom_button"
+        android:padding="15dp"
+        android:text="edit album"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/EditAlbum_Mainview"
+        app:layout_constraintEnd_toEndOf="@+id/EditAlbum_Mainview"
+        app:layout_constraintStart_toStartOf="@+id/EditAlbum_Mainview"
+        app:layout_constraintTop_toBottomOf="@+id/EditAlbum_AlbumDescription"
+        app:layout_constraintVertical_bias="0.52" />
+
+</android.support.constraint.ConstraintLayout>

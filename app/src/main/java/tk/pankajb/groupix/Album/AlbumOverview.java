@@ -1,6 +1,9 @@
 package tk.pankajb.groupix.Album;
 
+import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,7 +16,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +52,18 @@ public class AlbumOverview extends AppCompatActivity {
     TextView AlbumDescTextView;
     RecyclerView AlbumImagesRecycler;
     FloatingActionButton AlbumAddImgBtn;
+
+    Dialog EditAlbumDialog;
+    Button EditAlbumCloseButton;
+    Button EditAlbumDeleteButton;
+    ImageView EditAlbumCoverImage;
+    ImageButton EditAlbumAddCoverButton;
+    LinearLayout EditAlbumButtonLayout;
+    ImageButton EditAlbumEditCoverButton;
+    ImageButton EditAlbumDeleteCoverButton;
+    EditText EditAlbumAlbumName;
+    EditText EditAlbumAlbumDesc;
+    Button EditAlbumEditButton;
 
     FirebaseUser CurrentUser;
     DatabaseReference AlbumsDataRef;
@@ -81,6 +100,22 @@ public class AlbumOverview extends AppCompatActivity {
         AlbumImagesRecycler.setHasFixedSize(true);
         AlbumImagesRecycler.setLayoutManager(new GridLayoutManager(this, 3));
         AlbumId = getIntent().getStringExtra("AlbumId");
+
+        EditAlbumDialog = new Dialog(AlbumOverview.this, android.R.style.Theme_Black_NoTitleBar);
+        EditAlbumDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(100, 0, 0, 0)));
+        EditAlbumDialog.setContentView(R.layout.edit_album);
+        EditAlbumDialog.setCancelable(true);
+
+        EditAlbumCloseButton = EditAlbumDialog.getWindow().findViewById(R.id.EditAlbum_CloseButton);
+        EditAlbumDeleteButton = EditAlbumDialog.getWindow().findViewById(R.id.EditAlbum_DeleButton);
+        EditAlbumCoverImage = EditAlbumDialog.getWindow().findViewById(R.id.EditAlbum_CoverImg);
+        EditAlbumAddCoverButton = EditAlbumDialog.getWindow().findViewById(R.id.EditAlbum_AddCoverButton);
+        EditAlbumButtonLayout = EditAlbumDialog.getWindow().findViewById(R.id.EditAlbum_CoverButtonLayout);
+        EditAlbumEditCoverButton = EditAlbumDialog.getWindow().findViewById(R.id.EditAlbum_EditCoverButton);
+        EditAlbumDeleteCoverButton = EditAlbumDialog.getWindow().findViewById(R.id.EditAlbum_DeleteCoverButton);
+        EditAlbumAlbumName = EditAlbumDialog.getWindow().findViewById(R.id.EditAlbum_AlbumName);
+        EditAlbumAlbumDesc = EditAlbumDialog.getWindow().findViewById(R.id.EditAlbum_AlbumDescription);
+        EditAlbumEditButton = EditAlbumDialog.getWindow().findViewById(R.id.EditAlbum_EditAlbumButton);
 
     }
 
