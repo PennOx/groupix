@@ -98,6 +98,17 @@ public class HomeActivity extends AppCompatActivity {
         ImageUploadProgressBar = new ProgressDialog(HomeActivity.this);
         ImageUploadProgressBar.setTitle("Uploading Image");
 
+        createAlbumDialog = new Dialog(HomeActivity.this, android.R.style.Theme_Black_NoTitleBar);
+        createAlbumDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(100, 0, 0, 0)));
+        createAlbumDialog.setContentView(R.layout.create_album);
+        createAlbumDialog.setCancelable(true);
+
+        NewAlbumNameLayout = createAlbumDialog.getWindow().findViewById(R.id.CreateAlbum_AlbumName);
+        NewAlbumDescLayout = createAlbumDialog.getWindow().findViewById(R.id.CreateAlbum_AlbumDescription);
+        NewAlbumCoverImageView = createAlbumDialog.getWindow().findViewById(R.id.CreateAlbum_CoverImg);
+        NewAlbumAddCoverButton = createAlbumDialog.getWindow().findViewById(R.id.CreateAlbum_AddCoverButton);
+        NewAlbumCloseDialog = createAlbumDialog.getWindow().findViewById(R.id.CreateAlbum_CloseButton);
+        NewAlbumCreateButton = createAlbumDialog.getWindow().findViewById(R.id.CreateAlbum_CreateAlbumButton);
 
     }
 
@@ -170,17 +181,7 @@ public class HomeActivity extends AppCompatActivity {
 
     private void setCreateAlbumDialog() {
 
-        createAlbumDialog = new Dialog(HomeActivity.this, android.R.style.Theme_Black_NoTitleBar);
-        createAlbumDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(100, 0, 0, 0)));
-        createAlbumDialog.setContentView(R.layout.create_album);
-        createAlbumDialog.setCancelable(true);
 
-        NewAlbumNameLayout = createAlbumDialog.getWindow().findViewById(R.id.CreateAlbum_AlbumName);
-        NewAlbumDescLayout = createAlbumDialog.getWindow().findViewById(R.id.CreateAlbum_AlbumDescription);
-        NewAlbumCoverImageView = createAlbumDialog.getWindow().findViewById(R.id.CreateAlbum_CoverImg);
-        NewAlbumAddCoverButton = createAlbumDialog.getWindow().findViewById(R.id.CreateAlbum_AddCoverButton);
-        NewAlbumCloseDialog = createAlbumDialog.getWindow().findViewById(R.id.CreateAlbum_CloseButton);
-        NewAlbumCreateButton = createAlbumDialog.getWindow().findViewById(R.id.CreateAlbum_CreateAlbumButton);
 
         NewAlbumAddCoverButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -217,30 +218,60 @@ public class HomeActivity extends AppCompatActivity {
                     NewAlbumId = System.currentTimeMillis();
 
                     if (NewAlbumHasCover) {
+
+                        ImageUploadProgressBar.show();
+
                         UploadTask AlbumCoverUpload = AppData.getAlbumsStorageRef().child(AppData.getCurrentUserId()).child(String.valueOf(NewAlbumId)).child("coverimg").putFile(CreateAlbumCoverUri);
+
+                        AlbumCoverUpload.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                                long ProgressDone = 100 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount();
+                                ImageUploadProgressBar.setMessage("Uploading Image " + ProgressDone + "%");
+                            }
+                        });
+
                         AlbumCoverUpload.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                 NewAlbumCoverImg = taskSnapshot.getDownloadUrl().toString();
 
+                                Map NewAlbumMap = new HashMap<>();
+                                NewAlbumMap.put(AppData.getCurrentUserId() + "/" + NewAlbumId + "/name", NewAlbumName);
+                                NewAlbumMap.put(AppData.getCurrentUserId() + "/" + NewAlbumId + "/description", NewAlbumDesc);
+                                NewAlbumMap.put(AppData.getCurrentUserId() + "/" + NewAlbumId + "/coverimg", NewAlbumCoverImg);
+                                NewAlbumMap.put("allalbums/" + NewAlbumId, AppData.getCurrentUserId());
+
+                                AppData.getAlbumsDataRef().updateChildren(NewAlbumMap).addOnSuccessListener(new OnSuccessListener() {
+                                    @Override
+                                    public void onSuccess(Object o) {
+                                        NewAlbumNameLayout.setText("");
+                                        NewAlbumDescLayout.setText("");
+                                        createAlbumDialog.cancel();
+                                        ImageUploadProgressBar.dismiss();
+                                    }
+                                });
+                            }
+                        });
+                    } else {
+
+                        Map NewAlbumMap = new HashMap<>();
+                        NewAlbumMap.put(AppData.getCurrentUserId() + "/" + NewAlbumId + "/name", NewAlbumName);
+                        NewAlbumMap.put(AppData.getCurrentUserId() + "/" + NewAlbumId + "/description", NewAlbumDesc);
+                        NewAlbumMap.put(AppData.getCurrentUserId() + "/" + NewAlbumId + "/coverimg", NewAlbumCoverImg);
+                        NewAlbumMap.put("allalbums/" + NewAlbumId, AppData.getCurrentUserId());
+
+                        AppData.getAlbumsDataRef().updateChildren(NewAlbumMap).addOnSuccessListener(new OnSuccessListener() {
+                            @Override
+                            public void onSuccess(Object o) {
+                                NewAlbumNameLayout.setText("");
+                                NewAlbumDescLayout.setText("");
+                                createAlbumDialog.cancel();
                             }
                         });
                     }
 
-                    Map NewAlbumMap = new HashMap<>();
-                    NewAlbumMap.put(AppData.getCurrentUserId() + "/" + NewAlbumId + "/name", NewAlbumName);
-                    NewAlbumMap.put(AppData.getCurrentUserId() + "/" + NewAlbumId + "/description", NewAlbumDesc);
-                    NewAlbumMap.put(AppData.getCurrentUserId() + "/" + NewAlbumId + "/coverimg", NewAlbumCoverImg);
-                    NewAlbumMap.put("allalbums/" + NewAlbumId, AppData.getCurrentUserId());
 
-                    AppData.getAlbumsDataRef().updateChildren(NewAlbumMap).addOnSuccessListener(new OnSuccessListener() {
-                        @Override
-                        public void onSuccess(Object o) {
-                            NewAlbumNameLayout.setText("");
-                            NewAlbumDescLayout.setText("");
-                            createAlbumDialog.cancel();
-                        }
-                    });
                 }
             }
         });

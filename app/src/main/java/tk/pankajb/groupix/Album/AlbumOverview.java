@@ -75,6 +75,7 @@ public class AlbumOverview extends AppCompatActivity {
         AlbumsDataRef = FirebaseDatabase.getInstance().getReference().child("albums");
 
         setSupportActionBar(OverviewToolbar);
+        getSupportActionBar().setTitle("Album");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         AlbumImagesRecycler.setHasFixedSize(true);

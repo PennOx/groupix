@@ -6,5 +6,6 @@
         android:id="@+id/menu_editalbumbtn"
         android:icon="@drawable/edit"
         android:title="Edit Album"
+        android:visible="true"
         app:showAsAction="always" />
 </menu>
