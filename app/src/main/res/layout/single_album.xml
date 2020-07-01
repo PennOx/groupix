@@ -4,14 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:layout_margin="8dp"
-    android:background="@drawable/shape_single_albumview"
+    android:background="@color/colorPrimary"
     android:padding="3dp">
 
     <ImageView
         android:id="@+id/SingleAlbum_AlbumCoverImg"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/shape_single_albumview"
+        android:background="@color/colorPrimary"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="@+id/SingleAlbum_TextShade"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +26,9 @@
         android:background="@drawable/shape_singlealbum_textshade"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/SingleAlbum_AlbumName"
@@ -34,24 +36,32 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="5dp"
+        android:layout_marginEnd="8dp"
         android:text="Album Name"
         android:textAlignment="textStart"
         android:textColor="@android:color/white"
         android:textSize="14sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/SingleAlbum_TextShade"
         app:layout_constraintTop_toTopOf="@+id/SingleAlbum_TextShade" />
 
     <TextView
         android:id="@+id/SingleAlbum_AlbumDesc"
-        android:layout_width="274dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:text="Album Description"
         android:textAlignment="textStart"
         android:textColor="@android:color/white"
         android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="@+id/SingleAlbum_AlbumCoverImg"
+        app:layout_constraintEnd_toEndOf="@+id/SingleAlbum_TextShade"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/SingleAlbum_AlbumName"
-        app:layout_constraintTop_toBottomOf="@+id/SingleAlbum_AlbumName" />
+        app:layout_constraintTop_toBottomOf="@+id/SingleAlbum_AlbumName"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </android.support.constraint.ConstraintLayout>

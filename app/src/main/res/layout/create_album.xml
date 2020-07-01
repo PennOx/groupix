@@ -13,7 +13,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="30dp"
-        android:background="@drawable/shape_createalbum"
+        android:background="@color/colorPrimary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +24,7 @@
         android:id="@+id/CreateAlbum_Toolbarview"
         android:layout_width="0dp"
         android:layout_height="50dp"
-        android:background="@drawable/shape_custom_toolbar_createalbum"
+        android:background="@color/colorPrimaryDark"
         app:layout_constraintEnd_toEndOf="@+id/CreateAlbum_Mainview"
         app:layout_constraintStart_toStartOf="@+id/CreateAlbum_Mainview"
         app:layout_constraintTop_toTopOf="@+id/CreateAlbum_Mainview" />
@@ -49,6 +49,8 @@
         android:textColor="@android:color/white"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/CreateAlbum_Toolbarview"
+        app:layout_constraintEnd_toStartOf="@+id/CreateAlbum_CloseButton"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/CreateAlbum_Toolbarview"
         app:layout_constraintTop_toTopOf="@+id/CreateAlbum_Toolbarview" />
 
@@ -59,7 +61,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/shape_createalbm_image"
+        android:background="@color/colorPrimaryDark"
         android:scaleType="centerCrop"
         app:layout_constraintEnd_toEndOf="@+id/CreateAlbum_Mainview"
         app:layout_constraintStart_toStartOf="@+id/CreateAlbum_Mainview"
@@ -119,6 +121,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:background="@drawable/shape_cutom_button"
+        android:padding="15dp"
         android:text="create album"
         android:textColor="@android:color/white"
         android:textStyle="bold"
@@ -127,6 +130,5 @@
         app:layout_constraintStart_toStartOf="@+id/CreateAlbum_Mainview"
         app:layout_constraintTop_toBottomOf="@+id/CreateAlbum_AlbumDescription"
         app:layout_constraintVertical_bias="0.52" />
-
 
 </android.support.constraint.ConstraintLayout>
