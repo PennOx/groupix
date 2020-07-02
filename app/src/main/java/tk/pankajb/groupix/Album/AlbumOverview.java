@@ -1,6 +1,7 @@
 package tk.pankajb.groupix.Album;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -8,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -260,14 +262,13 @@ public class AlbumOverview extends AppCompatActivity {
         EditAlbumCloseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditAlbumDialog.dismiss();
+                closeEditAlbum();
             }
         });
 
         EditAlbumDeleteCoverButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(AlbumOverview.this, "Delete Cover Clicked ", Toast.LENGTH_LONG).show();
                 AppData.getAlbumsDataRef().child(AlbumOwnerId).child(AlbumId).child("coverimg")
                         .setValue("default").addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -291,6 +292,7 @@ public class AlbumOverview extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(AlbumOverview.this, "Add Cover Clicked", Toast.LENGTH_LONG).show();
+                UploadCover();
             }
         });
 
@@ -298,6 +300,13 @@ public class AlbumOverview extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(AlbumOverview.this, "Edit album Clicked", Toast.LENGTH_LONG).show();
+                String AlbumName = EditAlbumAlbumName.getText().toString().trim();
+                String AlbumDesc = EditAlbumAlbumDesc.getText().toString().trim();
+
+                AppData.getAlbumsDataRef().child(AlbumOwnerId).child(AlbumId).child("name").setValue(AlbumName);
+                AppData.getAlbumsDataRef().child(AlbumOwnerId).child(AlbumId).child("description").setValue(AlbumDesc);
+
+                closeEditAlbum();
             }
         });
 
@@ -305,7 +314,36 @@ public class AlbumOverview extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(AlbumOverview.this, "Delete album Clicked", Toast.LENGTH_LONG).show();
+
+                AlertDialog.Builder deleteConfDialog = new AlertDialog.Builder(AlbumOverview.this);
+                deleteConfDialog.setTitle("Are you sure?");
+                deleteConfDialog.setMessage("You want to delete this album.");
+                deleteConfDialog.setCancelable(true);
+                deleteConfDialog.setPositiveButton(
+                        "Yes",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Toast.makeText(AlbumOverview.this, "Delete this album", Toast.LENGTH_LONG).show();
+
+                            }
+                        });
+                deleteConfDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                AlertDialog alert1 = deleteConfDialog.create();
+                alert1.show();
             }
         });
+    }
+
+    private void UploadCover() {
+
+    }
+
+    private void closeEditAlbum() {
+        EditAlbumDialog.dismiss();
     }
 }
