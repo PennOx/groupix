@@ -28,11 +28,11 @@ public class ActionHandler {
 
     public void DownloadSingleImage(final String ImageId, String OwnerId, final Context context) {
 
-        File f = new File("/sdcard/Groupix/");
+        File f = new File(Environment.getExternalStorageDirectory() + "/Groupix/");
         if (!f.exists()) {
             f.mkdir();
         }
-        TemporaryFile = new File("/sdcard/Groupix/", ImageId + ".jpg");
+        TemporaryFile = new File(Environment.getExternalStorageDirectory() + "/Groupix/", ImageId + ".jpg");
         AppData.getImagesStorageRef().child(OwnerId).child(ImageId).child("image").getFile(TemporaryFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -51,7 +51,7 @@ public class ActionHandler {
     }
 
     public void DownloadSingleImage(final String AlbumId, final String ImageId, final String OwnerId, final Context context) {
-        File f = new File("/sdcard/Groupix/");
+        File f = new File(Environment.getExternalStorageDirectory() + "/Groupix/");
         if (!f.exists()) {
             f.mkdir();
         }
@@ -59,11 +59,11 @@ public class ActionHandler {
         AppData.getAlbumsDataRef().child(OwnerId).child(AlbumId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                File f1 = new File("/sdcard/Groupix/" + (String) dataSnapshot.child("name").getValue() + "/");
+                File f1 = new File(Environment.getExternalStorageDirectory() + "/Groupix/" + (String) dataSnapshot.child("name").getValue() + "/");
                 if (!f1.exists()) {
                     f1.mkdir();
                 }
-                TemporaryFile = new File("/sdcard/Groupix/" + (String) dataSnapshot.child("name").getValue() + "/", ImageId + ".jpg");
+                TemporaryFile = new File(Environment.getExternalStorageDirectory() + "/Groupix/" + (String) dataSnapshot.child("name").getValue() + "/", ImageId + ".jpg");
 
                 AppData.getAlbumsStorageRef().child(OwnerId).child(AlbumId).child("images").child(ImageId).child("image").getFile(TemporaryFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                     @Override

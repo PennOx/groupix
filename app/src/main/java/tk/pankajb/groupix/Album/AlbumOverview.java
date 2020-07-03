@@ -109,19 +109,11 @@ public class AlbumOverview extends AppCompatActivity {
         EditAlbumAlbumDesc = EditAlbumDialog.getWindow().findViewById(R.id.EditAlbum_AlbumDescription);
         EditAlbumEditButton = EditAlbumDialog.getWindow().findViewById(R.id.EditAlbum_EditAlbumButton);
 
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        setAddBtn();
-
         AppData.getAlbumsDataRef().child("allalbums").child(AlbumId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                AlbumOwnerId = dataSnapshot.getValue().toString();
+                AlbumOwnerId = (String) dataSnapshot.getValue();
                 AppData.getAlbumsDataRef().child(AlbumOwnerId).child(AlbumId).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -130,10 +122,10 @@ public class AlbumOverview extends AppCompatActivity {
                             AlbumAddImgBtn.setVisibility(View.VISIBLE);
                         }
 
-                        AlbumNameTextView.setText(dataSnapshot.child("name").getValue().toString());
-                        AlbumDescTextView.setText(dataSnapshot.child("description").getValue().toString());
-                        if (!dataSnapshot.child("coverimg").getValue().toString().equals("default")) {
-                            Glide.with(getApplicationContext()).load(dataSnapshot.child("coverimg").getValue().toString()).into(AlbumCoverImageView);
+                        AlbumNameTextView.setText(dataSnapshot.child("name").getValue(String.class));
+                        AlbumDescTextView.setText(dataSnapshot.child("description").getValue(String.class));
+                        if (!dataSnapshot.child("coverimg").getValue(String.class).equals("default")) {
+                            Glide.with(getApplicationContext()).load(dataSnapshot.child("coverimg").getValue(String.class)).into(AlbumCoverImageView);
                         }
                     }
 
@@ -147,6 +139,8 @@ public class AlbumOverview extends AppCompatActivity {
                 ImagesAdapter = new ImagesRecyclerAdapter(AlbumImagesOptions, getApplicationContext(), AlbumId);
                 AlbumImagesRecycler.setAdapter(ImagesAdapter);
                 ImagesAdapter.startListening();
+
+
             }
 
             @Override
@@ -154,7 +148,13 @@ public class AlbumOverview extends AppCompatActivity {
 
             }
         });
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        setAddBtn();
     }
 
     @Override
@@ -179,7 +179,6 @@ public class AlbumOverview extends AppCompatActivity {
         AlbumAddImgBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 Intent addAlbumImgGalleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(addAlbumImgGalleryIntent, 1);
             }
@@ -201,7 +200,7 @@ public class AlbumOverview extends AppCompatActivity {
             OriginalImageUpload.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    String OriginalImageUrl = taskSnapshot.getDownloadUrl().toString();
+                    String OriginalImageUrl = String.valueOf(taskSnapshot.getDownloadUrl());
 
                     AppData.getAlbumsDataRef().child(AppData.getCurrentUserId()).child(AlbumId).child("images").child(String.valueOf(NewImageId)).child("image").setValue(OriginalImageUrl);
                     AppData.getAlbumsDataRef().child("allimages").child(String.valueOf(NewImageId)).setValue(AppData.getCurrentUserId());
@@ -225,6 +224,7 @@ public class AlbumOverview extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String OwnerId = dataSnapshot.getValue(String.class);
 
+                assert OwnerId != null;
                 AppData.getAlbumsDataRef().child(OwnerId).child(AlbumId).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -234,6 +234,7 @@ public class AlbumOverview extends AppCompatActivity {
 
                         EditAlbumAlbumName.setText(name);
                         EditAlbumAlbumDesc.setText(desc);
+                        assert coverimg != null;
                         if (!coverimg.equals("default")) {
                             Glide.with(AlbumOverview.this).load(coverimg).into(EditAlbumCoverImage);
                             EditAlbumAddCoverButton.setVisibility(View.GONE);
@@ -324,7 +325,7 @@ public class AlbumOverview extends AppCompatActivity {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
                                 Toast.makeText(AlbumOverview.this, "Delete this album", Toast.LENGTH_LONG).show();
-
+                                deleteAlbum();
                             }
                         });
                 deleteConfDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -337,6 +338,12 @@ public class AlbumOverview extends AppCompatActivity {
                 alert1.show();
             }
         });
+    }
+
+    private void deleteAlbum() {
+        finish();
+
+
     }
 
     private void UploadCover() {

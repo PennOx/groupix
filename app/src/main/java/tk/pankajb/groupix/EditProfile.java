@@ -24,6 +24,7 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
@@ -51,7 +52,7 @@ public class EditProfile extends AppCompatActivity {
         EditProfileToolbar = findViewById(R.id.EditProfile_Toolbar);
         setSupportActionBar(EditProfileToolbar);
         EditProfileToolbar.setTitle("Edit Profile");
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.back_arrow);
+        Objects.requireNonNull(getSupportActionBar()).setHomeAsUpIndicator(R.drawable.back_arrow);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ProfileImg = findViewById(R.id.EditProfile_UserImage);
@@ -64,11 +65,12 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                String ProfileThumbImage = dataSnapshot.child("profileThumbImage").getValue().toString();
-
-                UserNameText.setText(AppData.getCurrentUser().getDisplayName() + " " + dataSnapshot.child("lastname").getValue(String.class));
+                String ProfileThumbImage = dataSnapshot.child("profileThumbImage").getValue(String.class);
+                String userName = AppData.getCurrentUser().getDisplayName() + " " + dataSnapshot.child("lastname").getValue(String.class);
+                UserNameText.setText(userName);
                 UserEmailText.setText(AppData.getCurrentUser().getEmail());
 
+                assert ProfileThumbImage != null;
                 if (!ProfileThumbImage.equals("default")) {
                     Glide.with(EditProfile.this).load(ProfileThumbImage).into(ProfileImg);
                 }
@@ -139,7 +141,7 @@ public class EditProfile extends AppCompatActivity {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                            final String Thumb_ImageURL = taskSnapshot.getDownloadUrl().toString();
+                            final String Thumb_ImageURL = String.valueOf(taskSnapshot.getDownloadUrl());
 
                             AppData.getVerifiedUserDataRef().child(AppData.getCurrentUserId()).child("profileThumbImage").setValue(Thumb_ImageURL);
 

@@ -56,7 +56,6 @@ public class ImagesRecyclerAdapter extends FirebaseRecyclerAdapter<ImageDataMode
 
             }
         });
-
     }
 
     @NonNull
@@ -72,7 +71,7 @@ public class ImagesRecyclerAdapter extends FirebaseRecyclerAdapter<ImageDataMode
         return new ImagesHolder(SingleImageLayout);
     }
 
-    class ImagesHolder extends RecyclerView.ViewHolder {
+    static class ImagesHolder extends RecyclerView.ViewHolder {
 
         ImageView SingleImage;
 

@@ -20,11 +20,9 @@ public class SectionAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case 1:
-                Albums AlbumFragment = new Albums();
-                return AlbumFragment;
+                return new Albums();
             case 0:
-                Images ImagesFragment = new Images();
-                return ImagesFragment;
+                return new Images();
             default:
                 return null;
         }

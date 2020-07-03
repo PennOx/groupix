@@ -88,8 +88,8 @@ public class SingleImageView extends AppCompatActivity {
                     AppData.getVerifiedUserDataRef().child(OwnerId).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            UserName.setText(dataSnapshot.child("name").getValue() + " " + dataSnapshot.child("lastname").getValue());
-
+                            String userName = dataSnapshot.child("name").getValue() + " " + dataSnapshot.child("lastname").getValue();
+                            UserName.setText(userName);
                             Glide.with(getApplicationContext()).load((String) dataSnapshot.child("profileThumbImage").getValue()).into(UserProfileImage);
                         }
 
@@ -133,8 +133,8 @@ public class SingleImageView extends AppCompatActivity {
                     AppData.getVerifiedUserDataRef().child(OwnerId).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            UserName.setText(dataSnapshot.child("name").getValue() + " " + dataSnapshot.child("lastname").getValue());
-
+                            String userName = dataSnapshot.child("name").getValue() + " " + dataSnapshot.child("lastname").getValue();
+                            UserName.setText(userName);
                             Glide.with(getApplicationContext()).load((String) dataSnapshot.child("profileThumbImage").getValue()).into(UserProfileImage);
                         }
 

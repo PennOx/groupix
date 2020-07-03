@@ -2,20 +2,19 @@ package tk.pankajb.groupix;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+
+import java.util.Objects;
 
 public class DataStore {
 
     public FirebaseAuth Auth = FirebaseAuth.getInstance();
     private FirebaseUser CurrentUser;
 
-    private static String tempString;
+    private String tempString;
 
     private DatabaseReference UserDataRef = FirebaseDatabase.getInstance().getReference().child("users");
     private DatabaseReference AllUserDataRef = FirebaseDatabase.getInstance().getReference().child("users").child("all");
@@ -87,25 +86,25 @@ public class DataStore {
 
     public String getCurrentUserName() {
         if (this.getCurrentUser() != null) {
-            this.tempString = Auth.getCurrentUser().getDisplayName();
+            this.tempString = Objects.requireNonNull(Auth.getCurrentUser()).getDisplayName();
         }
         return this.tempString;
     }
 
-    public String getCurrentUserLastName() {
-        VerifiedUserDataRef.child(getCurrentUserId()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                tempString = dataSnapshot.child("lastname").getValue(String.class);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-        return tempString;
-    }
+//    public String getCurrentUserLastName() {
+//        VerifiedUserDataRef.child(getCurrentUserId()).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//
+//                tempString = dataSnapshot.child("lastname").getValue(String.class);
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//            }
+//        });
+//        return tempString;
+//    }
 
 //    public String getCurrentUserFullName(){
 //        return getCurrentUserName()+" "+getCurrentUserLastName();

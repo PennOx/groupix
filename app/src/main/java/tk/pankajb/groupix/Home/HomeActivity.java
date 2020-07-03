@@ -232,7 +232,7 @@ public class HomeActivity extends AppCompatActivity {
                         AlbumCoverUpload.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                NewAlbumCoverImg = taskSnapshot.getDownloadUrl().toString();
+                                NewAlbumCoverImg = String.valueOf(taskSnapshot.getDownloadUrl());
 
                                 Map NewAlbumMap = new HashMap<>();
                                 NewAlbumMap.put(AppData.getCurrentUserId() + "/" + NewAlbumId + "/name", NewAlbumName);
@@ -311,7 +311,7 @@ public class HomeActivity extends AppCompatActivity {
             OriginalImageUpload.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    String OriginalImageUrl = taskSnapshot.getDownloadUrl().toString();
+                    String OriginalImageUrl = String.valueOf(taskSnapshot.getDownloadUrl());
 
                     AppData.getImagesDataRef().child(AppData.getCurrentUserId()).child(String.valueOf(ImageId)).child("image").setValue(OriginalImageUrl);
                     AppData.getImagesDataRef().child("allimages").child(ImageId.toString()).setValue(AppData.getCurrentUserId());
@@ -349,7 +349,6 @@ public class HomeActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 
 
     private void LogOut() {

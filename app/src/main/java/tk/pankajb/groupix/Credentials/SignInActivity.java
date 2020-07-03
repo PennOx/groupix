@@ -33,21 +33,21 @@ public class SignInActivity extends AppCompatActivity {
     EditText UserPass;
     Button SignInSubmit;
     ProgressBar loading;
+    Toolbar signInToolBar;
 
     String Verified;
 
     String UserInputMail;
     String UserInputPass;
     DataStore AppData = new DataStore();
-    private Toolbar SignInToolBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        SignInToolBar = findViewById(R.id.signinappbar);
-        setSupportActionBar(SignInToolBar);
+        signInToolBar = findViewById(R.id.signinappbar);
+        setSupportActionBar(signInToolBar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back_arrow);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -87,13 +87,13 @@ public class SignInActivity extends AppCompatActivity {
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                    if (dataSnapshot.child(AppData.getCurrentUserId()).child("status").getValue().toString().equals("1")) {
+                                    if (dataSnapshot.child(AppData.getCurrentUserId()).child("status").getValue(String.class).equals("1")) {
                                         Verified = "1";
-                                    } else if (dataSnapshot.child(AppData.getCurrentUserId()).child("status").getValue().toString().equals("0")) {
+                                    } else if (dataSnapshot.child(AppData.getCurrentUserId()).child("status").getValue(String.class).equals("0")) {
                                         Verified = "0";
                                     }
 
-                                    if (dataSnapshot.child(AppData.getCurrentUserId()).child("status").getValue().toString().equals("1") && AppData.getCurrentUser().isEmailVerified()) {
+                                    if (dataSnapshot.child(AppData.getCurrentUserId()).child("status").getValue(String.class).equals("1") && AppData.getCurrentUser().isEmailVerified()) {
 
                                         SendToMain();
 
@@ -101,7 +101,7 @@ public class SignInActivity extends AppCompatActivity {
 
                                         ResendVerification();
 
-                                    } else if (dataSnapshot.child(AppData.getCurrentUserId()).child("status").getValue().toString().equals("0") && AppData.getCurrentUser().isEmailVerified()) {
+                                    } else if (dataSnapshot.child(AppData.getCurrentUserId()).child("status").getValue(String.class).equals("0") && AppData.getCurrentUser().isEmailVerified()) {
 
                                         CreateVerifiedAccount();
                                     }

@@ -52,7 +52,7 @@ public class AlbumsRecyclerAdapter extends FirebaseRecyclerAdapter<AlbumsDataMod
         return new AlbumsHolder(SingleLayout);
     }
 
-    class AlbumsHolder extends RecyclerView.ViewHolder {
+    static class AlbumsHolder extends RecyclerView.ViewHolder {
 
         TextView AlbumName;
         TextView AlbumDesc;
