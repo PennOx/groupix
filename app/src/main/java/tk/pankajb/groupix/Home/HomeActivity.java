@@ -122,7 +122,6 @@ public class HomeActivity extends AppCompatActivity {
 
         setCreateAlbumDialog();
 
-
     }
 
     private void CheckCredentials() {
@@ -135,17 +134,17 @@ public class HomeActivity extends AppCompatActivity {
         }
         if (AppData.Auth.getCurrentUser() != null) {
 
-            AppData.getVerifiedUserDataRef().child(AppData.getCurrentUserId()).addValueEventListener(new ValueEventListener() {
+            AppData.getUsersDataRef().child(AppData.getCurrentUserId()).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    String CurrentUserProfileThumb = dataSnapshot.child("profileThumbImage").getValue(String.class);
+                    String CurrentUserProfileThumb = dataSnapshot.child("ProfileThumbImage").getValue(String.class);
 
                     if (!CurrentUserProfileThumb.equals("default")) {
                         Glide.with(HomeActivity.this).load(CurrentUserProfileThumb).into(UserProfileImg);
                     }
 
-                    String UserName = AppData.getCurrentUser().getDisplayName() + " " + dataSnapshot.child("lastname").getValue(String.class);
+                    String UserName = AppData.getCurrentUser().getDisplayName() + " " + dataSnapshot.child("LastName").getValue(String.class);
 
                     UserNameText.setText(UserName);
                 }

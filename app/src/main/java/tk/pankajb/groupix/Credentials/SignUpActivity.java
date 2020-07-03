@@ -81,23 +81,18 @@ public class SignUpActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
 
-                                HashMap<String, String> CreateUnverifiedMap = new HashMap<>();
-                                CreateUnverifiedMap.put("name", UserName);
-                                CreateUnverifiedMap.put("lastname", UserLastName);
-                                CreateUnverifiedMap.put("email", UserMail);
-                                CreateUnverifiedMap.put("Pass", UserPass);
-
-                                HashMap<String, String> CreateAllMap = new HashMap<>();
-                                CreateAllMap.put("email", UserMail);
-                                CreateAllMap.put("status", "0");
+                                HashMap<String, String> userMap = new HashMap<>();
+                                userMap.put("Name", UserName);
+                                userMap.put("LastName", UserLastName);
+                                userMap.put("Email", UserMail);
+                                userMap.put("Pass", UserPass);
+                                userMap.put("ProfileThumbImage", "default");
+                                userMap.put("ProfileImage", "default");
 
                                 UserProfileChangeRequest NewUserUpdates = new UserProfileChangeRequest.Builder().setDisplayName(UserName).build();
-
                                 AppData.Auth.getCurrentUser().updateProfile(NewUserUpdates);
 
-                                AppData.getUnVerifiedUserDataRef().child(AppData.getCurrentUserId()).setValue(CreateUnverifiedMap);
-
-                                AppData.getAllUserDataRef().child(AppData.getCurrentUserId()).setValue(CreateAllMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                AppData.getUsersDataRef().child(AppData.getCurrentUserId()).setValue(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
 

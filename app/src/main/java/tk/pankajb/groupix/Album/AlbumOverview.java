@@ -109,7 +109,7 @@ public class AlbumOverview extends AppCompatActivity {
         EditAlbumAlbumDesc = EditAlbumDialog.getWindow().findViewById(R.id.EditAlbum_AlbumDescription);
         EditAlbumEditButton = EditAlbumDialog.getWindow().findViewById(R.id.EditAlbum_EditAlbumButton);
 
-        AppData.getAlbumsDataRef().child("allalbums").child(AlbumId).addValueEventListener(new ValueEventListener() {
+        AppData.getAlbumsDataRef().child("AllAlbums").child(AlbumId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -203,7 +203,7 @@ public class AlbumOverview extends AppCompatActivity {
                     String OriginalImageUrl = String.valueOf(taskSnapshot.getDownloadUrl());
 
                     AppData.getAlbumsDataRef().child(AppData.getCurrentUserId()).child(AlbumId).child("images").child(String.valueOf(NewImageId)).child("image").setValue(OriginalImageUrl);
-                    AppData.getAlbumsDataRef().child("allimages").child(String.valueOf(NewImageId)).setValue(AppData.getCurrentUserId());
+                    AppData.getAlbumsDataRef().child("AllImages").child(String.valueOf(NewImageId)).setValue(AppData.getCurrentUserId());
                 }
             });
 
@@ -219,7 +219,7 @@ public class AlbumOverview extends AppCompatActivity {
     }
 
     private void EditAlbum() {
-        AppData.getAlbumsDataRef().child("allalbums").child(AlbumId).addValueEventListener(new ValueEventListener() {
+        AppData.getAlbumsDataRef().child("AllAlbums").child(AlbumId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String OwnerId = dataSnapshot.getValue(String.class);
@@ -342,8 +342,6 @@ public class AlbumOverview extends AppCompatActivity {
 
     private void deleteAlbum() {
         finish();
-
-
     }
 
     private void UploadCover() {

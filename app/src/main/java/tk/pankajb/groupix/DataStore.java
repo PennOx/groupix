@@ -16,40 +16,24 @@ public class DataStore {
 
     private String tempString;
 
-    private DatabaseReference UserDataRef = FirebaseDatabase.getInstance().getReference().child("users");
-    private DatabaseReference AllUserDataRef = FirebaseDatabase.getInstance().getReference().child("users").child("all");
-    private DatabaseReference VerifiedUserDataRef = FirebaseDatabase.getInstance().getReference().child("users").child("verified");
-    private DatabaseReference UnVerifiedUserDataRef = FirebaseDatabase.getInstance().getReference().child("users").child("unverified");
-    private DatabaseReference AlbumsDataRef = FirebaseDatabase.getInstance().getReference().child("albums");
-    private DatabaseReference ImagesDataRef = FirebaseDatabase.getInstance().getReference().child("images");
+    private DatabaseReference UsersDataRef = FirebaseDatabase.getInstance().getReference().child("Users");
+    private DatabaseReference AlbumsDataRef = FirebaseDatabase.getInstance().getReference().child("Albums");
+    private DatabaseReference ImagesDataRef = FirebaseDatabase.getInstance().getReference().child("Images");
 
-    private StorageReference ImagesStorageRef = FirebaseStorage.getInstance().getReference().child("images");
-    private StorageReference UsersStorageRef = FirebaseStorage.getInstance().getReference().child("users");
-    private StorageReference AlbumsStorageRef = FirebaseStorage.getInstance().getReference().child("albums");
+    private StorageReference ImagesStorageRef = FirebaseStorage.getInstance().getReference().child("Images");
+    private StorageReference UsersStorageRef = FirebaseStorage.getInstance().getReference().child("Users");
+    private StorageReference AlbumsStorageRef = FirebaseStorage.getInstance().getReference().child("Albums");
 
 
     public DataStore() {
 
-        UserDataRef.keepSynced(true);
+        UsersDataRef.keepSynced(true);
         AlbumsDataRef.keepSynced(true);
         ImagesDataRef.keepSynced(true);
-        VerifiedUserDataRef.keepSynced(true);
     }
 
-    public DatabaseReference getUserDataRef() {
-        return UserDataRef;
-    }
-
-    public DatabaseReference getAllUserDataRef() {
-        return AllUserDataRef;
-    }
-
-    public DatabaseReference getVerifiedUserDataRef() {
-        return VerifiedUserDataRef;
-    }
-
-    public DatabaseReference getUnVerifiedUserDataRef() {
-        return UnVerifiedUserDataRef;
+    public DatabaseReference getUsersDataRef() {
+        return UsersDataRef;
     }
 
     public DatabaseReference getAlbumsDataRef() {

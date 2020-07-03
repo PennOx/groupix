@@ -61,12 +61,12 @@ public class EditProfile extends AppCompatActivity {
         UserEmailText = findViewById(R.id.EditProfile_UserEmail);
         EditProfileBtn = findViewById(R.id.EditProfile_EditProfileButtonImage);
 
-        AppData.getVerifiedUserDataRef().child(AppData.getCurrentUserId()).addValueEventListener(new ValueEventListener() {
+        AppData.getUsersDataRef().child(AppData.getCurrentUserId()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                String ProfileThumbImage = dataSnapshot.child("profileThumbImage").getValue(String.class);
-                String userName = AppData.getCurrentUser().getDisplayName() + " " + dataSnapshot.child("lastname").getValue(String.class);
+                String ProfileThumbImage = dataSnapshot.child("ProfileThumbImage").getValue(String.class);
+                String userName = AppData.getCurrentUser().getDisplayName() + " " + dataSnapshot.child("LastName").getValue(String.class);
                 UserNameText.setText(userName);
                 UserEmailText.setText(AppData.getCurrentUser().getEmail());
 
@@ -143,7 +143,7 @@ public class EditProfile extends AppCompatActivity {
 
                             final String Thumb_ImageURL = String.valueOf(taskSnapshot.getDownloadUrl());
 
-                            AppData.getVerifiedUserDataRef().child(AppData.getCurrentUserId()).child("profileThumbImage").setValue(Thumb_ImageURL);
+                            AppData.getUsersDataRef().child(AppData.getCurrentUserId()).child("ProfileThumbImage").setValue(Thumb_ImageURL);
 
                             mUploadingImageProgress.dismiss();
                         }

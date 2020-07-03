@@ -12,9 +12,9 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
+import tk.pankajb.groupix.DataStore;
 import tk.pankajb.groupix.R;
 
 public class Images extends Fragment {
@@ -24,6 +24,8 @@ public class Images extends Fragment {
     RecyclerView ImagesRecycler;
 
     FirebaseRecyclerAdapter ImagesAdapter;
+
+    DataStore AppData = new DataStore();
 
     public Images() {
     }
@@ -36,7 +38,7 @@ public class Images extends Fragment {
 
         CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        Query ImagesQuery = FirebaseDatabase.getInstance().getReference().child("images").child(CurrentUser.getUid()).limitToLast(50);
+        Query ImagesQuery = AppData.getImagesDataRef().child(CurrentUser.getUid()).limitToLast(50);
 
         FirebaseRecyclerOptions<tk.pankajb.groupix.Image.ImageDataModel> ImagesOptions = new FirebaseRecyclerOptions.Builder<tk.pankajb.groupix.Image.ImageDataModel>().setQuery(ImagesQuery, ImageDataModel.class).build();
 

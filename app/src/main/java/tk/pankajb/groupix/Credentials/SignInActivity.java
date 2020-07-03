@@ -17,11 +17,6 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.HashMap;
 
 import tk.pankajb.groupix.DataStore;
 import tk.pankajb.groupix.Home.HomeActivity;
@@ -34,8 +29,6 @@ public class SignInActivity extends AppCompatActivity {
     Button SignInSubmit;
     ProgressBar loading;
     Toolbar signInToolBar;
-
-    String Verified;
 
     String UserInputMail;
     String UserInputPass;
@@ -83,35 +76,12 @@ public class SignInActivity extends AppCompatActivity {
                         @Override
                         public void onSuccess(AuthResult authResult) {
 
-                            AppData.getAllUserDataRef().addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (!AppData.getCurrentUser().isEmailVerified()) {
+                                reSendVerification();
+                            } else {
+                                sendToMain();
+                            }
 
-                                    if (dataSnapshot.child(AppData.getCurrentUserId()).child("status").getValue(String.class).equals("1")) {
-                                        Verified = "1";
-                                    } else if (dataSnapshot.child(AppData.getCurrentUserId()).child("status").getValue(String.class).equals("0")) {
-                                        Verified = "0";
-                                    }
-
-                                    if (dataSnapshot.child(AppData.getCurrentUserId()).child("status").getValue(String.class).equals("1") && AppData.getCurrentUser().isEmailVerified()) {
-
-                                        SendToMain();
-
-                                    } else if (!AppData.getCurrentUser().isEmailVerified()) {
-
-                                        ResendVerification();
-
-                                    } else if (dataSnapshot.child(AppData.getCurrentUserId()).child("status").getValue(String.class).equals("0") && AppData.getCurrentUser().isEmailVerified()) {
-
-                                        CreateVerifiedAccount();
-                                    }
-
-                                }
-
-                                @Override
-                                public void onCancelled(DatabaseError databaseError) {
-                                }
-                            });
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
@@ -131,14 +101,14 @@ public class SignInActivity extends AppCompatActivity {
         });
     }
 
-    void SendToMain() {
+    void sendToMain() {
         Intent SendingToMain = new Intent(SignInActivity.this, HomeActivity.class);
         SendingToMain.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(SendingToMain);
         finish();
     }
 
-    void ResendVerification() {
+    void reSendVerification() {
 
         AppData.Auth.getCurrentUser().sendEmailVerification();
         AlertDialog.Builder builder2 = new AlertDialog.Builder(SignInActivity.this);
@@ -156,37 +126,5 @@ public class SignInActivity extends AppCompatActivity {
                 });
         AlertDialog alert1 = builder2.create();
         alert1.show();
-    }
-
-    void CreateVerifiedAccount() {
-
-        AppData.getUnVerifiedUserDataRef().addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                HashMap<String, String> CreateVerifiedMap = new HashMap<>();
-                CreateVerifiedMap.put("name", AppData.getCurrentUserName());
-                CreateVerifiedMap.put("lastname", dataSnapshot.child(AppData.getCurrentUserId()).child("lastname").getValue(String.class));
-                CreateVerifiedMap.put("email", AppData.getCurrentUser().getEmail());
-                CreateVerifiedMap.put("Pass", UserInputPass);
-                CreateVerifiedMap.put("profileImage", "default");
-                CreateVerifiedMap.put("profileThumbImage", "default");
-
-                AppData.getUserDataRef().child("verified").child(AppData.getCurrentUserId()).setValue(CreateVerifiedMap);
-
-                AppData.getUserDataRef().child("unverified").child(AppData.getCurrentUserId()).setValue(null);
-                AppData.getUserDataRef().child("all").child(AppData.getCurrentUserId()).child("status").setValue("1").addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        SendToMain();
-                    }
-                });
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
     }
 }

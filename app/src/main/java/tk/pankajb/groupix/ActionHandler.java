@@ -89,13 +89,13 @@ public class ActionHandler {
     public void DeleteSingleImage(String ImageId, String OwnerId) {
 
         AppData.getImagesDataRef().child(OwnerId).child(ImageId).setValue(null);
-        AppData.getImagesDataRef().child("allimages").child(ImageId).setValue(null);
+        AppData.getImagesDataRef().child("AllImages").child(ImageId).setValue(null);
 
         AppData.getImagesStorageRef().child(OwnerId).child(ImageId).child("image").delete();
     }
 
     public void DeleteSingleImage(String AlbumId, String ImageId, String OwnerId) {
-        AppData.getAlbumsDataRef().child("allimages").child(ImageId).setValue(null);
+        AppData.getAlbumsDataRef().child("AllImages").child(ImageId).setValue(null);
         AppData.getAlbumsDataRef().child(OwnerId).child(AlbumId).child("images").child(ImageId).setValue(null);
 
         AppData.getAlbumsStorageRef().child(OwnerId).child(AlbumId).child("images").child(ImageId).child("image").delete();

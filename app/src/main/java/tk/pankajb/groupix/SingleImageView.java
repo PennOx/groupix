@@ -79,18 +79,18 @@ public class SingleImageView extends AppCompatActivity {
         if (Type.equals("Single")) {
             AlbumName.setVisibility(View.GONE);
 
-            AppData.getImagesDataRef().child("allimages").child(ImageId).addListenerForSingleValueEvent(new ValueEventListener() {
+            AppData.getImagesDataRef().child("AllImages").child(ImageId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
                     OwnerId = dataSnapshot.getValue(String.class);
 
-                    AppData.getVerifiedUserDataRef().child(OwnerId).addValueEventListener(new ValueEventListener() {
+                    AppData.getUsersDataRef().child(OwnerId).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            String userName = dataSnapshot.child("name").getValue() + " " + dataSnapshot.child("lastname").getValue();
+                            String userName = dataSnapshot.child("Name").getValue() + " " + dataSnapshot.child("LastName").getValue();
                             UserName.setText(userName);
-                            Glide.with(getApplicationContext()).load((String) dataSnapshot.child("profileThumbImage").getValue()).into(UserProfileImage);
+                            Glide.with(getApplicationContext()).load((String) dataSnapshot.child("ProfileThumbImage").getValue()).into(UserProfileImage);
                         }
 
                         @Override
@@ -125,17 +125,17 @@ public class SingleImageView extends AppCompatActivity {
             AlbumName.setVisibility(View.VISIBLE);
             AlbumId = getIntent().getStringExtra("AlbumId");
 
-            AppData.getAlbumsDataRef().child("allimages").child(ImageId).addListenerForSingleValueEvent(new ValueEventListener() {
+            AppData.getAlbumsDataRef().child("AllImages").child(ImageId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     OwnerId = (String) dataSnapshot.getValue();
 
-                    AppData.getVerifiedUserDataRef().child(OwnerId).addValueEventListener(new ValueEventListener() {
+                    AppData.getUsersDataRef().child(OwnerId).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            String userName = dataSnapshot.child("name").getValue() + " " + dataSnapshot.child("lastname").getValue();
+                            String userName = dataSnapshot.child("Name").getValue() + " " + dataSnapshot.child("LastName").getValue();
                             UserName.setText(userName);
-                            Glide.with(getApplicationContext()).load((String) dataSnapshot.child("profileThumbImage").getValue()).into(UserProfileImage);
+                            Glide.with(getApplicationContext()).load((String) dataSnapshot.child("ProfileThumbImage").getValue()).into(UserProfileImage);
                         }
 
                         @Override
@@ -171,7 +171,7 @@ public class SingleImageView extends AppCompatActivity {
         super.onStart();
 
         if (Type.equals("Single")) {
-            AppData.getImagesDataRef().child("allimages").child(ImageId).addListenerForSingleValueEvent(new ValueEventListener() {
+            AppData.getImagesDataRef().child("AllImages").child(ImageId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     OwnerId = (String) dataSnapshot.getValue();
@@ -198,7 +198,7 @@ public class SingleImageView extends AppCompatActivity {
                 }
             });
         } else if (Type.equals("Album")) {
-            AppData.getAlbumsDataRef().child("allalbums").child(AlbumId).addListenerForSingleValueEvent(new ValueEventListener() {
+            AppData.getAlbumsDataRef().child("AllAlbums").child(AlbumId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     OwnerId = (String) dataSnapshot.getValue();
