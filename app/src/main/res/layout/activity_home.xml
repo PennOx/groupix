@@ -10,7 +10,7 @@
         android:id="@+id/Home_Toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
+        android:background="@color/secondaryDarkColor"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,7 +22,7 @@
         android:layout_width="0dp"
         android:layout_height="160dp"
         android:layout_marginTop="1dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/primaryColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Home_Toolbar">
@@ -36,8 +36,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="3dp"
-        app:civ_border_width="5dp"
         android:src="@drawable/avatar"
+        app:civ_border_width="5dp"
         app:layout_constraintBottom_toTopOf="@+id/Home_UserName"
         app:layout_constraintEnd_toEndOf="@+id/Home_Background"
         app:layout_constraintHorizontal_bias="0.501"
@@ -50,7 +50,7 @@
         android:layout_marginBottom="8dp"
         android:textAlignment="center"
         android:textAllCaps="true"
-        android:textColor="@android:color/white"
+        android:textColor="@color/primaryTextColor"
         android:textSize="23sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/Home_TabPager"
@@ -62,7 +62,7 @@
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginTop="1dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/primaryColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -82,7 +82,7 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Home_TabPager"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/MainAddButton"
@@ -92,9 +92,8 @@
         android:layout_marginBottom="30dp"
         android:clickable="true"
         android:focusable="true"
-        android:scaleType="fitXY"
-        android:src="@drawable/add"
-        app:backgroundTint="@android:color/white"
+        android:scaleType="fitCenter"
+        android:src="@drawable/add_colored"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 

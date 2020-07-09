@@ -48,6 +48,7 @@ public class SignInActivity extends AppCompatActivity {
         UserPass = findViewById(R.id.SignInPass);
         SignInSubmit = findViewById(R.id.SignInSubmit);
         loading = findViewById(R.id.SignInProgressBar);
+        loading.setVisibility(View.GONE);
     }
 
     @Override
@@ -104,6 +105,7 @@ public class SignInActivity extends AppCompatActivity {
     void sendToMain() {
         Intent SendingToMain = new Intent(SignInActivity.this, HomeActivity.class);
         SendingToMain.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        loading.setVisibility(View.GONE);
         startActivity(SendingToMain);
         finish();
     }
@@ -125,5 +127,6 @@ public class SignInActivity extends AppCompatActivity {
                 });
         AlertDialog alert1 = builder2.create();
         alert1.show();
+        loading.setVisibility(View.GONE);
     }
 }
