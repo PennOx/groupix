@@ -112,14 +112,13 @@ public class SignInActivity extends AppCompatActivity {
 
         AppData.Auth.getCurrentUser().sendEmailVerification();
         AlertDialog.Builder builder2 = new AlertDialog.Builder(SignInActivity.this);
-
+        AppData.Auth.signOut();
         builder2.setMessage(R.string.Verification_Mail_Sent);
         builder2.setCancelable(false);
         builder2.setPositiveButton(
                 "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        AppData.Auth.signOut();
                         dialog.cancel();
                         finish();
                     }

@@ -88,9 +88,9 @@ public class SingleImageView extends AppCompatActivity {
                     AppData.getUsersDataRef().child(OwnerId).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            String userName = dataSnapshot.child("Name").getValue() + " " + dataSnapshot.child("LastName").getValue();
+                            String userName = dataSnapshot.child("Name").getValue(String.class) + " " + dataSnapshot.child("LastName").getValue(String.class);
                             UserName.setText(userName);
-                            Glide.with(getApplicationContext()).load((String) dataSnapshot.child("ProfileThumbImage").getValue()).into(UserProfileImage);
+                            Glide.with(getApplicationContext()).load((String) dataSnapshot.child("ProfileThumbImage").getValue(String.class)).into(UserProfileImage);
                         }
 
                         @Override

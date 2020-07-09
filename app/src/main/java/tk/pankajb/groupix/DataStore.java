@@ -14,11 +14,18 @@ public class DataStore {
     public FirebaseAuth Auth = FirebaseAuth.getInstance();
     private FirebaseUser CurrentUser;
 
+    private static FirebaseDatabase FI;
+
+    static {
+        FI = FirebaseDatabase.getInstance();
+        FI.setPersistenceEnabled(true);
+    }
+
     private String tempString;
 
-    private DatabaseReference UsersDataRef = FirebaseDatabase.getInstance().getReference().child("Users");
-    private DatabaseReference AlbumsDataRef = FirebaseDatabase.getInstance().getReference().child("Albums");
-    private DatabaseReference ImagesDataRef = FirebaseDatabase.getInstance().getReference().child("Images");
+    private DatabaseReference UsersDataRef;
+    private DatabaseReference AlbumsDataRef;
+    private DatabaseReference ImagesDataRef;
 
     private StorageReference ImagesStorageRef = FirebaseStorage.getInstance().getReference().child("Images");
     private StorageReference UsersStorageRef = FirebaseStorage.getInstance().getReference().child("Users");
@@ -27,6 +34,9 @@ public class DataStore {
 
     public DataStore() {
 
+        UsersDataRef = FI.getReference().child("Users");
+        AlbumsDataRef = FI.getReference().child("Albums");
+        ImagesDataRef = FI.getReference().child("Images");
         UsersDataRef.keepSynced(true);
         AlbumsDataRef.keepSynced(true);
         ImagesDataRef.keepSynced(true);

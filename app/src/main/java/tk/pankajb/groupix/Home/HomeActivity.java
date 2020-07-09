@@ -131,9 +131,10 @@ public class HomeActivity extends AppCompatActivity {
             Intent SendToLogIn = new Intent(HomeActivity.this, tk.pankajb.groupix.Credentials.StartActivity.class);
             startActivity(SendToLogIn);
             finish();
-        }
-        if (AppData.Auth.getCurrentUser() != null) {
 
+        } else if (AppData.getCurrentUser() != null && !AppData.getCurrentUser().isEmailVerified()) {
+            LogOut();
+        } else {
             AppData.getUsersDataRef().child(AppData.getCurrentUserId()).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -237,7 +238,7 @@ public class HomeActivity extends AppCompatActivity {
                                 NewAlbumMap.put(AppData.getCurrentUserId() + "/" + NewAlbumId + "/name", NewAlbumName);
                                 NewAlbumMap.put(AppData.getCurrentUserId() + "/" + NewAlbumId + "/description", NewAlbumDesc);
                                 NewAlbumMap.put(AppData.getCurrentUserId() + "/" + NewAlbumId + "/coverimg", NewAlbumCoverImg);
-                                NewAlbumMap.put("allalbums/" + NewAlbumId, AppData.getCurrentUserId());
+                                NewAlbumMap.put("AllAlbums/" + NewAlbumId, AppData.getCurrentUserId());
 
                                 AppData.getAlbumsDataRef().updateChildren(NewAlbumMap).addOnSuccessListener(new OnSuccessListener() {
                                     @Override
@@ -256,7 +257,7 @@ public class HomeActivity extends AppCompatActivity {
                         NewAlbumMap.put(AppData.getCurrentUserId() + "/" + NewAlbumId + "/name", NewAlbumName);
                         NewAlbumMap.put(AppData.getCurrentUserId() + "/" + NewAlbumId + "/description", NewAlbumDesc);
                         NewAlbumMap.put(AppData.getCurrentUserId() + "/" + NewAlbumId + "/coverimg", NewAlbumCoverImg);
-                        NewAlbumMap.put("allalbums/" + NewAlbumId, AppData.getCurrentUserId());
+                        NewAlbumMap.put("AllAlbums/" + NewAlbumId, AppData.getCurrentUserId());
 
                         AppData.getAlbumsDataRef().updateChildren(NewAlbumMap).addOnSuccessListener(new OnSuccessListener() {
                             @Override
@@ -313,7 +314,7 @@ public class HomeActivity extends AppCompatActivity {
                     String OriginalImageUrl = String.valueOf(taskSnapshot.getDownloadUrl());
 
                     AppData.getImagesDataRef().child(AppData.getCurrentUserId()).child(String.valueOf(ImageId)).child("image").setValue(OriginalImageUrl);
-                    AppData.getImagesDataRef().child("allimages").child(ImageId.toString()).setValue(AppData.getCurrentUserId());
+                    AppData.getImagesDataRef().child("AllImages").child(ImageId.toString()).setValue(AppData.getCurrentUserId());
                     ImageUploadProgressBar.dismiss();
                 }
             });
