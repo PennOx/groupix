@@ -34,9 +34,9 @@ public class DataStore {
 
     public DataStore() {
 
-        UsersDataRef = FI.getReference().child("Users");
-        AlbumsDataRef = FI.getReference().child("Albums");
-        ImagesDataRef = FI.getReference().child("Images");
+        UsersDataRef = DataStore.FI.getReference().child("Users");
+        AlbumsDataRef = DataStore.FI.getReference().child("Albums");
+        ImagesDataRef = DataStore.FI.getReference().child("Images");
         UsersDataRef.keepSynced(true);
         AlbumsDataRef.keepSynced(true);
         ImagesDataRef.keepSynced(true);
