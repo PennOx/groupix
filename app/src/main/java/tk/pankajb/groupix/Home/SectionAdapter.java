@@ -37,7 +37,6 @@ public class SectionAdapter extends FragmentPagerAdapter {
     @Override
     public CharSequence getPageTitle(int position) {
 
-
         switch (position) {
             case 1:
                 return "Albums";

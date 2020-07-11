@@ -46,7 +46,7 @@ public class SignUpActivity extends AppCompatActivity {
         NewUserLastName = findViewById(R.id.SignUpLastName);
         NewUserSubmit = findViewById(R.id.SignUpSubmit);
 
-        SignUpToolbar = findViewById(R.id.signupappbar);
+        SignUpToolbar = findViewById(R.id.SignUpToolBar);
         setSupportActionBar(SignUpToolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back_arrow);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

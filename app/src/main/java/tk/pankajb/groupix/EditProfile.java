@@ -156,4 +156,12 @@ public class EditProfile extends AppCompatActivity {
             }
         }
     }
+
+    public void logOut(View button) {
+        Intent LogoutIntend = new Intent(EditProfile.this, tk.pankajb.groupix.Credentials.StartActivity.class);
+        LogoutIntend.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        AppData.Auth.signOut();
+        startActivity(LogoutIntend);
+        finish();
+    }
 }

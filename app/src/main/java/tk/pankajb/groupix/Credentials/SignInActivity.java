@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -27,7 +26,6 @@ public class SignInActivity extends AppCompatActivity {
     EditText UserEmail;
     EditText UserPass;
     Button SignInSubmit;
-    ProgressBar loading;
     Toolbar signInToolBar;
 
     String UserInputMail;
@@ -39,7 +37,7 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        signInToolBar = findViewById(R.id.signinappbar);
+        signInToolBar = findViewById(R.id.SignInToolBar);
         setSupportActionBar(signInToolBar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back_arrow);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -47,8 +45,6 @@ public class SignInActivity extends AppCompatActivity {
         UserEmail = findViewById(R.id.SignInMail);
         UserPass = findViewById(R.id.SignInPass);
         SignInSubmit = findViewById(R.id.SignInSubmit);
-        loading = findViewById(R.id.SignInProgressBar);
-        loading.setVisibility(View.GONE);
     }
 
     @Override
@@ -61,7 +57,6 @@ public class SignInActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 SignInSubmit.setEnabled(false);
-                loading.setVisibility(View.VISIBLE);
 
                 UserInputMail = UserEmail.getText().toString();
                 UserInputPass = UserPass.getText().toString();
@@ -97,7 +92,6 @@ public class SignInActivity extends AppCompatActivity {
                 }
 
                 SignInSubmit.setEnabled(true);
-                loading.setVisibility(View.GONE);
             }
         });
     }
@@ -105,7 +99,6 @@ public class SignInActivity extends AppCompatActivity {
     void sendToMain() {
         Intent SendingToMain = new Intent(SignInActivity.this, HomeActivity.class);
         SendingToMain.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        loading.setVisibility(View.GONE);
         startActivity(SendingToMain);
         finish();
     }
@@ -127,6 +120,5 @@ public class SignInActivity extends AppCompatActivity {
                 });
         AlertDialog alert1 = builder2.create();
         alert1.show();
-        loading.setVisibility(View.GONE);
     }
 }

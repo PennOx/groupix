@@ -1,6 +1,7 @@
 package tk.pankajb.groupix.Album;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -35,7 +36,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.UploadTask;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import tk.pankajb.groupix.DataStore;
 import tk.pankajb.groupix.Image.ImageDataModel;
@@ -62,6 +67,9 @@ public class AlbumOverview extends AppCompatActivity {
     EditText EditAlbumAlbumName;
     EditText EditAlbumAlbumDesc;
     Button EditAlbumEditButton;
+    final private int ALBUM_IMAGE_REQUEST = 1;
+    final private int ALBUM_COVER_REQUEST = 2;
+    boolean coverChanged = false;
 
     FirebaseRecyclerAdapter ImagesAdapter;
 
@@ -72,6 +80,8 @@ public class AlbumOverview extends AppCompatActivity {
 
     Uri InputImage;
     Long NewImageId;
+    Uri CreateAlbumCoverUri;
+    ProgressDialog ImageUploadProgressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,6 +118,9 @@ public class AlbumOverview extends AppCompatActivity {
         EditAlbumAlbumName = EditAlbumDialog.getWindow().findViewById(R.id.EditAlbum_AlbumName);
         EditAlbumAlbumDesc = EditAlbumDialog.getWindow().findViewById(R.id.EditAlbum_AlbumDescription);
         EditAlbumEditButton = EditAlbumDialog.getWindow().findViewById(R.id.EditAlbum_EditAlbumButton);
+
+        ImageUploadProgressBar = new ProgressDialog(EditAlbumDialog.getContext());
+        ImageUploadProgressBar.setTitle("Uploading Image");
 
         AppData.getAlbumsDataRef().child("AllAlbums").child(AlbumId).addValueEventListener(new ValueEventListener() {
             @Override
@@ -174,22 +187,11 @@ public class AlbumOverview extends AppCompatActivity {
         return true;
     }
 
-    void setAddBtn() {
-
-        AlbumAddImgBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent addAlbumImgGalleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(addAlbumImgGalleryIntent, 1);
-            }
-        });
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 1 & resultCode == RESULT_OK) {
+        if (requestCode == 1 && resultCode == RESULT_OK) {
 
             InputImage = data.getData();
             NewImageId = System.currentTimeMillis();
@@ -216,6 +218,27 @@ public class AlbumOverview extends AppCompatActivity {
                 }
             });
         }
+
+        if (requestCode == 2 && resultCode == RESULT_OK) {
+            CreateAlbumCoverUri = data.getData();
+            coverChanged = true;
+            Glide.with(this).load(CreateAlbumCoverUri).into(EditAlbumCoverImage);
+        }
+    }
+
+    private void setAddBtn() {
+        AlbumAddImgBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent addAlbumImgGalleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(addAlbumImgGalleryIntent, ALBUM_IMAGE_REQUEST);
+            }
+        });
+    }
+
+    private void UploadCover() {
+        Intent addAlbumCoverGalleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(addAlbumCoverGalleryIntent, ALBUM_COVER_REQUEST);
     }
 
     private void EditAlbum() {
@@ -307,7 +330,42 @@ public class AlbumOverview extends AppCompatActivity {
                 AppData.getAlbumsDataRef().child(AlbumOwnerId).child(AlbumId).child("name").setValue(AlbumName);
                 AppData.getAlbumsDataRef().child(AlbumOwnerId).child(AlbumId).child("description").setValue(AlbumDesc);
 
-                closeEditAlbum();
+                if (coverChanged) {
+                    coverChanged = false;
+                    UploadTask AlbumCoverUpload = AppData.getAlbumsStorageRef().child(AlbumOwnerId).child(AlbumId).child("coverimg").putFile(CreateAlbumCoverUri);
+                    AlbumCoverUpload.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            long ProgressDone = 100 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount();
+                            ImageUploadProgressBar.setMessage("Uploading Image " + ProgressDone + "%");
+                        }
+                    });
+
+                    AlbumCoverUpload.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            String NewAlbumCoverImg = String.valueOf(taskSnapshot.getDownloadUrl());
+
+                            Map NewAlbumMap = new HashMap<>();
+                            NewAlbumMap.put(AppData.getCurrentUserId() + "/" + AlbumId + "/coverimg", NewAlbumCoverImg);
+                            AppData.getAlbumsDataRef().updateChildren(NewAlbumMap).addOnSuccessListener(new OnSuccessListener() {
+                                @Override
+                                public void onSuccess(Object o) {
+                                    ImageUploadProgressBar.dismiss();
+                                    closeEditAlbum();
+                                    ImageUploadProgressBar.dismiss();
+                                }
+                            });
+                        }
+                    });
+
+
+                } else {
+                    closeEditAlbum();
+                    ImageUploadProgressBar.dismiss();
+                }
+
+
             }
         });
 
@@ -341,14 +399,13 @@ public class AlbumOverview extends AppCompatActivity {
     }
 
     private void deleteAlbum() {
+        // TODO delete current album
         finish();
-    }
-
-    private void UploadCover() {
-
     }
 
     private void closeEditAlbum() {
         EditAlbumDialog.dismiss();
     }
+
+
 }
