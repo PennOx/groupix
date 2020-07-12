@@ -3,10 +3,7 @@ package tk.pankajb.groupix;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
-import android.view.Gravity;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -53,21 +50,6 @@ public class SingleImageView extends AppCompatActivity {
 
         ImageId = getIntent().getStringExtra("ImageId");
         Type = getIntent().getStringExtra("Type");
-
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int width = dm.widthPixels;
-        int height = dm.heightPixels;
-        getWindow().setLayout((int) (width * .8), (int) (height * .8));
-
-        getWindow().setBackgroundDrawableResource(R.color.cardview_dark_background);
-
-
-        WindowManager.LayoutParams Parameters = getWindow().getAttributes();
-        Parameters.gravity = Gravity.CENTER;
-        Parameters.x = 0;
-        Parameters.y = -20;
-        getWindow().setAttributes(Parameters);
 
         CloseButton.setOnClickListener(new View.OnClickListener() {
             @Override
