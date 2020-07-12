@@ -47,7 +47,7 @@ public class EditAlbum extends AppCompatActivity {
     ProgressDialog editAlbumProgressBar;
     Uri albumCoverUri = null;
 
-    Context appContext = getApplicationContext();
+    Context appContext;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +59,8 @@ public class EditAlbum extends AppCompatActivity {
         coverBtnLayout = findViewById(R.id.EditAlbum_CoverButtonLayout);
         albumNameText = findViewById(R.id.EditAlbum_AlbumName);
         albumDescText = findViewById(R.id.EditAlbum_AlbumDescription);
+
+        appContext = getApplicationContext();
 
         editAlbumProgressBar = new ProgressDialog(EditAlbum.this);
         editAlbumProgressBar.setTitle("Editing album");
@@ -102,57 +104,9 @@ public class EditAlbum extends AppCompatActivity {
         if (requestCode == ADD_ALBUM_COVER_REQUEST && resultCode == RESULT_OK) {
             albumCoverUri = data.getData();
             Glide.with(this).load(albumCoverUri).into(albumCoverImg);
+            coverBtnLayout.setVisibility(View.VISIBLE);
+            addCoverBtn.setVisibility(View.GONE);
         }
-    }
-
-    public void close(View view) {
-        finish();
-    }
-
-    public void deleteCover(View view) {
-        AppData.getAlbumsDataRef().child(albumOwnerId).child(albumId).child("coverimg")
-                .setValue("default").addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                AppData.getAlbumsStorageRef().child(albumOwnerId).child(albumId).child("coverimg").delete();
-                addCoverBtn.setVisibility(View.VISIBLE);
-                coverBtnLayout.setVisibility(View.GONE);
-            }
-        });
-    }
-
-    public void addCover(View view) {
-        Intent addAlbumCoverGalleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(addAlbumCoverGalleryIntent, ADD_ALBUM_COVER_REQUEST);
-    }
-
-    public void deleteAlbum(View view) {
-        Toast.makeText(EditAlbum.this, "Delete album Clicked", Toast.LENGTH_LONG).show();
-
-        AlertDialog.Builder deleteConfDialog = new AlertDialog.Builder(EditAlbum.this);
-        deleteConfDialog.setTitle("Are you sure?");
-        deleteConfDialog.setMessage("You want to delete this album.");
-        deleteConfDialog.setCancelable(true);
-        deleteConfDialog.setPositiveButton(
-                "Yes",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Toast.makeText(EditAlbum.this, "Delete this album", Toast.LENGTH_LONG).show();
-
-                    }
-                });
-        deleteConfDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                dialogInterface.dismiss();
-            }
-        });
-        AlertDialog alert1 = deleteConfDialog.create();
-        alert1.show();
-    }
-
-    public void editCover(View view) {
-        // TODO edit Album cover
     }
 
     public void editAlbum(View view) {
@@ -212,5 +166,58 @@ public class EditAlbum extends AppCompatActivity {
                 });
             }
         }
+    }
+
+    public void close(View view) {
+        finish();
+    }
+
+    public void deleteCover(View view) {
+        AppData.getAlbumsDataRef().child(albumOwnerId).child(albumId).child("coverimg")
+                .setValue("default").addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                AppData.getAlbumsStorageRef().child(albumOwnerId).child(albumId).child("coverimg").delete();
+                addCoverBtn.setVisibility(View.VISIBLE);
+                coverBtnLayout.setVisibility(View.GONE);
+            }
+        });
+    }
+
+    public void addCover(View view) {
+        Intent addAlbumCoverGalleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(addAlbumCoverGalleryIntent, ADD_ALBUM_COVER_REQUEST);
+    }
+
+    public void deleteAlbum(View view) {
+        Toast.makeText(EditAlbum.this, "Delete album Clicked", Toast.LENGTH_LONG).show();
+
+        AlertDialog.Builder deleteConfDialog = new AlertDialog.Builder(EditAlbum.this);
+        deleteConfDialog.setTitle("Are you sure?");
+        deleteConfDialog.setMessage("You want to delete this album.");
+        deleteConfDialog.setCancelable(true);
+        deleteConfDialog.setPositiveButton(
+                "Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Toast.makeText(EditAlbum.this, "Delete this album", Toast.LENGTH_LONG).show();
+
+
+                    }
+                });
+        deleteConfDialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        AlertDialog alert1 = deleteConfDialog.create();
+        alert1.show();
+    }
+
+    public void editCover(View view) {
+        // TODO edit Album cover
+        Intent editAlbumCoverGalleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(editAlbumCoverGalleryIntent, ADD_ALBUM_COVER_REQUEST);
     }
 }
