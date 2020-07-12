@@ -15,12 +15,6 @@ public class StartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_start);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-    }
-
     public void signIn(View view) {
         Intent SendToSignInActivity = new Intent(StartActivity.this, SignInActivity.class);
         startActivity(SendToSignInActivity);

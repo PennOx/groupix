@@ -11,5 +11,7 @@
 
     <string name="Password_Length">Password must be 6 characters long</string>
     <string name="Verification_Mail_Sent">Email verification link is sent to your provided email. Please verify your email and sign in to your account.</string>
+    <string name="Default_Album_Cover">default</string>
+    <string name="Default_Album_Desc">No Description</string>
 
 </resources>

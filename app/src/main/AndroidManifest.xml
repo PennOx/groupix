@@ -48,6 +48,10 @@
             android:parentActivityName=".Home.HomeActivity" />
 
         <activity
+            android:name=".Album.CreateAlbum"
+            android:theme="@style/AppTheme.CreateAlbum" />
+
+        <activity
             android:name=".SingleImageView"
             android:theme="@style/AppTheme.SingleImageView" />
 
