@@ -1,6 +1,7 @@
 package tk.pankajb.groupix.Album;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -46,6 +47,8 @@ public class EditAlbum extends AppCompatActivity {
     ProgressDialog editAlbumProgressBar;
     Uri albumCoverUri = null;
 
+    Context appContext = getApplicationContext();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,11 +77,11 @@ public class EditAlbum extends AppCompatActivity {
                 albumDescText.setText(desc);
                 assert coverimg != null;
                 if (!coverimg.equals("default")) {
-                    Glide.with(EditAlbum.this).load(coverimg).into(albumCoverImg);
+                    Glide.with(appContext).load(coverimg).into(albumCoverImg);
                     coverBtnLayout.setVisibility(View.VISIBLE);
                     addCoverBtn.setVisibility(View.GONE);
                 } else {
-                    Glide.with(EditAlbum.this).load(R.drawable.home_background).into(albumCoverImg);
+                    Glide.with(appContext).load(R.drawable.home_background).into(albumCoverImg);
                     addCoverBtn.setVisibility(View.VISIBLE);
                     coverBtnLayout.setVisibility(View.GONE);
                 }
