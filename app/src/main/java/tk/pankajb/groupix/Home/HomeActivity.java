@@ -128,15 +128,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private void CheckCredentials() {
 
-        if (AppData.Auth.getCurrentUser() == null) {
-            Toast.makeText(this, "Not Signed in", Toast.LENGTH_SHORT).show();
-            Intent SendToLogIn = new Intent(HomeActivity.this, tk.pankajb.groupix.Credentials.StartActivity.class);
-            startActivity(SendToLogIn);
-            finish();
-
-        } else if (AppData.getCurrentUser() != null && !AppData.getCurrentUser().isEmailVerified()) {
-            LogOut();
-        } else {
             AppData.getUsersDataRef().child(AppData.getCurrentUserId()).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -151,7 +142,6 @@ public class HomeActivity extends AppCompatActivity {
 
                 }
             });
-        }
     }
 
     private void setAddBtn() {
@@ -324,14 +314,6 @@ public class HomeActivity extends AppCompatActivity {
                 }
             });
         }
-    }
-
-    private void LogOut() {
-        Intent LogoutIntend = new Intent(HomeActivity.this, tk.pankajb.groupix.Credentials.StartActivity.class);
-        LogoutIntend.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        AppData.Auth.signOut();
-        startActivity(LogoutIntend);
-        finish();
     }
 
     private void SendToEditProfile() {

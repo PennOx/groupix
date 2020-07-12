@@ -20,7 +20,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@color/primaryColor"
-        android:scaleType="center"
+        android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/SingleImageview_Mainview"
         app:layout_constraintStart_toStartOf="@+id/SingleImageview_Mainview"

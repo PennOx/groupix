@@ -115,4 +115,11 @@ public class ActionHandler {
         DisplayImage.putExtra("ImageId", ImageId);
         currentContext.startActivity(DisplayImage);
     }
+
+    public void logOut(Context context) {
+        AppData.Auth.signOut();
+        Intent sendToStart = new Intent(context, tk.pankajb.groupix.Credentials.StartActivity.class);
+        sendToStart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        context.startActivity(sendToStart);
+    }
 }
