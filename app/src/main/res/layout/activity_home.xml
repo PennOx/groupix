@@ -98,7 +98,7 @@
         android:clickable="true"
         android:focusable="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/add_colored"
+        android:src="@drawable/add"
         app:layout_constraintBottom_toTopOf="@+id/Home_TabPager"
         app:layout_constraintEnd_toEndOf="parent" />
 

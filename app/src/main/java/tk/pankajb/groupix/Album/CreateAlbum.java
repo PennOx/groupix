@@ -52,6 +52,17 @@ public class CreateAlbum extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == ADD_COVER_REQUEST && resultCode == RESULT_OK) {
+            albumCoverUri = data.getData();
+            addCoverBtn.setVisibility(View.GONE);
+            Glide.with(this).load(albumCoverUri).into(albumCoverImg);
+        }
+    }
+
     public void createAlbum(View view) {
 
         albumName = albumNameText.getText().toString().trim();
@@ -126,14 +137,4 @@ public class CreateAlbum extends AppCompatActivity {
         startActivityForResult(addAlbumCoverGalleryIntent, ADD_COVER_REQUEST);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == ADD_COVER_REQUEST && resultCode == RESULT_OK) {
-            albumCoverUri = data.getData();
-            addCoverBtn.setVisibility(View.GONE);
-            Glide.with(this).load(albumCoverUri).into(albumCoverImg);
-        }
-    }
 }
