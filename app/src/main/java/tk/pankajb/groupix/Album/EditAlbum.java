@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,6 +27,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import tk.pankajb.groupix.DataStore;
+import tk.pankajb.groupix.Home.HomeActivity;
 import tk.pankajb.groupix.R;
 
 public class EditAlbum extends AppCompatActivity {
@@ -77,15 +77,20 @@ public class EditAlbum extends AppCompatActivity {
 
                 albumNameText.setText(name);
                 albumDescText.setText(desc);
-                assert coverimg != null;
-                if (!coverimg.equals("default")) {
-                    Glide.with(appContext).load(coverimg).into(albumCoverImg);
-                    coverBtnLayout.setVisibility(View.VISIBLE);
-                    addCoverBtn.setVisibility(View.GONE);
-                } else {
-                    Glide.with(appContext).load(R.drawable.home_background).into(albumCoverImg);
-                    addCoverBtn.setVisibility(View.VISIBLE);
-                    coverBtnLayout.setVisibility(View.GONE);
+
+                try {
+                    assert coverimg != null;
+                    if (!coverimg.equals("default")) {
+                        Glide.with(appContext).load(coverimg).into(albumCoverImg);
+                        coverBtnLayout.setVisibility(View.VISIBLE);
+                        addCoverBtn.setVisibility(View.GONE);
+                    } else {
+                        Glide.with(appContext).load(R.drawable.home_background).into(albumCoverImg);
+                        addCoverBtn.setVisibility(View.VISIBLE);
+                        coverBtnLayout.setVisibility(View.GONE);
+                    }
+                } catch (NullPointerException e) {
+                    finish();
                 }
             }
 
@@ -190,7 +195,6 @@ public class EditAlbum extends AppCompatActivity {
     }
 
     public void deleteAlbum(View view) {
-        Toast.makeText(EditAlbum.this, "Delete album Clicked", Toast.LENGTH_LONG).show();
 
         AlertDialog.Builder deleteConfDialog = new AlertDialog.Builder(EditAlbum.this);
         deleteConfDialog.setTitle("Are you sure?");
@@ -200,8 +204,10 @@ public class EditAlbum extends AppCompatActivity {
                 "Yes",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        Toast.makeText(EditAlbum.this, "Delete this album", Toast.LENGTH_LONG).show();
+                        AppData.getAllAlbumsDataRef().child(albumId).setValue(null);
+                        AppData.getAlbumsDataRef().child(albumOwnerId).child(albumId).setValue(null);
 
+                        sendToHome();
 
                     }
                 });
@@ -213,6 +219,13 @@ public class EditAlbum extends AppCompatActivity {
         });
         AlertDialog alert1 = deleteConfDialog.create();
         alert1.show();
+    }
+
+    private void sendToHome() {
+        Intent sendingToHomeIntent = new Intent(EditAlbum.this, HomeActivity.class);
+        startActivity(sendingToHomeIntent);
+        sendingToHomeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        finish();
     }
 
     public void editCover(View view) {

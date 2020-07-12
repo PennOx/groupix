@@ -75,17 +75,24 @@ public class AlbumOverview extends AppCompatActivity {
         AlbumId = getIntent().getStringExtra("AlbumId");
         AlbumOwnerId = getIntent().getStringExtra("AlbumOwnerId");
 
+
         AppData.getAlbumsDataRef().child(AlbumOwnerId).child(AlbumId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if (AppData.getCurrentUserId().equals(AlbumOwnerId)) {
-                    AlbumAddImgBtn.setVisibility(View.VISIBLE);
-                }
-                AlbumNameTextView.setText(dataSnapshot.child("name").getValue(String.class));
-                AlbumDescTextView.setText(dataSnapshot.child("description").getValue(String.class));
-                if (!dataSnapshot.child("coverimg").getValue(String.class).equals("default")) {
-                    Glide.with(getApplicationContext()).load(dataSnapshot.child("coverimg").getValue(String.class)).into(AlbumCoverImageView);
+                try {
+
+                    if (AppData.getCurrentUserId().equals(AlbumOwnerId)) {
+                        AlbumAddImgBtn.setVisibility(View.VISIBLE);
+                    }
+                    AlbumNameTextView.setText(dataSnapshot.child("name").getValue(String.class));
+                    AlbumDescTextView.setText(dataSnapshot.child("description").getValue(String.class));
+                    if (!dataSnapshot.child("coverimg").getValue(String.class).equals("default")) {
+                        Glide.with(getApplicationContext()).load(dataSnapshot.child("coverimg").getValue(String.class)).into(AlbumCoverImageView);
+                    }
+
+                } catch (NullPointerException e) {
+                    finish();
                 }
             }
 
