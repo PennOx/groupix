@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 public class SplashScreen extends AppCompatActivity {
 
     DataStore AppData = new DataStore();
-    ActionHandler handler = new ActionHandler();
+    ActionHandler handler = new ActionHandler(SplashScreen.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,10 +21,10 @@ public class SplashScreen extends AppCompatActivity {
         super.onStart();
 
         if (AppData.Auth.getCurrentUser() == null) {
-            handler.logOut(SplashScreen.this);
+            handler.logOut();
             finish();
         } else if (AppData.getCurrentUser() != null && !AppData.getCurrentUser().isEmailVerified()) {
-            handler.logOut(SplashScreen.this);
+            handler.logOut();
             finish();
         } else {
             sendToHome();

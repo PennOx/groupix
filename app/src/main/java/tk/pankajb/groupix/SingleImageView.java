@@ -32,7 +32,7 @@ public class SingleImageView extends AppCompatActivity {
     String OwnerId;
 
     DataStore AppData = new DataStore();
-    ActionHandler AppAction = new ActionHandler();
+    ActionHandler AppAction = new ActionHandler(SingleImageView.this);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -161,7 +161,7 @@ public class SingleImageView extends AppCompatActivity {
                     DownloadButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            AppAction.DownloadSingleImage(ImageId, OwnerId, getApplicationContext());
+                            AppAction.DownloadSingleImage(ImageId, OwnerId);
                         }
                     });
 
@@ -188,7 +188,7 @@ public class SingleImageView extends AppCompatActivity {
                     DownloadButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            AppAction.DownloadSingleImage(AlbumId, ImageId, OwnerId, getApplicationContext());
+                            AppAction.DownloadSingleImage(AlbumId, ImageId, OwnerId);
                         }
                     });
 

@@ -20,7 +20,7 @@ import tk.pankajb.groupix.R;
 
 public class ImagesRecyclerAdapter extends FirebaseRecyclerAdapter<ImageDataModel, ImagesRecyclerAdapter.ImagesHolder> {
 
-    ActionHandler AppAction = new ActionHandler();
+    ActionHandler AppAction;
     private Context currentContext;
     private Dialog SingleImageViewingDialog;
     private String albumId = "";
@@ -30,11 +30,13 @@ public class ImagesRecyclerAdapter extends FirebaseRecyclerAdapter<ImageDataMode
         super(options);
         currentContext = context;
         this.albumId = albumId;
+        AppAction = new ActionHandler(context);
     }
 
     public ImagesRecyclerAdapter(@NonNull FirebaseRecyclerOptions<ImageDataModel> options, Context context) {
         super(options);
         currentContext = context;
+        AppAction = new ActionHandler(context);
     }
 
     @Override
@@ -49,9 +51,9 @@ public class ImagesRecyclerAdapter extends FirebaseRecyclerAdapter<ImageDataMode
             @Override
             public void onClick(View view) {
                 if (albumId.isEmpty()) {
-                    AppAction.DisplaySingleImage(currentContext, ImageId);
+                    AppAction.DisplaySingleImage(ImageId);
                 } else {
-                    AppAction.DisplaySingleImage(currentContext, albumId, ImageId);
+                    AppAction.DisplaySingleImage(albumId, ImageId);
                 }
 
             }

@@ -18,15 +18,16 @@ import java.io.File;
 
 public class ActionHandler {
 
+    Context context;
     DataStore AppData = new DataStore();
 
     private File TemporaryFile;
 
-    public ActionHandler() {
-
+    public ActionHandler(Context context) {
+        this.context = context;
     }
 
-    public void DownloadSingleImage(final String ImageId, String OwnerId, final Context context) {
+    public void DownloadSingleImage(final String ImageId, String OwnerId) {
 
         File f = new File(Environment.getExternalStorageDirectory() + "/Groupix/");
         if (!f.exists()) {
@@ -50,7 +51,7 @@ public class ActionHandler {
         });
     }
 
-    public void DownloadSingleImage(final String AlbumId, final String ImageId, final String OwnerId, final Context context) {
+    public void DownloadSingleImage(final String AlbumId, final String ImageId, final String OwnerId) {
         File f = new File(Environment.getExternalStorageDirectory() + "/Groupix/");
         if (!f.exists()) {
             f.mkdir();
@@ -101,22 +102,22 @@ public class ActionHandler {
         AppData.getAlbumsStorageRef().child(OwnerId).child(AlbumId).child("images").child(ImageId).child("image").delete();
     }
 
-    public void DisplaySingleImage(Context currentContext, String ImageId) {
-        Intent DisplayImage = new Intent(currentContext, SingleImageView.class);
+    public void DisplaySingleImage(String ImageId) {
+        Intent DisplayImage = new Intent(context, SingleImageView.class);
         DisplayImage.putExtra("Type", "Single");
         DisplayImage.putExtra("ImageId", ImageId);
-        currentContext.startActivity(DisplayImage);
+        context.startActivity(DisplayImage);
     }
 
-    public void DisplaySingleImage(Context currentContext, String AlbumId, String ImageId) {
-        Intent DisplayImage = new Intent(currentContext, SingleImageView.class);
+    public void DisplaySingleImage(String AlbumId, String ImageId) {
+        Intent DisplayImage = new Intent(context, SingleImageView.class);
         DisplayImage.putExtra("Type", "Album");
         DisplayImage.putExtra("AlbumId", AlbumId);
         DisplayImage.putExtra("ImageId", ImageId);
-        currentContext.startActivity(DisplayImage);
+        context.startActivity(DisplayImage);
     }
 
-    public void logOut(Context context) {
+    public void logOut() {
         AppData.Auth.signOut();
         Intent sendToStart = new Intent(context, tk.pankajb.groupix.Credentials.StartActivity.class);
         sendToStart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

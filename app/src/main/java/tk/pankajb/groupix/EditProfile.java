@@ -43,7 +43,7 @@ public class EditProfile extends AppCompatActivity {
     ProgressDialog mUploadingImageProgress;
 
     DataStore AppData = new DataStore();
-    ActionHandler handler = new ActionHandler();
+    ActionHandler handler = new ActionHandler(EditProfile.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,7 +160,7 @@ public class EditProfile extends AppCompatActivity {
 
     public void logOut(View button) {
 
-        handler.logOut(EditProfile.this);
+        handler.logOut();
         finish();
     }
 }
