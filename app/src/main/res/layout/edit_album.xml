@@ -2,7 +2,9 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    tools:context=".Album.EditAlbum">
 
     <View
         android:id="@+id/EditAlbum_Mainview"
@@ -34,6 +36,7 @@
         android:layout_height="33dp"
         android:layout_marginEnd="15dp"
         android:background="@drawable/close"
+        android:onClick="close"
         app:layout_constraintBottom_toBottomOf="@+id/EditAlbum_Toolbarview"
         app:layout_constraintEnd_toEndOf="@+id/EditAlbum_Toolbarview"
         app:layout_constraintTop_toTopOf="@+id/EditAlbum_Toolbarview" />
@@ -44,6 +47,7 @@
         android:layout_height="33dp"
         android:layout_marginEnd="15dp"
         android:background="@drawable/delete"
+        android:onClick="deleteAlbum"
         app:layout_constraintBottom_toBottomOf="@+id/EditAlbum_Toolbarview"
         app:layout_constraintEnd_toStartOf="@+id/EditAlbum_CloseButton"
         app:layout_constraintTop_toTopOf="@+id/EditAlbum_Mainview" />
@@ -82,6 +86,7 @@
         android:layout_height="45dp"
         android:background="@drawable/add_colored"
         android:visibility="gone"
+        android:onClick="addCover"
         app:layout_constraintBottom_toBottomOf="@+id/EditAlbum_CoverImg"
         app:layout_constraintEnd_toEndOf="@+id/EditAlbum_CoverImg"
         app:layout_constraintStart_toStartOf="@+id/EditAlbum_CoverImg"
@@ -108,6 +113,7 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:background="@drawable/edit"
+            android:onClick="editCover"
             android:visibility="visible" />
 
         <ImageButton
@@ -115,6 +121,7 @@
             android:layout_width="45dp"
             android:layout_height="45dp"
             android:background="@drawable/delete_colored"
+            android:onClick="deleteCover"
             android:visibility="visible" />
     </LinearLayout>
 
@@ -165,6 +172,7 @@
         android:text="edit album"
         android:textColor="@color/primaryTextColor"
         android:textStyle="bold"
+        android:onClick="editAlbum"
         app:layout_constraintBottom_toBottomOf="@+id/EditAlbum_Mainview"
         app:layout_constraintEnd_toEndOf="@+id/EditAlbum_Mainview"
         app:layout_constraintStart_toStartOf="@+id/EditAlbum_Mainview"

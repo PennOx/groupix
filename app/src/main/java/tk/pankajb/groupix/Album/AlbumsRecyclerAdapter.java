@@ -14,11 +14,13 @@ import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
+import tk.pankajb.groupix.DataStore;
 import tk.pankajb.groupix.R;
 
 public class AlbumsRecyclerAdapter extends FirebaseRecyclerAdapter<AlbumsDataModel, AlbumsRecyclerAdapter.AlbumsHolder> {
 
     Context currentContext;
+    DataStore AppData = new DataStore();
 
     public AlbumsRecyclerAdapter(@NonNull FirebaseRecyclerOptions<AlbumsDataModel> options, Context CurrentContext) {
         super(options);
@@ -40,6 +42,7 @@ public class AlbumsRecyclerAdapter extends FirebaseRecyclerAdapter<AlbumsDataMod
             public void onClick(View view) {
                 Intent SendToAlbumOverview = new Intent(currentContext, AlbumOverview.class);
                 SendToAlbumOverview.putExtra("AlbumId", getRef(holder.getAdapterPosition()).getKey());
+                SendToAlbumOverview.putExtra("AlbumOwnerId", AppData.getCurrentUserId());
                 currentContext.startActivity(SendToAlbumOverview);
             }
         });

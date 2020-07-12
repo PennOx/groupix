@@ -52,6 +52,10 @@
             android:theme="@style/AppTheme.CreateAlbum" />
 
         <activity
+            android:name=".Album.EditAlbum"
+            android:theme="@style/AppTheme.CreateAlbum" />
+
+        <activity
             android:name=".SingleImageView"
             android:theme="@style/AppTheme.SingleImageView" />
 
