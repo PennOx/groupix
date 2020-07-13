@@ -76,6 +76,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onStart();
 
         AppData.getUsersDataRef().child(AppData.getCurrentUserId()).addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String CurrentUserProfileThumb = dataSnapshot.child("ProfileThumbImage").getValue(String.class);
@@ -86,7 +87,6 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
 

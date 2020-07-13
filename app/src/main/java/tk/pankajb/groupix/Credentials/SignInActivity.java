@@ -1,5 +1,6 @@
 package tk.pankajb.groupix.Credentials;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +10,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -25,8 +25,9 @@ public class SignInActivity extends AppCompatActivity {
 
     EditText UserEmail;
     EditText UserPass;
-    Button SignInSubmit;
     Toolbar signInToolBar;
+
+    ProgressDialog signInProgressDialog;
 
     String UserInputMail;
     String UserInputPass;
@@ -44,66 +45,69 @@ public class SignInActivity extends AppCompatActivity {
 
         UserEmail = findViewById(R.id.SignInMail);
         UserPass = findViewById(R.id.SignInPass);
-        SignInSubmit = findViewById(R.id.SignInSubmit);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
+        signInProgressDialog = new ProgressDialog(SignInActivity.this);
+        signInProgressDialog.setTitle("Signing you in");
+        signInProgressDialog.setCanceledOnTouchOutside(false);
+        signInProgressDialog.setCancelable(false);
 
-        SignInSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                SignInSubmit.setEnabled(false);
-
-                UserInputMail = UserEmail.getText().toString();
-                UserInputPass = UserPass.getText().toString();
-
-                if (UserInputMail.isEmpty()) {
-                    Toast.makeText(SignInActivity.this, R.string.Email_Required, Toast.LENGTH_SHORT).show();
-                } else if (UserInputPass.isEmpty()) {
-                    Toast.makeText(SignInActivity.this, R.string.Password_Required, Toast.LENGTH_SHORT).show();
-                } else if (UserInputPass.length() <= 5) {
-                    Toast.makeText(SignInActivity.this, R.string.Invalid_Password, Toast.LENGTH_LONG).show();
-                } else {
-                    AppData.Auth.signInWithEmailAndPassword(UserInputMail, UserInputPass).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                        @Override
-                        public void onSuccess(AuthResult authResult) {
-
-                            if (!AppData.getCurrentUser().isEmailVerified()) {
-                                reSendVerification();
-                            } else {
-                                sendToMain();
-                            }
-
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-
-                            Toast.makeText(SignInActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-
-                            Log.e("SignInError", e.getMessage(), e.getCause());
-
-                        }
-                    });
-                }
-
-                SignInSubmit.setEnabled(true);
-            }
-        });
     }
 
-    void sendToMain() {
+    public void signIn(View view) {
+        signInProgressDialog.show();
+        view.setEnabled(false);
+
+        UserInputMail = UserEmail.getText().toString();
+        UserInputPass = UserPass.getText().toString();
+
+        if (UserInputMail.isEmpty()) {
+            Toast.makeText(SignInActivity.this, R.string.Email_Required, Toast.LENGTH_SHORT).show();
+        } else if (UserInputPass.isEmpty()) {
+            Toast.makeText(SignInActivity.this, R.string.Password_Required, Toast.LENGTH_SHORT).show();
+        } else if (UserInputPass.length() <= 5) {
+            Toast.makeText(SignInActivity.this, R.string.Invalid_Password, Toast.LENGTH_LONG).show();
+        } else {
+            AppData.Auth.signInWithEmailAndPassword(UserInputMail, UserInputPass).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                @Override
+                public void onSuccess(AuthResult authResult) {
+
+                    signInProgressDialog.dismiss();
+
+                    if (!AppData.getCurrentUser().isEmailVerified()) {
+                        reSendVerification();
+                    } else {
+                        sendToMain();
+                    }
+
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+
+                    Toast.makeText(SignInActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                    signInProgressDialog.dismiss();
+                    Log.e("SignInError", e.getMessage(), e.getCause());
+
+                }
+            });
+        }
+
+        view.setEnabled(true);
+    }
+
+    private void sendToMain() {
         Intent SendingToMain = new Intent(SignInActivity.this, HomeActivity.class);
         SendingToMain.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(SendingToMain);
         finish();
     }
 
-    void reSendVerification() {
+    private void reSendVerification() {
 
         AppData.Auth.getCurrentUser().sendEmailVerification();
         AlertDialog.Builder builder2 = new AlertDialog.Builder(SignInActivity.this);

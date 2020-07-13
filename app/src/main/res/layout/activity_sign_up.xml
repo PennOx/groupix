@@ -200,6 +200,7 @@
         android:textAlignment="center"
         android:textColor="@color/primaryTextColor"
         android:textStyle="bold"
+        android:onClick="signUp"
         app:layout_constraintBottom_toBottomOf="@+id/signup_background_shape"
         app:layout_constraintEnd_toEndOf="@+id/signup_background_shape"
         app:layout_constraintStart_toStartOf="@+id/signup_background_shape" />

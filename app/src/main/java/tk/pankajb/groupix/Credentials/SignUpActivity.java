@@ -1,5 +1,6 @@
 package tk.pankajb.groupix.Credentials;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -25,15 +26,15 @@ import tk.pankajb.groupix.R;
 
 public class SignUpActivity extends AppCompatActivity {
 
+    Toolbar SignUpToolbar;
     EditText NewUserName;
     EditText NewUserMail;
     EditText NewUserPass;
     EditText NewUserLastName;
     Button NewUserSubmit;
 
-    Toolbar SignUpToolbar;
-
     DataStore AppData = new DataStore();
+    ProgressDialog signUpProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,18 +58,27 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        NewUserSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final String UserName = NewUserName.getText().toString();
-                final String UserLastName = NewUserLastName.getText().toString();
-                final String UserMail = NewUserMail.getText().toString();
-                final String UserPass = NewUserPass.getText().toString();
+        signUpProgressDialog = new ProgressDialog(SignUpActivity.this);
+        signUpProgressDialog.setTitle("Creating account");
+        signUpProgressDialog.setCanceledOnTouchOutside(false);
+        signUpProgressDialog.setCancelable(false);
 
-                if (UserName.isEmpty()) {
-                    Toast.makeText(SignUpActivity.this, R.string.Name_Required, Toast.LENGTH_LONG).show();
-                } else if (UserLastName.isEmpty()) {
-                    Toast.makeText(SignUpActivity.this, R.string.LastName_Required, Toast.LENGTH_LONG).show();
+    }
+
+    public void signUp(View view) {
+
+        signUpProgressDialog.show();
+        view.setEnabled(false);
+
+        final String UserName = NewUserName.getText().toString();
+        final String UserLastName = NewUserLastName.getText().toString();
+        final String UserMail = NewUserMail.getText().toString();
+        final String UserPass = NewUserPass.getText().toString();
+
+        if (UserName.isEmpty()) {
+            Toast.makeText(SignUpActivity.this, R.string.Name_Required, Toast.LENGTH_LONG).show();
+        } else if (UserLastName.isEmpty()) {
+            Toast.makeText(SignUpActivity.this, R.string.LastName_Required, Toast.LENGTH_LONG).show();
                 } else if (UserMail.isEmpty()) {
                     Toast.makeText(SignUpActivity.this, R.string.Email_Required, Toast.LENGTH_LONG).show();
                 } else if (UserPass.isEmpty()) {
@@ -96,6 +106,8 @@ public class SignUpActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void aVoid) {
 
+                                        signUpProgressDialog.dismiss();
+
                                         AppData.getCurrentUser().sendEmailVerification();
                                         AlertDialog.Builder builder1 = new AlertDialog.Builder(SignUpActivity.this);
                                         builder1.setMessage(R.string.Verification_Mail_Sent);
@@ -112,18 +124,24 @@ public class SignUpActivity extends AppCompatActivity {
                                         AlertDialog alert11 = builder1.create();
                                         alert11.show();
                                     }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+
+                                        signUpProgressDialog.dismiss();
+                                    }
                                 });
                             }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
+                            signUpProgressDialog.dismiss();
                             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
                 }
-            }
-        });
 
+        view.setEnabled(true);
     }
 }

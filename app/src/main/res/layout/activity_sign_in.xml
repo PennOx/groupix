@@ -130,6 +130,7 @@
         android:textAlignment="center"
         android:textColor="@color/primaryTextColor"
         android:textStyle="bold"
+        android:onClick="signIn"
         app:layout_constraintBottom_toBottomOf="@+id/signin_background_shape"
         app:layout_constraintEnd_toEndOf="@+id/signin_background_shape"
         app:layout_constraintStart_toStartOf="@+id/signin_background_shape" />
