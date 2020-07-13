@@ -36,7 +36,6 @@ import java.util.Map;
 
 import id.zelory.compressor.Compressor;
 import tk.pankajb.groupix.DataStore;
-import tk.pankajb.groupix.Home.HomeActivity;
 import tk.pankajb.groupix.R;
 
 public class EditAlbum extends AppCompatActivity {
@@ -280,7 +279,7 @@ public class EditAlbum extends AppCompatActivity {
                         AppData.getAllAlbumsDataRef().child(albumId).setValue(null);
                         AppData.getAlbumsDataRef().child(albumOwnerId).child(albumId).setValue(null);
 
-                        sendToHome();
+                        close(null);
 
                     }
                 });
@@ -294,12 +293,12 @@ public class EditAlbum extends AppCompatActivity {
         alert1.show();
     }
 
-    private void sendToHome() {
-        Intent sendingToHomeIntent = new Intent(EditAlbum.this, HomeActivity.class);
-        startActivity(sendingToHomeIntent);
-        sendingToHomeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        finish();
-    }
+//    private void sendToHome() {
+//        Intent sendingToHomeIntent = new Intent(EditAlbum.this, HomeActivity.class);
+//        startActivity(sendingToHomeIntent);
+//        sendingToHomeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        finish();
+//    }
 
     public void editCover(View view) {
         // TODO edit Album cover

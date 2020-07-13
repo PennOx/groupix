@@ -67,6 +67,7 @@ public class CreateAlbum extends AppCompatActivity {
 
         createAlbumProgressBar = new ProgressDialog(CreateAlbum.this);
         createAlbumProgressBar.setTitle("Creating album");
+        createAlbumProgressBar.setCanceledOnTouchOutside(false);
 
     }
 

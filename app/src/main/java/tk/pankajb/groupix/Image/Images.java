@@ -10,16 +10,12 @@ import android.view.ViewGroup;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.Query;
 
 import tk.pankajb.groupix.DataStore;
 import tk.pankajb.groupix.R;
 
 public class Images extends Fragment {
-
-    FirebaseUser CurrentUser;
 
     RecyclerView ImagesRecycler;
 
@@ -36,9 +32,7 @@ public class Images extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_images, container, false);
 
-        CurrentUser = FirebaseAuth.getInstance().getCurrentUser();
-
-        Query ImagesQuery = AppData.getImagesDataRef().child(CurrentUser.getUid()).limitToLast(50);
+        Query ImagesQuery = AppData.getImagesDataRef().child(AppData.getCurrentUserId()).limitToLast(50);
 
         FirebaseRecyclerOptions<tk.pankajb.groupix.Image.ImageDataModel> ImagesOptions = new FirebaseRecyclerOptions.Builder<tk.pankajb.groupix.Image.ImageDataModel>().setQuery(ImagesQuery, ImageDataModel.class).build();
 
@@ -46,7 +40,7 @@ public class Images extends Fragment {
         ImagesRecycler.setHasFixedSize(true);
         ImagesRecycler.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
-        ImagesAdapter = new ImagesRecyclerAdapter(ImagesOptions, getContext());
+        ImagesAdapter = new ImagesRecyclerAdapter(ImagesOptions, getContext(), AppData.getCurrentUserId());
 
         ImagesRecycler.setAdapter(ImagesAdapter);
 

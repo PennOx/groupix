@@ -69,22 +69,24 @@ public class HomeActivity extends AppCompatActivity {
         ImageUploadProgressBar = new ProgressDialog(HomeActivity.this);
         ImageUploadProgressBar.setTitle("Uploading Image");
 
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
 
-        CheckCredentials();
-
-        setAddBtn();
-
-
-        userProf.setOnClickListener(new View.OnClickListener() {
+        AppData.getUsersDataRef().child(AppData.getCurrentUserId()).addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View view) {
-                SendToEditProfile();
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String CurrentUserProfileThumb = dataSnapshot.child("ProfileThumbImage").getValue(String.class);
+                if (!CurrentUserProfileThumb.equals("default")) {
+                    Glide.with(HomeActivity.this).load(CurrentUserProfileThumb).into(userProf);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
 
@@ -132,40 +134,20 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-    private void CheckCredentials() {
+    public void addBtnClicked(View view) {
 
-        AppData.getUsersDataRef().child(AppData.getCurrentUserId()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String CurrentUserProfileThumb = dataSnapshot.child("ProfileThumbImage").getValue(String.class);
-                if (!CurrentUserProfileThumb.equals("default")) {
-                    Glide.with(HomeActivity.this).load(CurrentUserProfileThumb).into(userProf);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        switch (mTabLayout.getSelectedTabPosition()) {
+            case 0:
+                addSingleImage();
+                break;
+            case 1:
+                addAlbum();
+                break;
+        }
     }
 
-    private void setAddBtn() {
-
-        AddBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                switch (mTabLayout.getSelectedTabPosition()) {
-                    case 0:
-                        addSingleImage();
-                        break;
-                    case 1:
-                        addAlbum();
-                        break;
-                }
-            }
-        });
+    public void editProfile(View view) {
+        SendToEditProfile();
     }
 
     private void addAlbum() {

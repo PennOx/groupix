@@ -103,7 +103,7 @@ public class AlbumOverview extends AppCompatActivity {
         });
         Query AlbumImagesQuery = AppData.getAlbumsDataRef().child(AlbumOwnerId).child(AlbumId).child("images").limitToLast(50);
         FirebaseRecyclerOptions<ImageDataModel> AlbumImagesOptions = new FirebaseRecyclerOptions.Builder<ImageDataModel>().setQuery(AlbumImagesQuery, ImageDataModel.class).build();
-        ImagesAdapter = new ImagesRecyclerAdapter(AlbumImagesOptions, getApplicationContext(), AlbumId);
+        ImagesAdapter = new ImagesRecyclerAdapter(AlbumImagesOptions, getApplicationContext(), AlbumId, AlbumOwnerId);
         AlbumImagesRecycler.setAdapter(ImagesAdapter);
         ImagesAdapter.startListening();
     }

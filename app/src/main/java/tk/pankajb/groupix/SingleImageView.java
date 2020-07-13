@@ -50,15 +50,10 @@ public class SingleImageView extends AppCompatActivity {
 
         ImageId = getIntent().getStringExtra("ImageId");
         Type = getIntent().getStringExtra("Type");
-
-        CloseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        OwnerId = getIntent().getStringExtra("OwnerId");
 
         if (Type.equals("Single")) {
+            AlbumId = getIntent().getStringExtra("AlbumId");
             AlbumName.setVisibility(View.GONE);
 
             AppData.getImagesDataRef().child("AllImages").child(ImageId).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -84,7 +79,6 @@ public class SingleImageView extends AppCompatActivity {
                     AppData.getImagesDataRef().child(OwnerId).child(ImageId).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-
                             Glide.with(getApplication()).load((String) dataSnapshot.child("image").getValue()).into(ImageView);
                         }
 
@@ -148,63 +142,28 @@ public class SingleImageView extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
+    public void close(View view) {
+        finish();
+    }
+
+    public void deleteImage(View view) {
 
         if (Type.equals("Single")) {
-            AppData.getImagesDataRef().child("AllImages").child(ImageId).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    OwnerId = (String) dataSnapshot.getValue();
-
-                    DownloadButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            AppAction.DownloadSingleImage(ImageId, OwnerId);
-                        }
-                    });
-
-                    DeleteButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            AppAction.DeleteSingleImage(ImageId, OwnerId);
-                            finish();
-                        }
-                    });
-
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            });
+            AppAction.DeleteSingleImage(ImageId, OwnerId);
+            finish();
         } else if (Type.equals("Album")) {
-            AppData.getAlbumsDataRef().child("AllAlbums").child(AlbumId).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    OwnerId = (String) dataSnapshot.getValue();
+            AppAction.DeleteSingleImage(AlbumId, ImageId, OwnerId);
+            finish();
+        }
 
-                    DownloadButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            AppAction.DownloadSingleImage(AlbumId, ImageId, OwnerId);
-                        }
-                    });
+    }
 
-                    DeleteButton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            AppAction.DeleteSingleImage(AlbumId, ImageId, OwnerId);
-                            finish();
-                        }
-                    });
-                }
+    public void downloadImage(View view) {
 
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                }
-            });
+        if (Type.equals("Single")) {
+            AppAction.DownloadSingleImage(ImageId, OwnerId);
+        } else if (Type.equals("Album")) {
+            AppAction.DownloadSingleImage(AlbumId, ImageId, OwnerId);
         }
     }
 }
