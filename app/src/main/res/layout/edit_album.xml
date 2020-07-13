@@ -6,48 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".Album.EditAlbum">
 
-    <View
-        android:id="@+id/EditAlbum_Toolbarview"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:background="@color/secondaryDarkColor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/EditAlbum_CloseButton"
-        android:layout_width="33dp"
-        android:layout_height="33dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/close"
-        android:onClick="close"
-        app:layout_constraintBottom_toBottomOf="@+id/EditAlbum_Toolbarview"
-        app:layout_constraintEnd_toEndOf="@+id/EditAlbum_Toolbarview"
-        app:layout_constraintTop_toTopOf="@+id/EditAlbum_Toolbarview" />
-
-    <Button
-        android:id="@+id/EditAlbum_DeleButton"
-        android:layout_width="33dp"
-        android:layout_height="33dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/delete"
-        android:onClick="deleteAlbum"
-        app:layout_constraintBottom_toBottomOf="@+id/EditAlbum_Toolbarview"
-        app:layout_constraintEnd_toStartOf="@+id/EditAlbum_CloseButton"
-        app:layout_constraintTop_toTopOf="@+id/EditAlbum_Toolbarview" />
-
-    <TextView
-        android:id="@+id/EditAlbum_ToolbarText"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/Editalbum_Toolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Edit Album"
-        android:textAlignment="textStart"
-        android:textColor="@color/primaryTextColor"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/EditAlbum_Toolbarview"
+        android:background="@color/primaryDarkColor"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -59,10 +25,11 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:background="@color/primaryColor"
-        android:scaleType="centerCrop"
+        android:scaleType="center"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EditAlbum_Toolbarview" />
+        app:layout_constraintTop_toBottomOf="@+id/Editalbum_Toolbar" />
 
     <ImageButton
         android:id="@+id/EditAlbum_AddCoverButton"
@@ -147,22 +114,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/EditAlbum_AlbumName" />
-
-    <Button
-        android:id="@+id/EditAlbum_EditAlbumButton"
-        android:layout_width="339dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/shape_button_dark"
-        android:onClick="editAlbum"
-        android:padding="15dp"
-        android:text="edit album"
-        android:textColor="@color/primaryTextColor"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EditAlbum_AlbumDescription" />
 
 </android.support.constraint.ConstraintLayout>

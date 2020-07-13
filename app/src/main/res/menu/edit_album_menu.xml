@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_album_delete"
+        android:icon="@drawable/delete"
+        android:title="Delete album"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/menu_album_change_save"
+        android:title="Save"
+        app:showAsAction="always" />
+
+</menu>

@@ -79,6 +79,7 @@
         android:layout_marginEnd="15dp"
         android:layout_marginBottom="15dp"
         android:background="@drawable/shape_custombutton_round"
+        android:onClick="editProfileImage"
         android:src="@drawable/edit"
         app:layout_constraintBottom_toBottomOf="@+id/EditProfile_Upperview"
         app:layout_constraintEnd_toEndOf="@+id/EditProfile_Upperview" />

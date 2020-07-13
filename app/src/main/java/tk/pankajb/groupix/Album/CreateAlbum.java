@@ -6,6 +6,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -26,6 +29,8 @@ public class CreateAlbum extends AppCompatActivity {
 
     final private short ADD_COVER_REQUEST = 1;
     final private long ALBUM_ID = System.currentTimeMillis();
+
+    Toolbar createAlbumToolbar;
     ImageButton addCoverBtn;
     ImageView albumCoverImg;
     EditText albumNameText;
@@ -42,10 +47,23 @@ public class CreateAlbum extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_album);
 
+        createAlbumToolbar = findViewById(R.id.CreateAlbum_Toolbar);
         addCoverBtn = findViewById(R.id.CreateAlbum_AddCoverButton);
         albumCoverImg = findViewById(R.id.CreateAlbum_CoverImg);
         albumNameText = findViewById(R.id.CreateAlbum_AlbumName);
         albumDescText = findViewById(R.id.CreateAlbum_AlbumDescription);
+
+        setSupportActionBar(createAlbumToolbar);
+        getSupportActionBar().setTitle("Create album");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        createAlbumToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         createAlbumProgressBar = new ProgressDialog(CreateAlbum.this);
         createAlbumProgressBar.setTitle("Creating album");
@@ -63,7 +81,25 @@ public class CreateAlbum extends AppCompatActivity {
         }
     }
 
-    public void createAlbum(View view) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.create_album_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+
+        if (item.getItemId() == R.id.menu_create_album) {
+            createAlbum();
+        }
+
+        return true;
+    }
+
+    public void createAlbum() {
 
         albumName = albumNameText.getText().toString().trim();
         albumDesc = albumDescText.getText().toString().trim();
@@ -94,7 +130,7 @@ public class CreateAlbum extends AppCompatActivity {
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         albumCoverLink = String.valueOf(taskSnapshot.getDownloadUrl());
 
-                        Map NewAlbumMap = new HashMap<>();
+                        Map<String, Object> NewAlbumMap = new HashMap<>();
                         NewAlbumMap.put(AppData.getCurrentUserId() + "/" + ALBUM_ID + "/name", albumName);
                         NewAlbumMap.put(AppData.getCurrentUserId() + "/" + ALBUM_ID + "/description", albumDesc);
                         NewAlbumMap.put(AppData.getCurrentUserId() + "/" + ALBUM_ID + "/coverimg", albumCoverLink);
@@ -103,14 +139,14 @@ public class CreateAlbum extends AppCompatActivity {
                         AppData.getAlbumsDataRef().updateChildren(NewAlbumMap).addOnSuccessListener(new OnSuccessListener() {
                             @Override
                             public void onSuccess(Object o) {
-                                close(null);
+                                finish();
                             }
                         });
                     }
                 });
             } else {
 
-                Map NewAlbumMap = new HashMap<>();
+                Map<String, Object> NewAlbumMap = new HashMap<>();
                 NewAlbumMap.put(AppData.getCurrentUserId() + "/" + ALBUM_ID + "/name", albumName);
                 NewAlbumMap.put(AppData.getCurrentUserId() + "/" + ALBUM_ID + "/description", albumDesc);
                 NewAlbumMap.put(AppData.getCurrentUserId() + "/" + ALBUM_ID + "/coverimg", albumCoverLink);
@@ -119,7 +155,7 @@ public class CreateAlbum extends AppCompatActivity {
                 AppData.getAlbumsDataRef().updateChildren(NewAlbumMap).addOnSuccessListener(new OnSuccessListener() {
                     @Override
                     public void onSuccess(Object o) {
-                        close(null);
+                        finish();
                     }
                 });
             }
@@ -127,12 +163,7 @@ public class CreateAlbum extends AppCompatActivity {
 
     }
 
-    public void close(View view) {
-        finish();
-    }
-
     public void addCover(View view) {
-        // TODO Add album cover
         Intent addAlbumCoverGalleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(addAlbumCoverGalleryIntent, ADD_COVER_REQUEST);
     }

@@ -4,11 +4,15 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -22,10 +26,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.UploadTask;
+import com.theartofdev.edmodo.cropper.CropImage;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import id.zelory.compressor.Compressor;
 import tk.pankajb.groupix.DataStore;
 import tk.pankajb.groupix.Home.HomeActivity;
 import tk.pankajb.groupix.R;
@@ -33,6 +42,7 @@ import tk.pankajb.groupix.R;
 public class EditAlbum extends AppCompatActivity {
 
     final private short ADD_ALBUM_COVER_REQUEST = 1;
+    Toolbar editAlbumToolbar;
     ImageView albumCoverImg;
     ImageButton addCoverBtn;
     LinearLayout coverBtnLayout;
@@ -46,6 +56,7 @@ public class EditAlbum extends AppCompatActivity {
     DataStore AppData = new DataStore();
     ProgressDialog editAlbumProgressBar;
     Uri albumCoverUri = null;
+    byte[] croppedImageBytes = null;
 
     Context appContext;
 
@@ -54,13 +65,25 @@ public class EditAlbum extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_album);
 
+        editAlbumToolbar = findViewById(R.id.Editalbum_Toolbar);
         albumCoverImg = findViewById(R.id.EditAlbum_CoverImg);
         addCoverBtn = findViewById(R.id.EditAlbum_AddCoverButton);
         coverBtnLayout = findViewById(R.id.EditAlbum_CoverButtonLayout);
         albumNameText = findViewById(R.id.EditAlbum_AlbumName);
         albumDescText = findViewById(R.id.EditAlbum_AlbumDescription);
-
         appContext = getApplicationContext();
+
+        setSupportActionBar(editAlbumToolbar);
+        getSupportActionBar().setTitle("Edit album");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        editAlbumToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         editAlbumProgressBar = new ProgressDialog(EditAlbum.this);
         editAlbumProgressBar.setTitle("Editing album");
@@ -108,13 +131,63 @@ public class EditAlbum extends AppCompatActivity {
 
         if (requestCode == ADD_ALBUM_COVER_REQUEST && resultCode == RESULT_OK) {
             albumCoverUri = data.getData();
-            Glide.with(this).load(albumCoverUri).into(albumCoverImg);
+            CropImage.activity(albumCoverUri).setAspectRatio(2, 1).start(this);
             coverBtnLayout.setVisibility(View.VISIBLE);
             addCoverBtn.setVisibility(View.GONE);
         }
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+
+            Uri croppedImageUri = result.getUri();
+            Glide.with(this).load(croppedImageUri).into(albumCoverImg);
+            File croppedImageFile = new File(croppedImageUri.getPath());
+
+            try {
+                Bitmap compressedImageBitmap = new Compressor(this)
+                        .setMaxHeight(200)
+                        .setMaxWidth(200)
+                        .setQuality(50)
+                        .compressToBitmap(croppedImageFile);
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                compressedImageBitmap.compress(Bitmap.CompressFormat.PNG, 50, baos);
+                croppedImageBytes = baos.toByteArray();
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            albumCoverUri = null;
+        }
     }
 
-    public void editAlbum(View view) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.edit_album_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+
+        if (item.getItemId() == R.id.menu_album_delete) {
+            deleteAlbum();
+        }
+
+        if (item.getItemId() == R.id.menu_album_change_save) {
+            editAlbum();
+        }
+
+        return true;
+    }
+
+    public void editAlbum() {
 
         albumName = albumNameText.getText().toString().trim();
         albumDesc = albumDescText.getText().toString().trim();
@@ -129,7 +202,7 @@ public class EditAlbum extends AppCompatActivity {
                 editAlbumProgressBar.show();
 
                 UploadTask AlbumCoverUpload = AppData.getAlbumsStorageRef().child(AppData.getCurrentUserId()).child(String.valueOf(albumId))
-                        .child("coverimg").putFile(albumCoverUri);
+                        .child("coverimg").putBytes(croppedImageBytes);
 
                 AlbumCoverUpload.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -194,7 +267,7 @@ public class EditAlbum extends AppCompatActivity {
         startActivityForResult(addAlbumCoverGalleryIntent, ADD_ALBUM_COVER_REQUEST);
     }
 
-    public void deleteAlbum(View view) {
+    public void deleteAlbum() {
 
         AlertDialog.Builder deleteConfDialog = new AlertDialog.Builder(EditAlbum.this);
         deleteConfDialog.setTitle("Are you sure?");

@@ -7,39 +7,16 @@
     app:layout_constraintBottom_toBottomOf="parent"
     tools:context=".Album.CreateAlbum">
 
-    <View
-        android:id="@+id/CreateAlbum_Toolbarview"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:background="@color/secondaryDarkColor"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/CreateAlbum_Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/primaryDarkColor"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/CreateAlbum_CloseButton"
-        android:layout_width="33dp"
-        android:layout_height="33dp"
-        android:layout_marginEnd="8dp"
-        android:background="@drawable/close"
-        android:onClick="close"
-        app:layout_constraintBottom_toBottomOf="@+id/CreateAlbum_Toolbarview"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/CreateAlbum_Toolbarview" />
-
-    <TextView
-        android:id="@+id/CreateAlbum_ToolbarText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:text="Create Album"
-        android:textAlignment="textStart"
-        android:textColor="@color/primaryTextColor"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/CreateAlbum_Toolbarview"
-        app:layout_constraintStart_toStartOf="@+id/CreateAlbum_Toolbarview"
-        app:layout_constraintTop_toTopOf="@+id/CreateAlbum_Toolbarview" />
 
     <ImageView
         android:id="@+id/CreateAlbum_CoverImg"
@@ -49,10 +26,10 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="16dp"
         android:background="@color/primaryColor"
-        android:scaleType="centerCrop"
+        android:scaleType="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CreateAlbum_Toolbarview" />
+        app:layout_constraintTop_toBottomOf="@+id/CreateAlbum_Toolbar" />
 
     <ImageButton
         android:id="@+id/CreateAlbum_AddCoverButton"
@@ -122,22 +99,5 @@
             android:textColor="@color/primaryTextColor"
             android:textColorHint="@color/primaryTextColor" />
     </android.support.design.widget.TextInputLayout>
-
-    <Button
-        android:id="@+id/CreateAlbum_CreateAlbumButton"
-        android:layout_width="339dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/shape_button_dark"
-        android:onClick="createAlbum"
-        android:padding="15dp"
-        android:text="create album"
-        android:textColor="@android:color/white"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout7" />
 
 </android.support.constraint.ConstraintLayout>

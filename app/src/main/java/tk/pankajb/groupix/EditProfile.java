@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -31,6 +29,7 @@ import id.zelory.compressor.Compressor;
 
 public class EditProfile extends AppCompatActivity {
 
+    final private short EDIT_PROFILE_IMAGE_REQUEST = 1;
 
     Toolbar EditProfileToolbar;
 
@@ -86,25 +85,10 @@ public class EditProfile extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-
-        EditProfileBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent GalleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(GalleryIntent, 1);
-
-            }
-        });
-
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 1 && resultCode == RESULT_OK) {
+        if (requestCode == EDIT_PROFILE_IMAGE_REQUEST && resultCode == RESULT_OK) {
             Uri inputUri = data.getData();
             CropImage.activity(inputUri).setAspectRatio(1, 1).start(this);
         }
@@ -133,12 +117,7 @@ public class EditProfile extends AppCompatActivity {
                     byte[] thumb_image_byte = baos.toByteArray();
 
                     UploadTask uploadTask = AppData.getUsersStorageRef().child(AppData.getCurrentUserId()).child("Thumb_Profile.jpg").putBytes(thumb_image_byte);
-                    uploadTask.addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            // Handle unsuccessful uploads
-                        }
-                    }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
@@ -158,8 +137,12 @@ public class EditProfile extends AppCompatActivity {
         }
     }
 
-    public void logOut(View button) {
+    public void editProfileImage(View view) {
+        Intent GalleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(GalleryIntent, EDIT_PROFILE_IMAGE_REQUEST);
+    }
 
+    public void logOut(View button) {
         handler.logOut();
         finish();
     }

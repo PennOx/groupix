@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/menu_profile_button"
-        android:icon="@drawable/avatar"
-        android:title="Profile Settings"
+        android:id="@+id/menu_create_album"
+        android:title="Create"
         app:showAsAction="always" />
 </menu>
