@@ -11,8 +11,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,7 +31,7 @@ public class CreateAlbum extends AppCompatActivity {
     final private long ALBUM_ID = System.currentTimeMillis();
 
     Toolbar createAlbumToolbar;
-    ImageButton addCoverBtn;
+    TextView addCoverBtn;
     ImageView albumCoverImg;
     EditText albumNameText;
     EditText albumDescText;

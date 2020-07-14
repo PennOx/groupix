@@ -15,9 +15,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -43,7 +43,7 @@ public class EditAlbum extends AppCompatActivity {
     final private short ADD_ALBUM_COVER_REQUEST = 1;
     Toolbar editAlbumToolbar;
     ImageView albumCoverImg;
-    ImageButton addCoverBtn;
+    TextView addCoverBtn;
     LinearLayout coverBtnLayout;
     EditText albumNameText;
     EditText albumDescText;
@@ -292,13 +292,6 @@ public class EditAlbum extends AppCompatActivity {
         AlertDialog alert1 = deleteConfDialog.create();
         alert1.show();
     }
-
-//    private void sendToHome() {
-//        Intent sendingToHomeIntent = new Intent(EditAlbum.this, HomeActivity.class);
-//        startActivity(sendingToHomeIntent);
-//        sendingToHomeIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//        finish();
-//    }
 
     public void editCover(View view) {
         // TODO edit Album cover

@@ -23,7 +23,6 @@
         android:layout_width="match_parent"
         android:layout_height="160dp"
         android:layout_marginTop="1dp"
-        android:alpha="153"
         android:background="@color/primaryColor"
         android:src="@drawable/ripple"
         android:scaleType="center"
