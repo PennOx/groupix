@@ -26,7 +26,6 @@ public class DataStore {
     private DatabaseReference UsersDataRef;
     private DatabaseReference AlbumsDataRef;
     private DatabaseReference ImagesDataRef;
-
     private DatabaseReference allAlbumsDataRef;
 
     private StorageReference ImagesStorageRef = FirebaseStorage.getInstance().getReference().child("Images");

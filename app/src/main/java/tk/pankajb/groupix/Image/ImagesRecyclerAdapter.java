@@ -45,7 +45,7 @@ public class ImagesRecyclerAdapter extends FirebaseRecyclerAdapter<ImageDataMode
     @Override
     protected void onBindViewHolder(@NonNull ImagesHolder holder, int position, @NonNull ImageDataModel model) {
 
-        final String Image = model.getImage();
+        String Image = model.getImage();
         final String ImageId = getRef(position).getKey();
 
         Glide.with(currentContext).load(Image).into(holder.SingleImage);
@@ -82,7 +82,6 @@ public class ImagesRecyclerAdapter extends FirebaseRecyclerAdapter<ImageDataMode
 
         public ImagesHolder(View itemView) {
             super(itemView);
-
             SingleImage = itemView.findViewById(R.id.Single_ImageThumb);
         }
     }

@@ -62,7 +62,6 @@ public class AlbumsRecyclerAdapter extends FirebaseRecyclerAdapter<AlbumsDataMod
         ImageView AlbumCover;
         View FullView;
 
-
         public AlbumsHolder(View itemView) {
             super(itemView);
             FullView = itemView;

@@ -122,7 +122,6 @@ public class AlbumOverview extends AppCompatActivity {
         ImagesAdapter.startListening();
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -147,7 +146,7 @@ public class AlbumOverview extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 1 && resultCode == RESULT_OK) {
+        if (requestCode == ALBUM_IMAGE_REQUEST && resultCode == RESULT_OK) {
 
             uploadingImageDialog.show();
 
@@ -187,7 +186,6 @@ public class AlbumOverview extends AppCompatActivity {
         }
 
     }
-
 
     public void addImage(View view) {
         Intent addAlbumImgGalleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
