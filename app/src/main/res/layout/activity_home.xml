@@ -92,14 +92,14 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/MainAddButton"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="8dp"
         android:clickable="true"
         android:focusable="true"
         android:scaleType="fitCenter"
-        android:src="@drawable/add"
+        android:src="@drawable/add_white"
         android:onClick="addBtnClicked"
         app:layout_constraintBottom_toTopOf="@+id/Home_TabPager"
         app:layout_constraintEnd_toEndOf="parent" />

@@ -70,6 +70,13 @@ public class AlbumOverview extends AppCompatActivity {
         getSupportActionBar().setTitle("Album");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        OverviewToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
         AlbumImagesRecycler.setHasFixedSize(true);
         AlbumImagesRecycler.setLayoutManager(new GridLayoutManager(this, 3));
         AlbumId = getIntent().getStringExtra("AlbumId");

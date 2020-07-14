@@ -3,6 +3,9 @@ package tk.pankajb.groupix;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -17,10 +20,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SingleImageView extends AppCompatActivity {
 
+    Toolbar viewToolbar;
     CircleImageView UserProfileImage;
     TextView UserName;
     TextView AlbumName;
-    ImageButton CloseButton;
     ImageView ImageView;
     ImageButton DownloadButton;
     ImageButton DeleteButton;
@@ -39,10 +42,10 @@ public class SingleImageView extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.single_image_view);
 
+        viewToolbar = findViewById(R.id.SingleImageView_Toolbar);
         UserProfileImage = findViewById(R.id.SingleImageview_UserProfileImage);
         UserName = findViewById(R.id.SingleImageview_UserName_Text);
         AlbumName = findViewById(R.id.SingleImageview_ImageAlbum_Text);
-        CloseButton = findViewById(R.id.SingleImageView_CloseButton);
         ImageView = findViewById(R.id.SingleImageView_Image);
         DownloadButton = findViewById(R.id.SingleImageView_DownlaodButton);
         DeleteButton = findViewById(R.id.SingleImageView_DeleteButton);
@@ -51,6 +54,11 @@ public class SingleImageView extends AppCompatActivity {
         ImageId = getIntent().getStringExtra("ImageId");
         Type = getIntent().getStringExtra("Type");
         OwnerId = getIntent().getStringExtra("OwnerId");
+
+        setSupportActionBar(viewToolbar);
+        getSupportActionBar().setDisplayShowHomeEnabled(false);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
 
         if (Type.equals("Single")) {
             AlbumId = getIntent().getStringExtra("AlbumId");
@@ -142,7 +150,23 @@ public class SingleImageView extends AppCompatActivity {
         }
     }
 
-    public void close(View view) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.singleimage_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.menu_close_singleimage) {
+            close();
+        }
+        return true;
+    }
+
+    public void close() {
         finish();
     }
 

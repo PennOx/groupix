@@ -7,16 +7,6 @@
     android:background="@drawable/shape_single_imageview"
     tools:context=".SingleImageView">
 
-    <View
-        android:id="@+id/SingleImageview_Mainview"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/shape_single_imageview"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <ImageView
         android:id="@+id/SingleImageView_Image"
         android:layout_width="0dp"
@@ -24,61 +14,69 @@
         android:background="@color/primaryColor"
         android:scaleType="fitCenter"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/SingleImageview_Mainview"
-        app:layout_constraintStart_toStartOf="@+id/SingleImageview_Mainview"
-        app:layout_constraintTop_toTopOf="@+id/SingleImageview_UpperShade" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <View
-        android:id="@+id/SingleImageview_UpperShade"
-        android:layout_width="0dp"
-        android:layout_height="57.5dp"
-        android:layout_margin="0dp"
-        android:alpha="0.5"
-        android:background="@color/secondaryDarkColor"
-        app:layout_constraintEnd_toEndOf="@+id/SingleImageview_Mainview"
-        app:layout_constraintStart_toStartOf="@+id/SingleImageview_Mainview"
-        app:layout_constraintTop_toTopOf="@+id/SingleImageview_Mainview" />
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/SingleImageview_UserProfileImage"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="20dp"
-        android:src="@drawable/user"
-        app:layout_constraintBottom_toBottomOf="@+id/SingleImageview_UpperShade"
-        app:layout_constraintStart_toStartOf="@+id/SingleImageview_UpperShade"
-        app:layout_constraintTop_toTopOf="@+id/SingleImageview_UpperShade" />
-
-    <TextView
-        android:id="@+id/SingleImageview_UserName_Text"
-        android:layout_width="wrap_content"
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/SingleImageView_Toolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:singleLine="true"
-        android:textAlignment="textStart"
-        android:textColor="@color/primaryTextColor"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/SingleImageview_ImageAlbum_Text"
-        app:layout_constraintEnd_toStartOf="@+id/SingleImageView_CloseButton"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/SingleImageview_UserProfileImage"
-        app:layout_constraintTop_toTopOf="@+id/SingleImageview_UserProfileImage" />
+        android:background="@android:color/transparent"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-    <TextView
-        android:id="@+id/SingleImageview_ImageAlbum_Text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:singleLine="true"
-        android:textAlignment="textStart"
-        android:textColor="@color/primaryTextColor"
-        android:textSize="10sp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/SingleImageview_UserProfileImage"
-        app:layout_constraintEnd_toStartOf="@+id/SingleImageView_CloseButton"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/SingleImageview_UserProfileImage" />
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/SingleImageview_UserProfileImage"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="20dp"
+                android:alpha="1"
+                android:src="@drawable/user"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/SingleImageview_UserName_Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:singleLine="true"
+                android:textAlignment="textStart"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/SingleImageview_ImageAlbum_Text"
+                app:layout_constraintEnd_toStartOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/SingleImageview_UserProfileImage"
+                app:layout_constraintTop_toTopOf="@+id/SingleImageview_UserProfileImage" />
+
+            <TextView
+                android:id="@+id/SingleImageview_ImageAlbum_Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:singleLine="true"
+                android:textAlignment="textStart"
+                android:textColor="@color/primaryTextColor"
+                android:textSize="10sp"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/SingleImageview_UserProfileImage"
+                app:layout_constraintEnd_toStartOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/SingleImageview_UserProfileImage" />
+
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.Toolbar>
 
     <View
         android:id="@+id/SingleImageview_LowerShade"
@@ -87,9 +85,9 @@
         android:layout_margin="0dp"
         android:alpha="0.5"
         android:background="@color/secondaryDarkColor"
-        app:layout_constraintBottom_toBottomOf="@+id/SingleImageview_Mainview"
-        app:layout_constraintEnd_toEndOf="@+id/SingleImageview_Mainview"
-        app:layout_constraintStart_toStartOf="@+id/SingleImageview_Mainview" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
         android:id="@+id/SingleImageView_DownlaodButton"
@@ -103,17 +101,6 @@
         app:layout_constraintStart_toStartOf="@+id/SingleImageview_LowerShade"
         app:layout_constraintTop_toTopOf="@+id/SingleImageview_LowerShade"
         app:layout_constraintVertical_bias="0.0" />
-
-    <ImageButton
-        android:id="@+id/SingleImageView_CloseButton"
-        android:layout_width="33dp"
-        android:layout_height="33dp"
-        android:layout_marginEnd="15dp"
-        android:background="@drawable/close"
-        android:onClick="close"
-        app:layout_constraintBottom_toBottomOf="@+id/SingleImageview_UpperShade"
-        app:layout_constraintEnd_toEndOf="@+id/SingleImageview_UpperShade"
-        app:layout_constraintTop_toTopOf="@+id/SingleImageview_UpperShade" />
 
     <ImageButton
         android:id="@+id/SingleImageView_DeleteButton"
