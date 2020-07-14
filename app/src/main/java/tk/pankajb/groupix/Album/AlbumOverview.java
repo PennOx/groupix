@@ -1,5 +1,6 @@
 package tk.pankajb.groupix.Album;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.UploadTask;
 
 import tk.pankajb.groupix.DataStore;
@@ -41,6 +43,7 @@ public class AlbumOverview extends AppCompatActivity {
     TextView AlbumDescTextView;
     RecyclerView AlbumImagesRecycler;
     FloatingActionButton AlbumAddImgBtn;
+    ProgressDialog uploadingImageDialog;
 
     final private int ALBUM_IMAGE_REQUEST = 1;
 
@@ -69,6 +72,10 @@ public class AlbumOverview extends AppCompatActivity {
         setSupportActionBar(OverviewToolbar);
         getSupportActionBar().setTitle("Album");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        uploadingImageDialog = new ProgressDialog(AlbumOverview.this);
+        uploadingImageDialog.setCanceledOnTouchOutside(false);
+        uploadingImageDialog.setTitle("Uploading Image");
 
         OverviewToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,12 +122,6 @@ public class AlbumOverview extends AppCompatActivity {
         ImagesAdapter.startListening();
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-
-        setAddBtn();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -148,11 +149,20 @@ public class AlbumOverview extends AppCompatActivity {
 
         if (requestCode == 1 && resultCode == RESULT_OK) {
 
+            uploadingImageDialog.show();
+
             InputImage = data.getData();
             NewImageId = System.currentTimeMillis();
 
             UploadTask OriginalImageUpload = AppData.getAlbumsStorageRef().child(AppData.getCurrentUserId()).child(AlbumId).child("images").child(String.valueOf(NewImageId)).child("image").putFile(InputImage);
 
+            OriginalImageUpload.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    long ProgressDone = 100 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount();
+                    uploadingImageDialog.setMessage("Uploading Image " + ProgressDone + "%");
+                }
+            });
 
             OriginalImageUpload.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
@@ -161,14 +171,16 @@ public class AlbumOverview extends AppCompatActivity {
 
                     AppData.getAlbumsDataRef().child(AppData.getCurrentUserId()).child(AlbumId).child("images").child(String.valueOf(NewImageId)).child("image").setValue(OriginalImageUrl);
                     AppData.getAlbumsDataRef().child("AllImages").child(String.valueOf(NewImageId)).setValue(AppData.getCurrentUserId());
+
+                    uploadingImageDialog.dismiss();
                 }
             });
 
             OriginalImageUpload.addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
+                    uploadingImageDialog.dismiss();
                     Toast.makeText(AlbumOverview.this, "Image upload failed", Toast.LENGTH_SHORT).show();
-
                     Log.e("Image Upload Error", e.toString());
                 }
             });
@@ -176,15 +188,9 @@ public class AlbumOverview extends AppCompatActivity {
 
     }
 
-    private void setAddBtn() {
-        AlbumAddImgBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent addAlbumImgGalleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(addAlbumImgGalleryIntent, ALBUM_IMAGE_REQUEST);
-            }
-        });
+
+    public void addImage(View view) {
+        Intent addAlbumImgGalleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(addAlbumImgGalleryIntent, ALBUM_IMAGE_REQUEST);
     }
-
-
 }
