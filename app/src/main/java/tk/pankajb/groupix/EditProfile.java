@@ -51,8 +51,8 @@ public class EditProfile extends AppCompatActivity {
 
         EditProfileToolbar = findViewById(R.id.EditProfile_Toolbar);
         setSupportActionBar(EditProfileToolbar);
-        EditProfileToolbar.setTitle("Edit Profile");
         Objects.requireNonNull(getSupportActionBar()).setHomeAsUpIndicator(R.drawable.back_arrow);
+        getSupportActionBar().setTitle("Profile");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ProfileImg = findViewById(R.id.EditProfile_UserImage);

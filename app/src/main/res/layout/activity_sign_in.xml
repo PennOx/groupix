@@ -67,9 +67,10 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:padding="6dp"
+        android:background="@drawable/shape_custom_edittext"
         android:textColorHint="@color/primaryTextColor"
         app:hintTextAppearance="@color/primaryTextColor"
+        android:padding="3dp"
         app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/signin_background_shape">
@@ -78,13 +79,13 @@
             android:id="@+id/SignInMail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_custom_edittext"
             android:drawableLeft="@drawable/mail"
             android:drawablePadding="10dp"
             android:hint="Enter email"
             android:inputType="textEmailAddress"
             android:padding="10dp"
             android:singleLine="true"
+            android:backgroundTint="@color/primaryColor"
             android:textColor="@color/primaryTextColor"
             android:textColorHint="@color/primaryTextColor" />
     </android.support.design.widget.TextInputLayout>
@@ -96,9 +97,10 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:padding="6dp"
+        android:background="@drawable/shape_custom_edittext"
         android:textColorHint="@color/primaryTextColor"
         app:hintTextAppearance="@color/primaryTextColor"
+        android:padding="3dp"
         app:layout_constraintBottom_toTopOf="@+id/SignInSubmit"
         app:layout_constraintEnd_toEndOf="@+id/signin_background_shape"
         app:layout_constraintStart_toStartOf="@+id/signin_background_shape">
@@ -107,13 +109,13 @@
             android:id="@+id/SignInPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_custom_edittext"
             android:drawableLeft="@drawable/lock"
             android:drawablePadding="10dp"
             android:hint="Enter password"
             android:inputType="textPassword"
             android:padding="10dp"
             android:singleLine="true"
+            android:backgroundTint="@color/primaryColor"
             android:textColor="@color/primaryTextColor"
             android:textColorHint="@color/primaryTextColor" />
     </android.support.design.widget.TextInputLayout>
