@@ -59,7 +59,6 @@ public class ImagesRecyclerAdapter extends FirebaseRecyclerAdapter<ImageDataMode
                 } else {
                     AppAction.DisplaySingleImage(albumId, ImageId, OwnerId);
                 }
-
             }
         });
     }

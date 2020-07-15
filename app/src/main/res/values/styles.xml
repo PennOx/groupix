@@ -1,7 +1,7 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/primaryLightColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
@@ -20,6 +20,12 @@
 
     <style name="Splash" parent="AppTheme">
         <item name="android:windowBackground">@drawable/splash</item>
+    </style>
+
+    <style name="TextInputLayout_Dark" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">#fff</item>
+        <item name="boxStrokeWidth">2dp</item>
+        <item name="backgroundTint">@color/TextInputLayout_Hint_Dark</item>
     </style>
 
 </resources>

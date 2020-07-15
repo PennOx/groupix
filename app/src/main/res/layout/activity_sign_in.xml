@@ -32,8 +32,10 @@
         android:background="@drawable/shape_app_upper_curve"
         app:layout_constraintBottom_toTopOf="@+id/SignInDevName"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/SignInToolBar" />
+        app:layout_constraintTop_toBottomOf="@+id/SignInToolBar"
+        app:layout_constraintVertical_bias="0.0" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -69,10 +71,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/shape_custom_edittext"
-        android:textColorHint="@color/primaryTextColor"
-        app:hintTextAppearance="@color/primaryTextColor"
         android:padding="3dp"
+        style="@style/TextInputLayout_Dark"
+        android:hint="Enter email"
         app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/signin_background_shape">
@@ -83,7 +84,6 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/mail"
             android:drawablePadding="10dp"
-            android:hint="Enter email"
             android:inputType="textEmailAddress"
             android:padding="10dp"
             android:singleLine="true"
@@ -99,10 +99,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/shape_custom_edittext"
-        android:textColorHint="@color/primaryTextColor"
-        app:hintTextAppearance="@color/primaryTextColor"
         android:padding="3dp"
+        style="@style/TextInputLayout_Dark"
+        android:hint="Enter password"
         app:layout_constraintBottom_toTopOf="@+id/SignInSubmit"
         app:layout_constraintEnd_toEndOf="@+id/signin_background_shape"
         app:layout_constraintStart_toStartOf="@+id/signin_background_shape">
@@ -113,8 +112,7 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/lock"
             android:drawablePadding="10dp"
-            android:hint="Enter password"
-            android:inputType="textPassword"
+            android:inputType="textEmailAddress"
             android:padding="10dp"
             android:singleLine="true"
             android:backgroundTint="@color/primaryColor"
