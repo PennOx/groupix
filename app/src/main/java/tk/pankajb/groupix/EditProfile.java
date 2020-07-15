@@ -23,7 +23,6 @@ import com.theartofdev.edmodo.cropper.CropImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import id.zelory.compressor.Compressor;
@@ -52,7 +51,6 @@ public class EditProfile extends AppCompatActivity {
 
         EditProfileToolbar = findViewById(R.id.EditProfile_Toolbar);
         setSupportActionBar(EditProfileToolbar);
-        Objects.requireNonNull(getSupportActionBar()).setHomeAsUpIndicator(R.drawable.back_arrow);
         getSupportActionBar().setTitle("Profile");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

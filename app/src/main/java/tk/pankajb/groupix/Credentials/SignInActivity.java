@@ -40,7 +40,6 @@ public class SignInActivity extends AppCompatActivity {
 
         Toolbar signInToolBar = findViewById(R.id.SignInToolBar);
         setSupportActionBar(signInToolBar);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.back_arrow);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         UserEmail = findViewById(R.id.SignInMail);

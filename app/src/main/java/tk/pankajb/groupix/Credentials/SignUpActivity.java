@@ -50,7 +50,6 @@ public class SignUpActivity extends AppCompatActivity {
 
         SignUpToolbar = findViewById(R.id.SignUpToolBar);
         setSupportActionBar(SignUpToolbar);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.back_arrow);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
