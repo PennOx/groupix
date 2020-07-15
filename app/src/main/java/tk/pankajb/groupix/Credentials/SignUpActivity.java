@@ -31,7 +31,7 @@ public class SignUpActivity extends AppCompatActivity {
     EditText NewUserMail;
     EditText NewUserPass;
     EditText NewUserLastName;
-    Button NewUserSubmit;
+    Button signUpBtn;
 
     DataStore AppData = new DataStore();
     ProgressDialog signUpProgressDialog;
@@ -45,7 +45,7 @@ public class SignUpActivity extends AppCompatActivity {
         NewUserMail = findViewById(R.id.SignUpMail);
         NewUserPass = findViewById(R.id.SignUpPass);
         NewUserLastName = findViewById(R.id.SignUpLastName);
-        NewUserSubmit = findViewById(R.id.SignUpSubmit);
+        signUpBtn = findViewById(R.id.SignUpSubmit);
 
         SignUpToolbar = findViewById(R.id.SignUpToolBar);
         setSupportActionBar(SignUpToolbar);
@@ -67,8 +67,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     public void signUp(View view) {
 
-        signUpProgressDialog.show();
-        view.setEnabled(false);
+
 
         final String UserName = NewUserName.getText().toString();
         final String UserLastName = NewUserLastName.getText().toString();
@@ -86,15 +85,18 @@ public class SignUpActivity extends AppCompatActivity {
                 } else if (UserPass.length() <= 5) {
                     Toast.makeText(SignUpActivity.this, R.string.Password_Length, Toast.LENGTH_LONG).show();
                 } else {
-                    AppData.Auth.createUserWithEmailAndPassword(UserMail, UserPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if (task.isSuccessful()) {
+            signUpProgressDialog.show();
+            view.setEnabled(false);
 
-                                HashMap<String, String> userMap = new HashMap<>();
-                                userMap.put("Name", UserName);
-                                userMap.put("LastName", UserLastName);
-                                userMap.put("Email", UserMail);
+            AppData.Auth.createUserWithEmailAndPassword(UserMail, UserPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+
+                        HashMap<String, String> userMap = new HashMap<>();
+                        userMap.put("Name", UserName);
+                        userMap.put("LastName", UserLastName);
+                        userMap.put("Email", UserMail);
                                 userMap.put("Pass", UserPass);
                                 userMap.put("ProfileThumbImage", "default");
                                 userMap.put("ProfileImage", "default");
@@ -129,6 +131,7 @@ public class SignUpActivity extends AppCompatActivity {
                                     public void onFailure(@NonNull Exception e) {
 
                                         signUpProgressDialog.dismiss();
+                                        signUpBtn.setEnabled(true);
                                     }
                                 });
                             }
@@ -136,12 +139,11 @@ public class SignUpActivity extends AppCompatActivity {
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
+                            signUpBtn.setEnabled(true);
                             signUpProgressDialog.dismiss();
                             Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
                 }
-
-        view.setEnabled(true);
     }
 }

@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -23,14 +24,12 @@ import tk.pankajb.groupix.R;
 
 public class SignInActivity extends AppCompatActivity {
 
-    EditText UserEmail;
-    EditText UserPass;
-    Toolbar signInToolBar;
+    private EditText UserEmail;
+    private EditText UserPass;
+    private Button signInBtn;
 
     ProgressDialog signInProgressDialog;
 
-    String UserInputMail;
-    String UserInputPass;
     DataStore AppData = new DataStore();
 
     @Override
@@ -38,13 +37,14 @@ public class SignInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_in);
 
-        signInToolBar = findViewById(R.id.SignInToolBar);
+        Toolbar signInToolBar = findViewById(R.id.SignInToolBar);
         setSupportActionBar(signInToolBar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.back_arrow);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         UserEmail = findViewById(R.id.SignInMail);
         UserPass = findViewById(R.id.SignInPass);
+        signInBtn = findViewById(R.id.SignInSubmit);
     }
 
     @Override
@@ -59,24 +59,26 @@ public class SignInActivity extends AppCompatActivity {
     }
 
     public void signIn(View view) {
-        signInProgressDialog.show();
-        view.setEnabled(false);
 
-        UserInputMail = UserEmail.getText().toString();
-        UserInputPass = UserPass.getText().toString();
+        String userInputMail = UserEmail.getText().toString();
+        String userInputPass = UserPass.getText().toString();
 
-        if (UserInputMail.isEmpty()) {
+        if (userInputMail.isEmpty()) {
             Toast.makeText(SignInActivity.this, R.string.Email_Required, Toast.LENGTH_SHORT).show();
-        } else if (UserInputPass.isEmpty()) {
+        } else if (userInputPass.isEmpty()) {
             Toast.makeText(SignInActivity.this, R.string.Password_Required, Toast.LENGTH_SHORT).show();
-        } else if (UserInputPass.length() <= 5) {
+        } else if (userInputPass.length() <= 5) {
             Toast.makeText(SignInActivity.this, R.string.Invalid_Password, Toast.LENGTH_LONG).show();
         } else {
-            AppData.Auth.signInWithEmailAndPassword(UserInputMail, UserInputPass).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+            signInProgressDialog.show();
+            view.setEnabled(false);
+
+            AppData.Auth.signInWithEmailAndPassword(userInputMail, userInputPass).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                 @Override
                 public void onSuccess(AuthResult authResult) {
 
                     signInProgressDialog.dismiss();
+                    signInBtn.setEnabled(true);
 
                     if (!AppData.getCurrentUser().isEmailVerified()) {
                         reSendVerification();
@@ -91,13 +93,12 @@ public class SignInActivity extends AppCompatActivity {
 
                     Toast.makeText(SignInActivity.this, e.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
                     signInProgressDialog.dismiss();
+                    signInBtn.setEnabled(true);
                     Log.e("SignInError", e.getMessage(), e.getCause());
 
                 }
             });
         }
-
-        view.setEnabled(true);
     }
 
     private void sendToMain() {
