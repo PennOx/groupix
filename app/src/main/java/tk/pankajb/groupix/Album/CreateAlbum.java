@@ -2,6 +2,7 @@ package tk.pankajb.groupix.Album;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,10 +20,15 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.UploadTask;
+import com.theartofdev.edmodo.cropper.CropImage;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import id.zelory.compressor.Compressor;
 import tk.pankajb.groupix.DataStore;
 import tk.pankajb.groupix.R;
 
@@ -42,6 +48,8 @@ public class CreateAlbum extends AppCompatActivity {
     String albumCoverLink;
     DataStore AppData = new DataStore();
     private ProgressDialog createAlbumProgressBar;
+
+    byte[] croppedImageBytes = null;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,8 +86,34 @@ public class CreateAlbum extends AppCompatActivity {
 
         if (requestCode == ADD_COVER_REQUEST && resultCode == RESULT_OK) {
             albumCoverUri = data.getData();
+            CropImage.activity(albumCoverUri).setAspectRatio(2, 1).start(this);
             addCoverBtn.setVisibility(View.GONE);
-            Glide.with(this).load(albumCoverUri).into(albumCoverImg);
+        }
+
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+
+            Uri croppedImageUri = result.getUri();
+            Glide.with(this).load(croppedImageUri).into(albumCoverImg);
+            File croppedImageFile = new File(croppedImageUri.getPath());
+
+            try {
+                Bitmap compressedImageBitmap = new Compressor(this)
+                        .setMaxHeight(200)
+                        .setMaxWidth(200)
+                        .setQuality(50)
+                        .compressToBitmap(croppedImageFile);
+
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                compressedImageBitmap.compress(Bitmap.CompressFormat.PNG, 50, baos);
+                croppedImageBytes = baos.toByteArray();
+
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            albumCoverUri = null;
         }
     }
 
@@ -117,7 +151,7 @@ public class CreateAlbum extends AppCompatActivity {
                 createAlbumProgressBar.show();
 
                 UploadTask AlbumCoverUpload = AppData.getAlbumsStorageRef().child(AppData.getCurrentUserId()).child(String.valueOf(ALBUM_ID))
-                        .child("coverimg").putFile(albumCoverUri);
+                        .child("coverimg").putBytes(croppedImageBytes);
 
                 AlbumCoverUpload.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                     @Override
