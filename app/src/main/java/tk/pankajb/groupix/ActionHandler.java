@@ -3,7 +3,6 @@ package tk.pankajb.groupix;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -43,7 +42,7 @@ public class ActionHandler {
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
-            public void onFailure(@NonNull Exception e) {
+            public void onFailure(Exception e) {
                 Log.e("ImageDownload", "Image not downloaded with error code " + e);
 
                 Toast.makeText(context, "Image not downloaded successfully", Toast.LENGTH_LONG).show();
@@ -74,7 +73,7 @@ public class ActionHandler {
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public void onFailure(@NonNull Exception e) {
+                    public void onFailure(Exception e) {
                         Log.e("ImageDownload", "Image not downloaded with error code " + e);
                         Toast.makeText(context, "Image not downloaded successfully", Toast.LENGTH_LONG).show();
                     }
