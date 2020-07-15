@@ -82,7 +82,7 @@ public class HomeActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String CurrentUserProfileThumb = dataSnapshot.child("ProfileThumbImage").getValue(String.class);
                 if (!CurrentUserProfileThumb.equals("default")) {
-                    Glide.with(HomeActivity.this).load(CurrentUserProfileThumb).into(userProf);
+                    Glide.with(getApplicationContext()).load(CurrentUserProfileThumb).into(userProf);
                 }
             }
 
@@ -119,7 +119,7 @@ public class HomeActivity extends AppCompatActivity {
                     AppData.getImagesStorageRef().child(AppData.getCurrentUserId()).child(String.valueOf(ImageId)).child("image").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            AppData.getImagesDataRef().child(AppData.getCurrentUserId()).child(String.valueOf(ImageId)).child("image.jpg").setValue(uri.getPath());
+                            AppData.getImagesDataRef().child(AppData.getCurrentUserId()).child(String.valueOf(ImageId)).child("image").setValue(uri.toString());
                             AppData.getImagesDataRef().child("AllImages").child(ImageId.toString()).setValue(AppData.getCurrentUserId());
                             ImageUploadProgressBar.dismiss();
                         }

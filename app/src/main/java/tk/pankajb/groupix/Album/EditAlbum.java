@@ -215,25 +215,31 @@ public class EditAlbum extends AppCompatActivity {
                 AlbumCoverUpload.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        albumCoverLink = AppData.getAlbumsStorageRef().child(AppData.getCurrentUserId()).child(String.valueOf(albumId))
-                                .child("coverimg").getDownloadUrl().toString();
-
-                        Map NewAlbumMap = new HashMap<>();
-                        NewAlbumMap.put(AppData.getCurrentUserId() + "/" + albumId + "/name", albumName);
-                        NewAlbumMap.put(AppData.getCurrentUserId() + "/" + albumId + "/description", albumDesc);
-                        NewAlbumMap.put(AppData.getCurrentUserId() + "/" + albumId + "/coverimg", albumCoverLink);
-
-                        AppData.getAlbumsDataRef().updateChildren(NewAlbumMap).addOnSuccessListener(new OnSuccessListener() {
+                        AppData.getAlbumsStorageRef().child(AppData.getCurrentUserId()).child(String.valueOf(albumId))
+                                .child("coverimg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
-                            public void onSuccess(Object o) {
-                                close(null);
+                            public void onSuccess(Uri uri) {
+
+                                Map<String, Object> NewAlbumMap = new HashMap<>();
+                                NewAlbumMap.put(AppData.getCurrentUserId() + "/" + albumId + "/name", albumName);
+                                NewAlbumMap.put(AppData.getCurrentUserId() + "/" + albumId + "/description", albumDesc);
+                                NewAlbumMap.put(AppData.getCurrentUserId() + "/" + albumId + "/coverimg", uri.toString());
+
+                                AppData.getAlbumsDataRef().updateChildren(NewAlbumMap).addOnSuccessListener(new OnSuccessListener() {
+                                    @Override
+                                    public void onSuccess(Object o) {
+                                        close(null);
+                                    }
+                                });
                             }
                         });
+
+
                     }
                 });
             } else {
 
-                Map NewAlbumMap = new HashMap<>();
+                Map<String, Object> NewAlbumMap = new HashMap<>();
                 NewAlbumMap.put(AppData.getCurrentUserId() + "/" + albumId + "/name", albumName);
                 NewAlbumMap.put(AppData.getCurrentUserId() + "/" + albumId + "/description", albumDesc);
 

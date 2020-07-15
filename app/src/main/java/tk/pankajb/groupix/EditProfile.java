@@ -118,18 +118,20 @@ public class EditProfile extends AppCompatActivity {
                     AppData.getUsersStorageRef().child(AppData.getCurrentUserId()).child("Thumb_Profile.jpg").putBytes(thumb_image_byte).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            final String Thumb_ImageURL = AppData.getUsersStorageRef().child(AppData.getCurrentUserId()).child("Thumb_Profile.jpg").getDownloadUrl().toString();
+                            AppData.getUsersStorageRef().child(AppData.getCurrentUserId()).child("Thumb_Profile.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    AppData.getUsersDataRef().child(AppData.getCurrentUserId()).child("ProfileThumbImage").setValue(uri.toString());
 
-                            AppData.getUsersDataRef().child(AppData.getCurrentUserId()).child("ProfileThumbImage").setValue(Thumb_ImageURL);
-
-                            mUploadingImageProgress.dismiss();
+                                    mUploadingImageProgress.dismiss();
+                                }
+                            });
                         }
                     });
 
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }
         }
     }

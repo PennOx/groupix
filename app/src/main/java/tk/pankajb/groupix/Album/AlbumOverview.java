@@ -167,12 +167,15 @@ public class AlbumOverview extends AppCompatActivity {
             OriginalImageUpload.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    String OriginalImageUrl = AppData.getAlbumsStorageRef().child(AppData.getCurrentUserId()).child(AlbumId).child("images").child(String.valueOf(NewImageId)).child("image").getDownloadUrl().toString();
+                    AppData.getAlbumsStorageRef().child(AppData.getCurrentUserId()).child(AlbumId).child("images").child(String.valueOf(NewImageId)).child("image").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            AppData.getAlbumsDataRef().child(AppData.getCurrentUserId()).child(AlbumId).child("images").child(String.valueOf(NewImageId)).child("image").setValue(uri.toString());
+                            AppData.getAlbumsDataRef().child("AllImages").child(String.valueOf(NewImageId)).setValue(AppData.getCurrentUserId());
 
-                    AppData.getAlbumsDataRef().child(AppData.getCurrentUserId()).child(AlbumId).child("images").child(String.valueOf(NewImageId)).child("image").setValue(OriginalImageUrl);
-                    AppData.getAlbumsDataRef().child("AllImages").child(String.valueOf(NewImageId)).setValue(AppData.getCurrentUserId());
-
-                    uploadingImageDialog.dismiss();
+                            uploadingImageDialog.dismiss();
+                        }
+                    });
                 }
             });
 

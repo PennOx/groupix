@@ -106,6 +106,7 @@ public class ActionHandler {
         DisplayImage.putExtra("Type", "Single");
         DisplayImage.putExtra("ImageId", ImageId);
         DisplayImage.putExtra("OwnerId", OwnerId);
+        DisplayImage.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(DisplayImage);
     }
 
@@ -115,6 +116,7 @@ public class ActionHandler {
         DisplayImage.putExtra("AlbumId", AlbumId);
         DisplayImage.putExtra("ImageId", ImageId);
         DisplayImage.putExtra("OwnerId", OwnerId);
+        DisplayImage.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(DisplayImage);
     }
 

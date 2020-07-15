@@ -27,7 +27,6 @@ public class Images extends Fragment {
     public Images() {
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
