@@ -15,4 +15,6 @@
     <color name="mtrl_indicator_text_color" tools:override="true">#75ffffff</color>
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#fff</color>
 
+    <color name="TextInputLayout_Hint_Light">#75ffffff</color>
+
 </resources>

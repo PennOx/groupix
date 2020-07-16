@@ -56,8 +56,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:background="@drawable/shape_custom_edittext_inverted"
         android:padding="3dp"
+        style="@style/TextInputLayout_Dark"
+        android:hint="Album Name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,10 +69,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
-            android:backgroundTint="@android:color/white"
-            android:hint="Album Name"
             android:padding="6dp"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textColor="@color/primaryColor" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
