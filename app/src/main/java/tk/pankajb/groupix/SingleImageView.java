@@ -177,7 +177,7 @@ public class SingleImageView extends AppCompatActivity {
             AppAction.DeleteSingleImage(ImageId, OwnerId);
             finish();
         } else if (Type.equals("Album")) {
-            AppAction.DeleteSingleImage(AlbumId, ImageId, OwnerId);
+            AppAction.DeleteSingleImage(ImageId, OwnerId, AlbumId);
             finish();
         }
 
@@ -188,7 +188,7 @@ public class SingleImageView extends AppCompatActivity {
         if (Type.equals("Single")) {
             AppAction.DownloadSingleImage(ImageId, OwnerId);
         } else if (Type.equals("Album")) {
-            AppAction.DownloadSingleImage(AlbumId, ImageId, OwnerId);
+            AppAction.DownloadSingleImage(ImageId, OwnerId, AlbumId);
         }
     }
 }

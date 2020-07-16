@@ -233,8 +233,6 @@ public class EditAlbum extends AppCompatActivity {
                                 });
                             }
                         });
-
-
                     }
                 });
             } else {
@@ -302,7 +300,7 @@ public class EditAlbum extends AppCompatActivity {
     }
 
     public void editCover(View view) {
-        // TODO edit Album cover
+
         Intent editAlbumCoverGalleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(editAlbumCoverGalleryIntent, ADD_ALBUM_COVER_REQUEST);
     }

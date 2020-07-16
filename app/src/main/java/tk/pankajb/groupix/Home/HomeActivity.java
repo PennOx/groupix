@@ -4,27 +4,21 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.UploadTask;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import tk.pankajb.groupix.ActionHandler;
 import tk.pankajb.groupix.Album.CreateAlbum;
 import tk.pankajb.groupix.DataStore;
 import tk.pankajb.groupix.EditProfile;
@@ -32,6 +26,8 @@ import tk.pankajb.groupix.R;
 
 
 public class HomeActivity extends AppCompatActivity {
+
+    private final short SINGLE_IMAGE_UPLOAD_REQUEST = 1;
 
     Toolbar mToolBar;
     CircleImageView userProf;
@@ -41,10 +37,8 @@ public class HomeActivity extends AppCompatActivity {
 
     ProgressDialog ImageUploadProgressBar;
 
-    Long ImageId;
-    Uri InputImage;
-
     DataStore AppData = new DataStore();
+    ActionHandler handler = new ActionHandler(HomeActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,46 +91,10 @@ public class HomeActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 1 & resultCode == RESULT_OK) {
-            InputImage = data.getData();
+        if (requestCode == SINGLE_IMAGE_UPLOAD_REQUEST & resultCode == RESULT_OK) {
+            Uri inputImage = data.getData();
 
-            ImageId = System.currentTimeMillis();
-
-            ImageUploadProgressBar.show();
-
-            UploadTask OriginalImageUpload = AppData.getImagesStorageRef().child(AppData.getCurrentUserId()).child(String.valueOf(ImageId)).child("image").putFile(InputImage);
-
-            OriginalImageUpload.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                    long ProgressDone = 100 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount();
-                    ImageUploadProgressBar.setMessage("Uploading Image " + ProgressDone + "%");
-                }
-            });
-            OriginalImageUpload.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    AppData.getImagesStorageRef().child(AppData.getCurrentUserId()).child(String.valueOf(ImageId)).child("image").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            AppData.getImagesDataRef().child(AppData.getCurrentUserId()).child(String.valueOf(ImageId)).child("image").setValue(uri.toString());
-                            AppData.getImagesDataRef().child("AllImages").child(ImageId.toString()).setValue(AppData.getCurrentUserId());
-                            ImageUploadProgressBar.dismiss();
-                        }
-                    });
-
-
-                }
-            });
-
-            OriginalImageUpload.addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(HomeActivity.this, "Image upload failed", Toast.LENGTH_SHORT).show();
-
-                    Log.e("Image Upload Error", e.toString());
-                }
-            });
+            handler.uploadSingleImage(AppData.getCurrentUserId(), inputImage);
         }
     }
 
@@ -164,7 +122,7 @@ public class HomeActivity extends AppCompatActivity {
     private void addSingleImage() {
 
         Intent addSingleImageGalleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(addSingleImageGalleryIntent, 1);
+        startActivityForResult(addSingleImageGalleryIntent, SINGLE_IMAGE_UPLOAD_REQUEST);
     }
 
     private void SendToEditProfile() {
