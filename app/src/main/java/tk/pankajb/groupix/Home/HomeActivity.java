@@ -24,7 +24,6 @@ import tk.pankajb.groupix.DataStore;
 import tk.pankajb.groupix.EditProfile;
 import tk.pankajb.groupix.R;
 
-
 public class HomeActivity extends AppCompatActivity {
 
     private final short SINGLE_IMAGE_UPLOAD_REQUEST = 1;

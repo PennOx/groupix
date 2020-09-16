@@ -112,7 +112,7 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/lock"
             android:drawablePadding="10dp"
-            android:inputType="textEmailAddress"
+            android:inputType="textPassword"
             android:padding="10dp"
             android:singleLine="true"
             android:backgroundTint="@color/primaryColor"
