@@ -240,10 +240,6 @@ public class ActionHandler {
         });
     }
 
-    public void uploadAlbumCover() {
-
-    }
-
     public void DeleteSingleImage(String ImageId, String OwnerId) {
 
         AppData.getImagesDataRef().child(OwnerId).child(ImageId).setValue(null);
@@ -287,11 +283,8 @@ public class ActionHandler {
 
     void getStoragePermission() {
 
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            return;
-        } else {
-            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION);
-        }
+        ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION);
+
     }
 
 }

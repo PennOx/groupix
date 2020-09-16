@@ -100,8 +100,6 @@ public class SingleImageView extends AppCompatActivity {
 
                         }
                     });
-
-
                 }
 
                 @Override
@@ -184,7 +182,6 @@ public class SingleImageView extends AppCompatActivity {
             AppAction.DeleteSingleImage(ImageId, OwnerId, AlbumId);
             finish();
         }
-
     }
 
     public void downloadImage(View view) {
