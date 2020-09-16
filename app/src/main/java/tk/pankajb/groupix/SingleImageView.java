@@ -1,5 +1,6 @@
 package tk.pankajb.groupix;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -7,7 +8,9 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -37,6 +40,7 @@ public class SingleImageView extends AppCompatActivity {
 
     DataStore AppData = new DataStore();
     ActionHandler AppAction = new ActionHandler(SingleImageView.this);
+    final int STORAGE_PERMISSION = 11;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -189,6 +193,19 @@ public class SingleImageView extends AppCompatActivity {
             AppAction.DownloadSingleImage(ImageId, OwnerId);
         } else if (Type.equals("Album")) {
             AppAction.DownloadSingleImage(ImageId, OwnerId, AlbumId);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == STORAGE_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Permission Granted", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Permission denied", Toast.LENGTH_LONG).show();
+            }
         }
     }
 }

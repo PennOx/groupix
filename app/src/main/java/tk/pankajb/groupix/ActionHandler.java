@@ -1,8 +1,11 @@
 package tk.pankajb.groupix;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Environment;
@@ -10,6 +13,8 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -30,6 +35,7 @@ public class ActionHandler {
 
     Context context;
     DataStore AppData = new DataStore();
+    final int STORAGE_PERMISSION = 11;
 
     private File TemporaryFile;
 
@@ -38,6 +44,10 @@ public class ActionHandler {
     }
 
     public void DownloadSingleImage(final String ImageId, String OwnerId) {
+
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            getStoragePermission();
+        }
 
         File f = new File(Environment.getExternalStorageDirectory() + "/Groupix/");
         if (!f.exists()) {
@@ -62,6 +72,11 @@ public class ActionHandler {
     }
 
     public void DownloadSingleImage(final String AlbumId, final String ImageId, final String OwnerId) {
+
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            getStoragePermission();
+        }
+
         File f = new File(Environment.getExternalStorageDirectory() + "/Groupix/");
         if (!f.exists()) {
             f.mkdir();
@@ -269,4 +284,14 @@ public class ActionHandler {
         sendToStart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(sendToStart);
     }
+
+    void getStoragePermission() {
+
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            return;
+        } else {
+            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION);
+        }
+    }
+
 }
