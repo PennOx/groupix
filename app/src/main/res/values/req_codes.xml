@@ -3,4 +3,5 @@
     <integer name="STORAGE_PERMISSION">11</integer>
 
     <integer name="EDIT_PROFILE">21</integer>
+    <integer name="ADD_COVER">22</integer>
 </resources>

@@ -280,9 +280,9 @@ public class ActionHandler {
         context.startActivity(sendToStart);
     }
 
-    void getStoragePermission() {
+    private void getStoragePermission() {
 
-        ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, R.integer.STORAGE_PERMISSION);
+        ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, context.getResources().getInteger(R.integer.STORAGE_PERMISSION));
 
     }
 

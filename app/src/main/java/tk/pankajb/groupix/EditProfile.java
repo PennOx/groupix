@@ -71,7 +71,7 @@ public class EditProfile extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == R.integer.EDIT_PROFILE && resultCode == RESULT_OK) {
+        if (requestCode == getResources().getInteger(R.integer.EDIT_PROFILE) && resultCode == RESULT_OK) {
             Uri inputUri = data.getData();
             CropImage.activity(inputUri).setAspectRatio(1, 1).start(this);
         }
@@ -87,7 +87,7 @@ public class EditProfile extends AppCompatActivity {
 
     public void editProfileImage(View view) {
         Intent GalleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(GalleryIntent, R.integer.EDIT_PROFILE);
+        startActivityForResult(GalleryIntent, getResources().getInteger(R.integer.EDIT_PROFILE));
     }
 
     public void logOut(View button) {

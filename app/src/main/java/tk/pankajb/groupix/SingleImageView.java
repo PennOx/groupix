@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,36 +23,29 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SingleImageView extends AppCompatActivity {
 
-    Toolbar viewToolbar;
-    CircleImageView UserProfileImage;
-    TextView UserName;
-    TextView AlbumName;
-    ImageView ImageView;
-    ImageButton DownloadButton;
-    ImageButton DeleteButton;
-    ImageButton ShareButton;
+    private CircleImageView UserProfileImage;
+    private TextView UserName;
+    private TextView AlbumName;
+    private ImageView ImageView;
 
-    String ImageId;
-    String Type;
-    String AlbumId;
-    String OwnerId;
+    private String ImageId;
+    private String Type;
+    private String AlbumId;
+    private String OwnerId;
 
-    DataStore AppData = new DataStore();
-    ActionHandler AppAction = new ActionHandler(SingleImageView.this);
+    private DataStore AppData = new DataStore();
+    private ActionHandler AppAction = new ActionHandler(SingleImageView.this);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.single_image_view);
 
-        viewToolbar = findViewById(R.id.SingleImageView_Toolbar);
+        Toolbar viewToolbar = findViewById(R.id.SingleImageView_Toolbar);
         UserProfileImage = findViewById(R.id.SingleImageview_UserProfileImage);
         UserName = findViewById(R.id.SingleImageview_UserName_Text);
         AlbumName = findViewById(R.id.SingleImageview_ImageAlbum_Text);
         ImageView = findViewById(R.id.SingleImageView_Image);
-        DownloadButton = findViewById(R.id.SingleImageView_DownlaodButton);
-        DeleteButton = findViewById(R.id.SingleImageView_DeleteButton);
-        ShareButton = findViewById(R.id.SingleImageView_ShareButton);
 
         ImageId = getIntent().getStringExtra("ImageId");
         Type = getIntent().getStringExtra("Type");

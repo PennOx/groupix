@@ -34,7 +34,6 @@ import tk.pankajb.groupix.R;
 
 public class CreateAlbum extends AppCompatActivity {
 
-    final private short ADD_COVER_REQUEST = 1;
     final private long ALBUM_ID = System.currentTimeMillis();
 
     Toolbar createAlbumToolbar;
@@ -84,7 +83,7 @@ public class CreateAlbum extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == ADD_COVER_REQUEST && resultCode == RESULT_OK) {
+        if (requestCode == getResources().getInteger(R.integer.ADD_COVER) && resultCode == RESULT_OK) {
             albumCoverUri = data.getData();
             CropImage.activity(albumCoverUri).setAspectRatio(2, 1).start(this);
             addCoverBtn.setVisibility(View.GONE);
@@ -206,7 +205,7 @@ public class CreateAlbum extends AppCompatActivity {
 
     public void addCover(View view) {
         Intent addAlbumCoverGalleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(addAlbumCoverGalleryIntent, ADD_COVER_REQUEST);
+        startActivityForResult(addAlbumCoverGalleryIntent, getResources().getInteger(R.integer.ADD_COVER));
     }
 
 }
