@@ -21,34 +21,28 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class EditProfile extends AppCompatActivity {
 
-    final private short EDIT_PROFILE_IMAGE_REQUEST = 1;
+    private TextView UserNameText;
+    private TextView UserEmailText;
+    private CircleImageView ProfileImg;
 
-    Toolbar EditProfileToolbar;
-
-    TextView UserNameText;
-    TextView UserDescText;
-    TextView UserEmailText;
-    CircleImageView ProfileImg;
-    ImageButton EditProfileBtn;
-
-    DataStore AppData = new DataStore();
-    ActionHandler handler = new ActionHandler(EditProfile.this);
+    private DataStore AppData = new DataStore();
+    private ActionHandler handler = new ActionHandler(EditProfile.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
 
-        EditProfileToolbar = findViewById(R.id.EditProfile_Toolbar);
-        setSupportActionBar(EditProfileToolbar);
+        Toolbar editProfileToolbar = findViewById(R.id.EditProfile_Toolbar);
+        setSupportActionBar(editProfileToolbar);
         getSupportActionBar().setTitle("Profile");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ProfileImg = findViewById(R.id.EditProfile_UserImage);
         UserNameText = findViewById(R.id.EditProfile_UserName);
-        UserDescText = findViewById(R.id.EditProfile_Desc);
+        TextView userDescText = findViewById(R.id.EditProfile_Desc);
         UserEmailText = findViewById(R.id.EditProfile_UserEmail);
-        EditProfileBtn = findViewById(R.id.EditProfile_EditProfileButtonImage);
+        ImageButton editProfileBtn = findViewById(R.id.EditProfile_EditProfileButtonImage);
 
         AppData.getUsersDataRef().child(AppData.getCurrentUserId()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -77,7 +71,7 @@ public class EditProfile extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == EDIT_PROFILE_IMAGE_REQUEST && resultCode == RESULT_OK) {
+        if (requestCode == R.integer.EDIT_PROFILE && resultCode == RESULT_OK) {
             Uri inputUri = data.getData();
             CropImage.activity(inputUri).setAspectRatio(1, 1).start(this);
         }
@@ -93,7 +87,7 @@ public class EditProfile extends AppCompatActivity {
 
     public void editProfileImage(View view) {
         Intent GalleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(GalleryIntent, EDIT_PROFILE_IMAGE_REQUEST);
+        startActivityForResult(GalleryIntent, R.integer.EDIT_PROFILE);
     }
 
     public void logOut(View button) {

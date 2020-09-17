@@ -33,9 +33,8 @@ import id.zelory.compressor.Compressor;
 
 public class ActionHandler {
 
-    Context context;
-    DataStore AppData = new DataStore();
-    final int STORAGE_PERMISSION = 11;
+    private Context context;
+    private DataStore AppData = new DataStore();
 
     private File TemporaryFile;
 
@@ -283,7 +282,7 @@ public class ActionHandler {
 
     void getStoragePermission() {
 
-        ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, STORAGE_PERMISSION);
+        ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, R.integer.STORAGE_PERMISSION);
 
     }
 
