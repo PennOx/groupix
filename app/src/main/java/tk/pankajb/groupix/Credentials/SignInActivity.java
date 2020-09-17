@@ -29,9 +29,9 @@ public class SignInActivity extends AppCompatActivity {
     private EditText UserPass;
     private Button signInBtn;
 
-    ProgressDialog signInProgressDialog;
+    private ProgressDialog signInProgressDialog;
 
-    DataStore AppData = new DataStore();
+    private DataStore AppData = new DataStore();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

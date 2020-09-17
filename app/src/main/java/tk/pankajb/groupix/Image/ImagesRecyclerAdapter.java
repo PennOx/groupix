@@ -21,9 +21,8 @@ import tk.pankajb.groupix.R;
 
 public class ImagesRecyclerAdapter extends FirebaseRecyclerAdapter<ImageDataModel, ImagesRecyclerAdapter.ImagesHolder> {
 
-    ActionHandler AppAction;
+    private ActionHandler AppAction;
     private Context currentContext;
-    private Dialog SingleImageViewingDialog;
     private String albumId = "";
     private String OwnerId = null;
 
@@ -68,10 +67,10 @@ public class ImagesRecyclerAdapter extends FirebaseRecyclerAdapter<ImageDataMode
     public ImagesHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View SingleImageLayout = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_image, parent, false);
 
-        SingleImageViewingDialog = new Dialog(currentContext, android.R.style.Theme_Black_NoTitleBar);
-        SingleImageViewingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(100, 0, 0, 0)));
-        SingleImageViewingDialog.setContentView(R.layout.single_image_view);
-        SingleImageViewingDialog.setCancelable(false);
+        Dialog singleImageViewingDialog = new Dialog(currentContext, android.R.style.Theme_Black_NoTitleBar);
+        singleImageViewingDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.argb(100, 0, 0, 0)));
+        singleImageViewingDialog.setContentView(R.layout.single_image_view);
+        singleImageViewingDialog.setCancelable(false);
 
         return new ImagesHolder(SingleImageLayout);
     }

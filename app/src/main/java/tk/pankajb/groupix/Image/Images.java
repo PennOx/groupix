@@ -18,14 +18,9 @@ import tk.pankajb.groupix.R;
 
 public class Images extends Fragment {
 
-    RecyclerView ImagesRecycler;
+    private FirebaseRecyclerAdapter ImagesAdapter;
 
-    FirebaseRecyclerAdapter ImagesAdapter;
-
-    DataStore AppData = new DataStore();
-
-    public Images() {
-    }
+    private DataStore AppData = new DataStore();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,13 +31,13 @@ public class Images extends Fragment {
 
         FirebaseRecyclerOptions<tk.pankajb.groupix.Image.ImageDataModel> ImagesOptions = new FirebaseRecyclerOptions.Builder<tk.pankajb.groupix.Image.ImageDataModel>().setQuery(ImagesQuery, ImageDataModel.class).build();
 
-        ImagesRecycler = view.findViewById(R.id.Images_Recycler);
-        ImagesRecycler.setHasFixedSize(true);
-        ImagesRecycler.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        RecyclerView imagesRecycler = view.findViewById(R.id.Images_Recycler);
+        imagesRecycler.setHasFixedSize(true);
+        imagesRecycler.setLayoutManager(new GridLayoutManager(getContext(), 3));
 
         ImagesAdapter = new ImagesRecyclerAdapter(ImagesOptions, getContext(), AppData.getCurrentUserId());
 
-        ImagesRecycler.setAdapter(ImagesAdapter);
+        imagesRecycler.setAdapter(ImagesAdapter);
 
         return view;
     }

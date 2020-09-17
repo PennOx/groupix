@@ -27,15 +27,15 @@ import tk.pankajb.groupix.R;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    Toolbar SignUpToolbar;
-    EditText NewUserName;
-    EditText NewUserMail;
-    EditText NewUserPass;
-    EditText NewUserLastName;
-    Button signUpBtn;
+    private Toolbar SignUpToolbar;
+    private EditText NewUserName;
+    private EditText NewUserMail;
+    private EditText NewUserPass;
+    private EditText NewUserLastName;
+    private Button signUpBtn;
 
-    DataStore AppData = new DataStore();
-    ProgressDialog signUpProgressDialog;
+    private DataStore AppData = new DataStore();
+    private ProgressDialog signUpProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

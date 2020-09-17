@@ -7,8 +7,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class SplashScreen extends AppCompatActivity {
 
-     DataStore AppData = new DataStore();
-    ActionHandler handler = new ActionHandler(SplashScreen.this);
+    private DataStore AppData = new DataStore();
+    private ActionHandler handler = new ActionHandler(SplashScreen.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

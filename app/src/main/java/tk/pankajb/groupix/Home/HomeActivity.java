@@ -11,7 +11,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,28 +27,25 @@ public class HomeActivity extends AppCompatActivity {
 
     private final short SINGLE_IMAGE_UPLOAD_REQUEST = 1;
 
-    Toolbar mToolBar;
-    CircleImageView userProf;
-    FloatingActionButton AddBtn;
-    TabLayout mTabLayout;
-    ViewPager mViewPager;
+    private CircleImageView userProf;
+    private TabLayout mTabLayout;
+    private ViewPager mViewPager;
 
-    ProgressDialog ImageUploadProgressBar;
+    private ProgressDialog ImageUploadProgressBar;
 
-    DataStore AppData = new DataStore();
-    ActionHandler handler = new ActionHandler(HomeActivity.this);
+    private DataStore AppData = new DataStore();
+    private ActionHandler handler = new ActionHandler(HomeActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        mToolBar = findViewById(R.id.Home_Toolbar);
+        Toolbar mToolBar = findViewById(R.id.Home_Toolbar);
         setSupportActionBar(mToolBar);
         getSupportActionBar().setTitle(R.string.app_name);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         userProf = findViewById(R.id.Home_Toolbar_Image);
-        AddBtn = findViewById(R.id.MainAddButton);
 
         mViewPager = findViewById(R.id.Home_ViewPager);
         SectionAdapter mSectionAdapter = new SectionAdapter(getSupportFragmentManager());
@@ -86,17 +82,6 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == SINGLE_IMAGE_UPLOAD_REQUEST & resultCode == RESULT_OK) {
-            Uri inputImage = data.getData();
-
-            handler.uploadSingleImage(AppData.getCurrentUserId(), inputImage);
-        }
-    }
-
     public void addBtnClicked(View view) {
 
         switch (mTabLayout.getSelectedTabPosition()) {
@@ -127,5 +112,16 @@ public class HomeActivity extends AppCompatActivity {
     private void SendToEditProfile() {
         Intent EditProfileIntent = new Intent(HomeActivity.this, EditProfile.class);
         startActivity(EditProfileIntent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == SINGLE_IMAGE_UPLOAD_REQUEST & resultCode == RESULT_OK) {
+            Uri inputImage = data.getData();
+
+            handler.uploadSingleImage(AppData.getCurrentUserId(), inputImage);
+        }
     }
 }
