@@ -8,12 +8,21 @@
     <string name="LastName_Required">Last name required</string>
 
     <string name="Invalid_Password">Invalid password</string>
-
     <string name="Password_Length">Password must be 6 characters long</string>
     <string name="Verification_Mail_Sent">Email verification link is sent to your provided email. Please verify your email and sign in to your account.</string>
+
+    <!--    Default values-->
     <string name="DEFAULT_USER_PROFILE_THUMB">default</string>
     <string name="Default_Album_Cover">default</string>
     <string name="Default_Album_Desc">No Description</string>
 
+    <!--    Intent extra keys-->
+    <string name="IMAGE_ID_INTENT">ImageId</string>
+    <string name="IMAGE_TYPE_INTENT">Type</string>
+    <string name="IMAGE_ALBUM_ID_INTENT">AlbumId</string>
+    <string name="IMAGE_OWNER_ID_INTENT">OwnerId</string>
 
+    <!--    Image type values-->
+    <string name="SINGLE_IMAGE">Single</string>
+    <string name="ALBUM_IMAGE">Album</string>
 </resources>

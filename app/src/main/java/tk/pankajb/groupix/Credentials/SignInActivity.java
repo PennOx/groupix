@@ -110,7 +110,7 @@ public class SignInActivity extends AppCompatActivity {
 
     private void reSendVerification() {
 
-        AppData.Auth.getCurrentUser().sendEmailVerification();
+        AppData.getCurrentUser().sendEmailVerification();
         AlertDialog.Builder builder2 = new AlertDialog.Builder(SignInActivity.this);
         AppData.Auth.signOut();
         builder2.setMessage(R.string.Verification_Mail_Sent);
