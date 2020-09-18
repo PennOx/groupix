@@ -137,7 +137,7 @@ public class ActionHandler {
                     AppData.getUsersStorageRef().child(AppData.getCurrentUserId()).child("Thumb_Profile.jpg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                         @Override
                         public void onSuccess(Uri uri) {
-                            AppData.getUsersDataRef().child(AppData.getCurrentUserId()).child("ProfileThumbImage").setValue(uri.toString());
+                            AppData.getUsersDataRef().child(AppData.getCurrentUserId()).child("profileThumbImage").setValue(uri.toString());
 
                             progress.dismiss();
                         }

@@ -29,15 +29,7 @@ public class AlbumsDataModel {
         return coverimg;
     }
 
-    public void setCoverimg(String coverimg) {
-        this.coverimg = coverimg;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 }

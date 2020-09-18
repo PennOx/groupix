@@ -2,6 +2,7 @@ package tk.pankajb.groupix;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -57,7 +58,6 @@ public class SingleImageView extends AppCompatActivity {
 
 
         if (Type.equals("Single")) {
-            AlbumId = getIntent().getStringExtra("AlbumId");
             AlbumName.setVisibility(View.GONE);
 
             AppData.getImagesDataRef().child("AllImages").child(ImageId).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -69,9 +69,9 @@ public class SingleImageView extends AppCompatActivity {
                     AppData.getUsersDataRef().child(OwnerId).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            String userName = dataSnapshot.child("Name").getValue(String.class) + " " + dataSnapshot.child("LastName").getValue(String.class);
+                            String userName = dataSnapshot.child("name").getValue(String.class) + " " + dataSnapshot.child("lastName").getValue(String.class);
                             UserName.setText(userName);
-                            Glide.with(getApplicationContext()).load((String) dataSnapshot.child("ProfileThumbImage").getValue(String.class)).into(UserProfileImage);
+                            Glide.with(getApplicationContext()).load((String) dataSnapshot.child("profileThumbImage").getValue(String.class)).into(UserProfileImage);
                         }
 
                         @Override
@@ -102,18 +102,21 @@ public class SingleImageView extends AppCompatActivity {
         } else if (Type.equals("Album")) {
             AlbumName.setVisibility(View.VISIBLE);
             AlbumId = getIntent().getStringExtra("AlbumId");
-
+            Log.d("Image id", "Image id is - " + ImageId);
             AppData.getAlbumsDataRef().child("AllImages").child(ImageId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    OwnerId = (String) dataSnapshot.getValue();
+
+                    OwnerId = dataSnapshot.getValue(String.class);
+
+                    Log.d("OwnerId", "id is:- " + dataSnapshot.exists());
 
                     AppData.getUsersDataRef().child(OwnerId).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            String userName = dataSnapshot.child("Name").getValue() + " " + dataSnapshot.child("LastName").getValue();
+                            String userName = dataSnapshot.child("name").getValue() + " " + dataSnapshot.child("lastName").getValue();
                             UserName.setText(userName);
-                            Glide.with(getApplicationContext()).load((String) dataSnapshot.child("ProfileThumbImage").getValue()).into(UserProfileImage);
+                            Glide.with(getApplicationContext()).load((String) dataSnapshot.child("profileThumbImage").getValue()).into(UserProfileImage);
                         }
 
                         @Override

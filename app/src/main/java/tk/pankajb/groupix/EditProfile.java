@@ -35,7 +35,7 @@ public class EditProfile extends AppCompatActivity {
 
         Toolbar editProfileToolbar = findViewById(R.id.EditProfile_Toolbar);
         setSupportActionBar(editProfileToolbar);
-        getSupportActionBar().setTitle("Profile");
+        getSupportActionBar().setTitle(getString(R.string.EDIT_PROFILE_TITLE));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ProfileImg = findViewById(R.id.EditProfile_UserImage);
@@ -48,14 +48,13 @@ public class EditProfile extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                String ProfileThumbImage = dataSnapshot.child("ProfileThumbImage").getValue(String.class);
-                String userName = AppData.getCurrentUser().getDisplayName() + " " + dataSnapshot.child("LastName").getValue(String.class);
-                UserNameText.setText(userName);
-                UserEmailText.setText(AppData.getCurrentUser().getEmail());
+                User currentUser = dataSnapshot.getValue(User.class);
 
-                assert ProfileThumbImage != null;
-                if (!ProfileThumbImage.equals("default")) {
-                    Glide.with(EditProfile.this).load(ProfileThumbImage).into(ProfileImg);
+                UserNameText.setText(currentUser.getFullName());
+                UserEmailText.setText(currentUser.geteMail());
+
+                if (!currentUser.getProfileThumbImage().equals(getString(R.string.DEFAULT_USER_PROFILE_THUMB))) {
+                    Glide.with(EditProfile.this).load(currentUser.getProfileThumbImage()).into(ProfileImg);
                 }
             }
 

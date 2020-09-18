@@ -69,8 +69,8 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String CurrentUserProfileThumb = dataSnapshot.child("ProfileThumbImage").getValue(String.class);
-                if (!CurrentUserProfileThumb.equals("default")) {
+                String CurrentUserProfileThumb = dataSnapshot.child("profileThumbImage").getValue(String.class);
+                if (!CurrentUserProfileThumb.equals(getString(R.string.DEFAULT_USER_PROFILE_THUMB))) {
                     Glide.with(getApplicationContext()).load(CurrentUserProfileThumb).into(userProf);
                 }
             }

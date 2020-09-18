@@ -93,12 +93,12 @@ public class SignUpActivity extends AppCompatActivity {
                     if (task.isSuccessful()) {
 
                         HashMap<String, String> userMap = new HashMap<>();
-                        userMap.put("Name", UserName);
-                        userMap.put("LastName", UserLastName);
-                        userMap.put("Email", UserMail);
-                        userMap.put("Pass", UserPass);
-                        userMap.put("ProfileThumbImage", "default");
-                        userMap.put("ProfileImage", "default");
+                        userMap.put("name", UserName);
+                        userMap.put("lastName", UserLastName);
+                        userMap.put("eMail", UserMail);
+                        userMap.put("pass", UserPass);
+                        userMap.put("profileThumbImage", "default");
+                        userMap.put("profileImage", "default");
 
                         UserProfileChangeRequest NewUserUpdates = new UserProfileChangeRequest.Builder().setDisplayName(UserName).build();
                         AppData.Auth.getCurrentUser().updateProfile(NewUserUpdates);

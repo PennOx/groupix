@@ -7,8 +7,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.util.Objects;
-
 public class DataStore {
 
     public FirebaseAuth Auth = FirebaseAuth.getInstance();
@@ -81,13 +79,6 @@ public class DataStore {
     public String getCurrentUserId() {
         if (this.getCurrentUser() != null) {
             this.tempString = this.CurrentUser.getUid();
-        }
-        return this.tempString;
-    }
-
-    public String getCurrentUserName() {
-        if (this.getCurrentUser() != null) {
-            this.tempString = Objects.requireNonNull(Auth.getCurrentUser()).getDisplayName();
         }
         return this.tempString;
     }

@@ -56,7 +56,7 @@ public class ImagesRecyclerAdapter extends FirebaseRecyclerAdapter<ImageDataMode
                 if (albumId.isEmpty()) {
                     AppAction.DisplaySingleImage(ImageId, OwnerId);
                 } else {
-                    AppAction.DisplaySingleImage(albumId, ImageId, OwnerId);
+                    AppAction.DisplaySingleImage(ImageId, OwnerId, albumId);
                 }
             }
         });
