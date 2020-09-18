@@ -23,13 +23,13 @@ import tk.pankajb.groupix.handlers.DataStore;
 
 public class SignInActivity extends AppCompatActivity {
 
-    private EditText UserEmail;
-    private EditText UserPass;
+    private EditText userEmail;
+    private EditText userPass;
     private Button signInBtn;
 
     private ProgressDialog signInProgressDialog;
 
-    private DataStore AppData = new DataStore();
+    private DataStore appData = new DataStore();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +40,8 @@ public class SignInActivity extends AppCompatActivity {
         setSupportActionBar(signInToolBar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        UserEmail = findViewById(R.id.SignInMail);
-        UserPass = findViewById(R.id.SignInPass);
+        userEmail = findViewById(R.id.SignInMail);
+        userPass = findViewById(R.id.SignInPass);
         signInBtn = findViewById(R.id.SignInSubmit);
     }
 
@@ -58,8 +58,8 @@ public class SignInActivity extends AppCompatActivity {
 
     public void signIn(View view) {
 
-        String userInputMail = UserEmail.getText().toString();
-        String userInputPass = UserPass.getText().toString();
+        String userInputMail = userEmail.getText().toString();
+        String userInputPass = userPass.getText().toString();
 
         if (userInputMail.isEmpty()) {
             Toast.makeText(SignInActivity.this, R.string.Email_Required, Toast.LENGTH_SHORT).show();
@@ -71,14 +71,14 @@ public class SignInActivity extends AppCompatActivity {
             signInProgressDialog.show();
             view.setEnabled(false);
 
-            AppData.Auth.signInWithEmailAndPassword(userInputMail, userInputPass).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+            appData.Auth.signInWithEmailAndPassword(userInputMail, userInputPass).addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                 @Override
                 public void onSuccess(AuthResult authResult) {
 
                     signInProgressDialog.dismiss();
                     signInBtn.setEnabled(true);
 
-                    if (!AppData.getCurrentUser().isEmailVerified()) {
+                    if (!appData.getCurrentUser().isEmailVerified()) {
                         reSendVerification();
                     } else {
                         sendToMain();
@@ -108,9 +108,9 @@ public class SignInActivity extends AppCompatActivity {
 
     private void reSendVerification() {
 
-        AppData.getCurrentUser().sendEmailVerification();
+        appData.getCurrentUser().sendEmailVerification();
         AlertDialog.Builder builder2 = new AlertDialog.Builder(SignInActivity.this);
-        AppData.Auth.signOut();
+        appData.Auth.signOut();
         builder2.setMessage(R.string.Verification_Mail_Sent);
         builder2.setCancelable(false);
         builder2.setPositiveButton(

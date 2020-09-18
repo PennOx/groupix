@@ -21,18 +21,14 @@ import tk.pankajb.groupix.Home.SectionAdapter;
 import tk.pankajb.groupix.album.CreateAlbum;
 import tk.pankajb.groupix.handlers.ActionHandler;
 import tk.pankajb.groupix.handlers.DataStore;
+import tk.pankajb.groupix.models.User;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private final short SINGLE_IMAGE_UPLOAD_REQUEST = 1;
-
     private CircleImageView userProf;
     private TabLayout mTabLayout;
-    private ViewPager mViewPager;
 
-    private ProgressDialog ImageUploadProgressBar;
-
-    private DataStore AppData = new DataStore();
+    private DataStore appData = new DataStore();
     private ActionHandler handler = new ActionHandler(HomeActivity.this);
 
     @Override
@@ -42,11 +38,11 @@ public class HomeActivity extends AppCompatActivity {
 
         Toolbar mToolBar = findViewById(R.id.Home_Toolbar);
         setSupportActionBar(mToolBar);
-        getSupportActionBar().setTitle(R.string.app_name);
+        getSupportActionBar().setTitle(R.string.HOME_TITLE);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
         userProf = findViewById(R.id.Home_Toolbar_Image);
 
-        mViewPager = findViewById(R.id.Home_ViewPager);
+        ViewPager mViewPager = findViewById(R.id.Home_ViewPager);
         SectionAdapter mSectionAdapter = new SectionAdapter(getSupportFragmentManager());
         mViewPager.setAdapter(mSectionAdapter);
 
@@ -55,8 +51,8 @@ public class HomeActivity extends AppCompatActivity {
         mTabLayout.getTabAt(0).setIcon(R.drawable.image);
         mTabLayout.getTabAt(1).setIcon(R.drawable.album);
 
-        ImageUploadProgressBar = new ProgressDialog(HomeActivity.this);
-        ImageUploadProgressBar.setTitle("Uploading Image");
+        ProgressDialog imageUploadProgressBar = new ProgressDialog(HomeActivity.this);
+        imageUploadProgressBar.setTitle(getString(R.string.UPLOAD_IMAGE_TITLE));
 
     }
 
@@ -64,13 +60,15 @@ public class HomeActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
 
-        AppData.getUsersDataRef().child(AppData.getCurrentUserId()).addValueEventListener(new ValueEventListener() {
+        appData.getUsersDataRef().child(appData.getCurrentUserId()).addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String CurrentUserProfileThumb = dataSnapshot.child("profileThumbImage").getValue(String.class);
-                if (!CurrentUserProfileThumb.equals(getString(R.string.DEFAULT_USER_PROFILE_THUMB))) {
-                    Glide.with(getApplicationContext()).load(CurrentUserProfileThumb).into(userProf);
+
+                User currentUser = dataSnapshot.getValue(User.class);
+
+                if (!currentUser.getProfileThumbImage().equals(getString(R.string.DEFAULT_USER_PROFILE_THUMB))) {
+                    Glide.with(getApplicationContext()).load(currentUser.getProfileThumbImage()).into(userProf);
                 }
             }
 
@@ -105,7 +103,7 @@ public class HomeActivity extends AppCompatActivity {
     private void addSingleImage() {
 
         Intent addSingleImageGalleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(addSingleImageGalleryIntent, SINGLE_IMAGE_UPLOAD_REQUEST);
+        startActivityForResult(addSingleImageGalleryIntent, getResources().getInteger(R.integer.ADD_IMAGE));
     }
 
     private void SendToEditProfile() {
@@ -117,10 +115,10 @@ public class HomeActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == SINGLE_IMAGE_UPLOAD_REQUEST & resultCode == RESULT_OK) {
+        if (requestCode == getResources().getInteger(R.integer.ADD_IMAGE) & resultCode == RESULT_OK) {
             Uri inputImage = data.getData();
 
-            handler.uploadSingleImage(AppData.getCurrentUserId(), inputImage);
+            handler.uploadSingleImage(appData.getCurrentUserId(), inputImage);
         }
     }
 }

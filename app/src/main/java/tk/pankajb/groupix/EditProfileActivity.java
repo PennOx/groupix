@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,11 +23,11 @@ import tk.pankajb.groupix.models.User;
 
 public class EditProfileActivity extends AppCompatActivity {
 
-    private TextView UserNameText;
-    private TextView UserEmailText;
-    private CircleImageView ProfileImg;
+    private TextView userNameText;
+    private TextView userEmailText;
+    private CircleImageView profileImg;
 
-    private DataStore AppData = new DataStore();
+    private DataStore appData = new DataStore();
     private ActionHandler handler = new ActionHandler(EditProfileActivity.this);
 
     @Override
@@ -41,23 +40,21 @@ public class EditProfileActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(getString(R.string.EDIT_PROFILE_TITLE));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ProfileImg = findViewById(R.id.EditProfile_UserImage);
-        UserNameText = findViewById(R.id.EditProfile_UserName);
-        TextView userDescText = findViewById(R.id.EditProfile_Desc);
-        UserEmailText = findViewById(R.id.EditProfile_UserEmail);
-        ImageButton editProfileBtn = findViewById(R.id.EditProfile_EditProfileButtonImage);
+        profileImg = findViewById(R.id.EditProfile_UserImage);
+        userNameText = findViewById(R.id.EditProfile_UserName);
+        userEmailText = findViewById(R.id.EditProfile_UserEmail);
 
-        AppData.getUsersDataRef().child(AppData.getCurrentUserId()).addValueEventListener(new ValueEventListener() {
+        appData.getUsersDataRef().child(appData.getCurrentUserId()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                 User currentUser = dataSnapshot.getValue(User.class);
 
-                UserNameText.setText(currentUser.getFullName());
-                UserEmailText.setText(currentUser.geteMail());
+                userNameText.setText(currentUser.getFullName());
+                userEmailText.setText(currentUser.geteMail());
 
                 if (!currentUser.getProfileThumbImage().equals(getString(R.string.DEFAULT_USER_PROFILE_THUMB))) {
-                    Glide.with(EditProfileActivity.this).load(currentUser.getProfileThumbImage()).into(ProfileImg);
+                    Glide.with(EditProfileActivity.this).load(currentUser.getProfileThumbImage()).into(profileImg);
                 }
             }
 

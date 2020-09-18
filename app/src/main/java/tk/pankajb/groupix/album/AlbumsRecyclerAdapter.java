@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,7 +23,7 @@ import tk.pankajb.groupix.models.Album;
 public class AlbumsRecyclerAdapter extends FirebaseRecyclerAdapter<Album, AlbumsRecyclerAdapter.AlbumsHolder> {
 
     Context currentContext;
-    DataStore AppData = new DataStore();
+    DataStore appData = new DataStore();
 
     public AlbumsRecyclerAdapter(@NonNull FirebaseRecyclerOptions<Album> options, Context CurrentContext) {
         super(options);
@@ -34,22 +33,20 @@ public class AlbumsRecyclerAdapter extends FirebaseRecyclerAdapter<Album, Albums
     @Override
     protected void onBindViewHolder(@NonNull final AlbumsHolder holder, int position, @NonNull final Album model) {
 
-        holder.AlbumName.setText(model.getName());
-        holder.AlbumDesc.setText(model.getDescription());
+        holder.albumName.setText(model.getName());
+        holder.albumDesc.setText(model.getDescription());
 
         if (!model.getCoverImage().equals(currentContext.getString(R.string.DEFAULT_ALBUM_COVER_IMAGE))) {
-            Glide.with(currentContext).load(model.getCoverImage()).into(holder.AlbumCover);
+            Glide.with(currentContext).load(model.getCoverImage()).into(holder.albumCover);
         }
 
-        holder.FullView.setOnClickListener(new View.OnClickListener() {
+        holder.fullView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent SendToAlbumOverview = new Intent(currentContext, AlbumOverviewActivity.class);
-                SendToAlbumOverview.putExtra("AlbumId", getRef(holder.getAdapterPosition()).getKey());
-                SendToAlbumOverview.putExtra("AlbumOwnerId", AppData.getCurrentUserId());
-                currentContext.startActivity(SendToAlbumOverview);
-
-                Toast.makeText(currentContext, "Touched", Toast.LENGTH_LONG).show();
+                Intent sendToAlbumOverview = new Intent(currentContext, AlbumOverviewActivity.class);
+                sendToAlbumOverview.putExtra(currentContext.getString(R.string.ALBUM_ID_INTENT), getRef(holder.getAdapterPosition()).getKey());
+                sendToAlbumOverview.putExtra(currentContext.getString(R.string.ALBUM_OWNER_ID_INTENT), appData.getCurrentUserId());
+                currentContext.startActivity(sendToAlbumOverview);
             }
         });
     }
@@ -63,18 +60,18 @@ public class AlbumsRecyclerAdapter extends FirebaseRecyclerAdapter<Album, Albums
 
     static class AlbumsHolder extends RecyclerView.ViewHolder {
 
-        TextView AlbumName;
-        TextView AlbumDesc;
-        ImageView AlbumCover;
-        View FullView;
+        TextView albumName;
+        TextView albumDesc;
+        ImageView albumCover;
+        View fullView;
 
         public AlbumsHolder(View itemView) {
             super(itemView);
-            FullView = itemView;
+            fullView = itemView;
 
-            AlbumName = itemView.findViewById(R.id.SingleAlbum_AlbumName);
-            AlbumDesc = itemView.findViewById(R.id.SingleAlbum_AlbumDesc);
-            AlbumCover = itemView.findViewById(R.id.SingleAlbum_AlbumCoverImg);
+            albumName = itemView.findViewById(R.id.SingleAlbum_AlbumName);
+            albumDesc = itemView.findViewById(R.id.SingleAlbum_AlbumDesc);
+            albumCover = itemView.findViewById(R.id.SingleAlbum_AlbumCoverImg);
         }
     }
 }

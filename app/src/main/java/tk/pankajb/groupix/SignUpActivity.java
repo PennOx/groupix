@@ -20,20 +20,18 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
-import java.util.HashMap;
-
 import tk.pankajb.groupix.handlers.DataStore;
+import tk.pankajb.groupix.handlers.Mapper;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private Toolbar SignUpToolbar;
-    private EditText NewUserName;
-    private EditText NewUserMail;
-    private EditText NewUserPass;
-    private EditText NewUserLastName;
+    private EditText newUserName;
+    private EditText newUserMail;
+    private EditText newUserPass;
+    private EditText newUserLastName;
     private Button signUpBtn;
 
-    private DataStore AppData = new DataStore();
+    private DataStore appData = new DataStore();
     private ProgressDialog signUpProgressDialog;
 
     @Override
@@ -41,14 +39,14 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        NewUserName = findViewById(R.id.SignUpName);
-        NewUserMail = findViewById(R.id.SignUpMail);
-        NewUserPass = findViewById(R.id.SignUpPass);
-        NewUserLastName = findViewById(R.id.SignUpLastName);
+        newUserName = findViewById(R.id.SignUpName);
+        newUserMail = findViewById(R.id.SignUpMail);
+        newUserPass = findViewById(R.id.SignUpPass);
+        newUserLastName = findViewById(R.id.SignUpLastName);
         signUpBtn = findViewById(R.id.SignUpSubmit);
 
-        SignUpToolbar = findViewById(R.id.SignUpToolBar);
-        setSupportActionBar(SignUpToolbar);
+        Toolbar signUpToolbar = findViewById(R.id.SignUpToolBar);
+        setSupportActionBar(signUpToolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
@@ -58,7 +56,7 @@ public class SignUpActivity extends AppCompatActivity {
         super.onStart();
 
         signUpProgressDialog = new ProgressDialog(SignUpActivity.this);
-        signUpProgressDialog.setTitle("Creating account");
+        signUpProgressDialog.setTitle(getString(R.string.SIGNUP_DIALOG_TITLE));
         signUpProgressDialog.setCanceledOnTouchOutside(false);
         signUpProgressDialog.setCancelable(false);
 
@@ -66,49 +64,43 @@ public class SignUpActivity extends AppCompatActivity {
 
     public void signUp(View view) {
 
+        final String userName = newUserName.getText().toString();
+        final String userLastName = newUserLastName.getText().toString();
+        final String userMail = newUserMail.getText().toString();
+        final String userPass = newUserPass.getText().toString();
 
-        final String UserName = NewUserName.getText().toString();
-        final String UserLastName = NewUserLastName.getText().toString();
-        final String UserMail = NewUserMail.getText().toString();
-        final String UserPass = NewUserPass.getText().toString();
-
-        if (UserName.isEmpty()) {
+        if (userName.isEmpty()) {
             Toast.makeText(SignUpActivity.this, R.string.Name_Required, Toast.LENGTH_LONG).show();
-        } else if (UserLastName.isEmpty()) {
+        } else if (userLastName.isEmpty()) {
             Toast.makeText(SignUpActivity.this, R.string.LastName_Required, Toast.LENGTH_LONG).show();
-        } else if (UserMail.isEmpty()) {
+        } else if (userMail.isEmpty()) {
             Toast.makeText(SignUpActivity.this, R.string.Email_Required, Toast.LENGTH_LONG).show();
-        } else if (UserPass.isEmpty()) {
+        } else if (userPass.isEmpty()) {
             Toast.makeText(SignUpActivity.this, R.string.Password_Required, Toast.LENGTH_LONG).show();
-        } else if (UserPass.length() <= 5) {
+        } else if (userPass.length() < 6) {
             Toast.makeText(SignUpActivity.this, R.string.Password_Length, Toast.LENGTH_LONG).show();
         } else {
             signUpProgressDialog.show();
             view.setEnabled(false);
 
-            AppData.Auth.createUserWithEmailAndPassword(UserMail, UserPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            appData.Auth.createUserWithEmailAndPassword(userMail, userPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
 
-                        HashMap<String, String> userMap = new HashMap<>();
-                        userMap.put("name", UserName);
-                        userMap.put("lastName", UserLastName);
-                        userMap.put("eMail", UserMail);
-                        userMap.put("pass", UserPass);
-                        userMap.put("profileThumbImage", "default");
-                        userMap.put("profileImage", "default");
+                        Mapper mapper = new Mapper(SignUpActivity.this);
 
-                        UserProfileChangeRequest NewUserUpdates = new UserProfileChangeRequest.Builder().setDisplayName(UserName).build();
-                        AppData.Auth.getCurrentUser().updateProfile(NewUserUpdates);
+                        UserProfileChangeRequest NewUserUpdates = new UserProfileChangeRequest.Builder().setDisplayName(userName).build();
+                        appData.Auth.getCurrentUser().updateProfile(NewUserUpdates);
 
-                        AppData.getUsersDataRef().child(AppData.getCurrentUserId()).setValue(userMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        appData.getUsersDataRef().child(appData.getCurrentUserId())
+                                .setValue(mapper.getNewUserMap(userName, userLastName, userMail, userPass)).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
 
                                 signUpProgressDialog.dismiss();
 
-                                AppData.getCurrentUser().sendEmailVerification();
+                                appData.getCurrentUser().sendEmailVerification();
                                 AlertDialog.Builder builder1 = new AlertDialog.Builder(SignUpActivity.this);
                                 builder1.setMessage(R.string.Verification_Mail_Sent);
                                 builder1.setCancelable(false);
@@ -116,7 +108,7 @@ public class SignUpActivity extends AppCompatActivity {
                                         "OK",
                                         new DialogInterface.OnClickListener() {
                                             public void onClick(DialogInterface dialog, int id) {
-                                                AppData.Auth.signOut();
+                                                appData.Auth.signOut();
                                                 dialog.cancel();
                                                 finish();
                                             }

@@ -28,17 +28,16 @@ import tk.pankajb.groupix.handlers.ActionHandler;
 import tk.pankajb.groupix.handlers.DataStore;
 import tk.pankajb.groupix.image.ImageDataModel;
 import tk.pankajb.groupix.image.ImagesRecyclerAdapter;
+import tk.pankajb.groupix.models.Album;
 
 public class AlbumOverviewActivity extends AppCompatActivity {
 
-    Toolbar OverviewToolbar;
-    ImageView AlbumCoverImageView;
-    TextView AlbumNameTextView;
-    TextView AlbumDescTextView;
-    RecyclerView AlbumImagesRecycler;
-    FloatingActionButton AlbumAddImgBtn;
-
-    final private int ALBUM_IMAGE_REQUEST = 1;
+    Toolbar overviewToolbar;
+    ImageView albumCoverImageView;
+    TextView albumNameTextView;
+    TextView albumDescTextView;
+    RecyclerView albumImagesRecycler;
+    FloatingActionButton albumAddImgBtn;
 
     FirebaseRecyclerAdapter ImagesAdapter;
 
@@ -53,43 +52,44 @@ public class AlbumOverviewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album_overview);
 
-        OverviewToolbar = findViewById(R.id.AlbumOverview_Toolbar);
-        AlbumCoverImageView = findViewById(R.id.AlbumOverview_AlbumCover);
-        AlbumNameTextView = findViewById(R.id.AlbumOverview_AlbumName);
-        AlbumDescTextView = findViewById(R.id.AlbumOverview_AlbumDesc);
-        AlbumImagesRecycler = findViewById(R.id.AlbumOverview_ImagesRecycler);
-        AlbumAddImgBtn = findViewById(R.id.AlbumOverview_AddImagesBtn);
+        overviewToolbar = findViewById(R.id.AlbumOverview_Toolbar);
+        albumCoverImageView = findViewById(R.id.AlbumOverview_AlbumCover);
+        albumNameTextView = findViewById(R.id.AlbumOverview_AlbumName);
+        albumDescTextView = findViewById(R.id.AlbumOverview_AlbumDesc);
+        albumImagesRecycler = findViewById(R.id.AlbumOverview_ImagesRecycler);
+        albumAddImgBtn = findViewById(R.id.AlbumOverview_AddImagesBtn);
 
-        setSupportActionBar(OverviewToolbar);
-        getSupportActionBar().setTitle("Album");
+        setSupportActionBar(overviewToolbar);
+        getSupportActionBar().setTitle(getString(R.string.ALBUM_OVERVIEW_TITLE));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        OverviewToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        overviewToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
 
-        AlbumImagesRecycler.setHasFixedSize(true);
-        AlbumImagesRecycler.setLayoutManager(new GridLayoutManager(this, 3));
-        AlbumId = getIntent().getStringExtra("AlbumId");
-        AlbumOwnerId = getIntent().getStringExtra("AlbumOwnerId");
+        albumImagesRecycler.setHasFixedSize(true);
+        albumImagesRecycler.setLayoutManager(new GridLayoutManager(this, 3));
+        AlbumId = getIntent().getStringExtra(getString(R.string.ALBUM_ID_INTENT));
+        AlbumOwnerId = getIntent().getStringExtra(getString(R.string.ALBUM_OWNER_ID_INTENT));
 
 
         AppData.getAlbumsDataRef().child(AlbumOwnerId).child(AlbumId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 try {
+                    Album currentAlbum = dataSnapshot.getValue(Album.class);
 
                     if (AppData.getCurrentUserId().equals(AlbumOwnerId)) {
-                        AlbumAddImgBtn.setVisibility(View.VISIBLE);
+                        albumAddImgBtn.setVisibility(View.VISIBLE);
                     }
-                    AlbumNameTextView.setText(dataSnapshot.child("name").getValue(String.class));
-                    AlbumDescTextView.setText(dataSnapshot.child("description").getValue(String.class));
-                    if (!dataSnapshot.child("coverImage").getValue(String.class).equals(getString(R.string.DEFAULT_ALBUM_COVER_IMAGE))) {
-                        Glide.with(getApplicationContext()).load(dataSnapshot.child("coverImage").getValue(String.class)).into(AlbumCoverImageView);
+
+                    albumNameTextView.setText(currentAlbum.getName());
+                    albumDescTextView.setText(currentAlbum.getDescription());
+                    if (!currentAlbum.getCoverImage().equals(getString(R.string.DEFAULT_ALBUM_COVER_IMAGE))) {
+                        Glide.with(getApplicationContext()).load(currentAlbum.getCoverImage()).into(albumCoverImageView);
                     }
 
                 } catch (NullPointerException e) {
@@ -105,7 +105,7 @@ public class AlbumOverviewActivity extends AppCompatActivity {
         Query AlbumImagesQuery = AppData.getAlbumsDataRef().child(AlbumOwnerId).child(AlbumId).child("images").limitToLast(50);
         FirebaseRecyclerOptions<ImageDataModel> AlbumImagesOptions = new FirebaseRecyclerOptions.Builder<ImageDataModel>().setQuery(AlbumImagesQuery, ImageDataModel.class).build();
         ImagesAdapter = new ImagesRecyclerAdapter(AlbumImagesOptions, getApplicationContext(), AlbumId, AlbumOwnerId);
-        AlbumImagesRecycler.setAdapter(ImagesAdapter);
+        albumImagesRecycler.setAdapter(ImagesAdapter);
         ImagesAdapter.startListening();
     }
 
@@ -121,8 +121,8 @@ public class AlbumOverviewActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
         if (item.getItemId() == R.id.menu_editalbumbtn) {
             Intent sendToEditAlbum = new Intent(AlbumOverviewActivity.this, EditAlbum.class);
-            sendToEditAlbum.putExtra("AlbumId", AlbumId);
-            sendToEditAlbum.putExtra("AlbumOwnerId", AlbumOwnerId);
+            sendToEditAlbum.putExtra(getString(R.string.ALBUM_ID_INTENT), AlbumId);
+            sendToEditAlbum.putExtra(getString(R.string.ALBUM_OWNER_ID_INTENT), AlbumOwnerId);
             startActivity(sendToEditAlbum);
         }
 
@@ -133,7 +133,7 @@ public class AlbumOverviewActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == ALBUM_IMAGE_REQUEST && resultCode == RESULT_OK) {
+        if (requestCode == getResources().getInteger(R.integer.ALBUM_IMAGE_SELECTION) && resultCode == RESULT_OK) {
 
             Uri inputImage = data.getData();
             handler.uploadAlbumImage(AppData.getCurrentUserId(), AlbumId, inputImage);
@@ -143,6 +143,6 @@ public class AlbumOverviewActivity extends AppCompatActivity {
 
     public void addImage(View view) {
         Intent addAlbumImgGalleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(addAlbumImgGalleryIntent, ALBUM_IMAGE_REQUEST);
+        startActivityForResult(addAlbumImgGalleryIntent, getResources().getInteger(R.integer.ALBUM_IMAGE_SELECTION));
     }
 }

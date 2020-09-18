@@ -4,4 +4,7 @@
 
     <integer name="EDIT_PROFILE">21</integer>
     <integer name="ADD_COVER">22</integer>
+    <integer name="ADD_IMAGE">23</integer>
+
+    <integer name="ALBUM_IMAGE_SELECTION">32</integer>
 </resources>

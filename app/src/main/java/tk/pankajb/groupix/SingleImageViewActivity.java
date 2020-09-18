@@ -26,18 +26,18 @@ import tk.pankajb.groupix.models.User;
 
 public class SingleImageViewActivity extends AppCompatActivity {
 
-    private CircleImageView UserProfileImage;
-    private TextView UserName;
-    private TextView AlbumName;
-    private ImageView ImageView;
+    private CircleImageView userProfileImage;
+    private TextView userName;
+    private TextView albumName;
+    private ImageView imageView;
 
-    private String ImageId;
-    private String Type;
-    private String AlbumId;
-    private String OwnerId;
+    private String imageId;
+    private String type;
+    private String albumId;
+    private String ownerId;
 
-    private DataStore AppData = new DataStore();
-    private ActionHandler AppAction = new ActionHandler(SingleImageViewActivity.this);
+    private DataStore appData = new DataStore();
+    private ActionHandler appAction = new ActionHandler(SingleImageViewActivity.this);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,37 +45,37 @@ public class SingleImageViewActivity extends AppCompatActivity {
         setContentView(R.layout.single_image_view);
 
         Toolbar viewToolbar = findViewById(R.id.SingleImageView_Toolbar);
-        UserProfileImage = findViewById(R.id.SingleImageview_UserProfileImage);
-        UserName = findViewById(R.id.SingleImageview_UserName_Text);
-        AlbumName = findViewById(R.id.SingleImageview_ImageAlbum_Text);
-        ImageView = findViewById(R.id.SingleImageView_Image);
+        userProfileImage = findViewById(R.id.SingleImageview_UserProfileImage);
+        userName = findViewById(R.id.SingleImageview_UserName_Text);
+        albumName = findViewById(R.id.SingleImageview_ImageAlbum_Text);
+        imageView = findViewById(R.id.SingleImageView_Image);
 
-        ImageId = getIntent().getStringExtra(getString(R.string.IMAGE_ID_INTENT));
-        Type = getIntent().getStringExtra(getString(R.string.IMAGE_TYPE_INTENT));
-        OwnerId = getIntent().getStringExtra(getString(R.string.IMAGE_OWNER_ID_INTENT));
+        imageId = getIntent().getStringExtra(getString(R.string.IMAGE_ID_INTENT));
+        type = getIntent().getStringExtra(getString(R.string.IMAGE_TYPE_INTENT));
+        ownerId = getIntent().getStringExtra(getString(R.string.IMAGE_OWNER_ID_INTENT));
 
         setSupportActionBar(viewToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(false);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
 
-        if (Type.equals(getString(R.string.SINGLE_IMAGE))) {
+        if (type.equals(getString(R.string.SINGLE_IMAGE))) {
 
-            AlbumName.setVisibility(View.GONE);
+            albumName.setVisibility(View.GONE);
 
-            AppData.getImagesDataRef().child("AllImages").child(ImageId).addListenerForSingleValueEvent(new ValueEventListener() {
+            appData.getImagesDataRef().child("AllImages").child(imageId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    OwnerId = dataSnapshot.getValue(String.class);
+                    ownerId = dataSnapshot.getValue(String.class);
 
-                    AppData.getUsersDataRef().child(OwnerId).addValueEventListener(new ValueEventListener() {
+                    appData.getUsersDataRef().child(ownerId).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             User imageOwner = dataSnapshot.getValue(User.class);
 
-                            UserName.setText(imageOwner.getFullName());
-                            Glide.with(getApplicationContext()).load(imageOwner.getProfileThumbImage()).into(UserProfileImage);
+                            userName.setText(imageOwner.getFullName());
+                            Glide.with(getApplicationContext()).load(imageOwner.getProfileThumbImage()).into(userProfileImage);
                         }
 
                         @Override
@@ -84,10 +84,10 @@ public class SingleImageViewActivity extends AppCompatActivity {
                         }
                     });
 
-                    AppData.getImagesDataRef().child(OwnerId).child(ImageId).addValueEventListener(new ValueEventListener() {
+                    appData.getImagesDataRef().child(ownerId).child(imageId).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            Glide.with(getApplication()).load((String) dataSnapshot.child("image").getValue()).into(ImageView);
+                            Glide.with(getApplication()).load((String) dataSnapshot.child("image").getValue()).into(imageView);
                         }
 
                         @Override
@@ -103,24 +103,24 @@ public class SingleImageViewActivity extends AppCompatActivity {
                 }
             });
 
-        } else if (Type.equals(getString(R.string.ALBUM_IMAGE))) {
-            AlbumName.setVisibility(View.VISIBLE);
-            AlbumId = getIntent().getStringExtra(getString(R.string.IMAGE_ALBUM_ID_INTENT));
+        } else if (type.equals(getString(R.string.ALBUM_IMAGE))) {
+            albumName.setVisibility(View.VISIBLE);
+            albumId = getIntent().getStringExtra(getString(R.string.IMAGE_ALBUM_ID_INTENT));
 
-            AppData.getAlbumsDataRef().child("AllImages").child(ImageId).addListenerForSingleValueEvent(new ValueEventListener() {
+            appData.getAlbumsDataRef().child("AllImages").child(imageId).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    OwnerId = dataSnapshot.getValue(String.class);
+                    ownerId = dataSnapshot.getValue(String.class);
 
-                    AppData.getUsersDataRef().child(OwnerId).addValueEventListener(new ValueEventListener() {
+                    appData.getUsersDataRef().child(ownerId).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
 
                             User imageOwner = dataSnapshot.getValue(User.class);
 
-                            UserName.setText(imageOwner.getFullName());
-                            Glide.with(getApplicationContext()).load(imageOwner.getProfileThumbImage()).into(UserProfileImage);
+                            userName.setText(imageOwner.getFullName());
+                            Glide.with(getApplicationContext()).load(imageOwner.getProfileThumbImage()).into(userProfileImage);
                         }
 
                         @Override
@@ -129,11 +129,11 @@ public class SingleImageViewActivity extends AppCompatActivity {
                         }
                     });
 
-                    AppData.getAlbumsDataRef().child(OwnerId).child(AlbumId).addValueEventListener(new ValueEventListener() {
+                    appData.getAlbumsDataRef().child(ownerId).child(albumId).addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            AlbumName.setText((String) dataSnapshot.child("name").getValue());
-                            Glide.with(getApplicationContext()).load((String) dataSnapshot.child("images").child(ImageId).child("image").getValue()).into(ImageView);
+                            albumName.setText((String) dataSnapshot.child("name").getValue());
+                            Glide.with(getApplicationContext()).load((String) dataSnapshot.child("images").child(imageId).child("image").getValue()).into(imageView);
                         }
 
                         @Override
@@ -173,21 +173,21 @@ public class SingleImageViewActivity extends AppCompatActivity {
 
     public void deleteImage(View view) {
 
-        if (Type.equals(getString(R.string.SINGLE_IMAGE))) {
-            AppAction.DeleteSingleImage(ImageId, OwnerId);
+        if (type.equals(getString(R.string.SINGLE_IMAGE))) {
+            appAction.DeleteSingleImage(imageId, ownerId);
             finish();
-        } else if (Type.equals(getString(R.string.ALBUM_IMAGE))) {
-            AppAction.DeleteSingleImage(ImageId, OwnerId, AlbumId);
+        } else if (type.equals(getString(R.string.ALBUM_IMAGE))) {
+            appAction.DeleteSingleImage(imageId, ownerId, albumId);
             finish();
         }
     }
 
     public void downloadImage(View view) {
 
-        if (Type.equals(getString(R.string.SINGLE_IMAGE))) {
-            AppAction.DownloadSingleImage(ImageId, OwnerId);
-        } else if (Type.equals(getString(R.string.ALBUM_IMAGE))) {
-            AppAction.DownloadSingleImage(ImageId, OwnerId, AlbumId);
+        if (type.equals(getString(R.string.SINGLE_IMAGE))) {
+            appAction.DownloadSingleImage(imageId, ownerId);
+        } else if (type.equals(getString(R.string.ALBUM_IMAGE))) {
+            appAction.DownloadSingleImage(imageId, ownerId, albumId);
         }
     }
 
