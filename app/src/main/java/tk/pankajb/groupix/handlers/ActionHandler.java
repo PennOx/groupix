@@ -1,4 +1,4 @@
-package tk.pankajb.groupix;
+package tk.pankajb.groupix.handlers;
 
 import android.Manifest;
 import android.app.Activity;
@@ -30,6 +30,9 @@ import java.io.File;
 import java.io.IOException;
 
 import id.zelory.compressor.Compressor;
+import tk.pankajb.groupix.R;
+import tk.pankajb.groupix.SingleImageViewActivity;
+import tk.pankajb.groupix.StartActivity;
 
 public class ActionHandler {
 
@@ -255,7 +258,7 @@ public class ActionHandler {
     }
 
     public void DisplaySingleImage(String ImageId, String OwnerId) {
-        Intent DisplayImage = new Intent(context, SingleImageView.class);
+        Intent DisplayImage = new Intent(context, SingleImageViewActivity.class);
         DisplayImage.putExtra("Type", "Single");
         DisplayImage.putExtra("ImageId", ImageId);
         DisplayImage.putExtra("OwnerId", OwnerId);
@@ -264,7 +267,7 @@ public class ActionHandler {
     }
 
     public void DisplaySingleImage(String ImageId, String OwnerId, String AlbumId) {
-        Intent DisplayImage = new Intent(context, SingleImageView.class);
+        Intent DisplayImage = new Intent(context, SingleImageViewActivity.class);
         DisplayImage.putExtra("Type", "Album");
         DisplayImage.putExtra("AlbumId", AlbumId);
         DisplayImage.putExtra("ImageId", ImageId);
@@ -275,7 +278,7 @@ public class ActionHandler {
 
     public void logOut() {
         AppData.Auth.signOut();
-        Intent sendToStart = new Intent(context, tk.pankajb.groupix.Credentials.StartActivity.class);
+        Intent sendToStart = new Intent(context, StartActivity.class);
         sendToStart.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         context.startActivity(sendToStart);
     }

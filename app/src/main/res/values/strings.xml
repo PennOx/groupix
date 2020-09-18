@@ -13,8 +13,8 @@
 
     <!--    Default values-->
     <string name="DEFAULT_USER_PROFILE_THUMB">default</string>
-    <string name="Default_Album_Cover">default</string>
-    <string name="Default_Album_Desc">No Description</string>
+    <string name="DEFAULT_ALBUM_COVER_IMAGE">default</string>
+    <string name="DEFAULT_ALBUM_DESCRIPTION">No Description</string>
 
     <!--    Intent extra keys-->
     <string name="IMAGE_ID_INTENT">ImageId</string>

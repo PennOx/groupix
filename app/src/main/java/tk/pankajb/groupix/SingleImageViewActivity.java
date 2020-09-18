@@ -20,8 +20,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import tk.pankajb.groupix.handlers.ActionHandler;
+import tk.pankajb.groupix.handlers.DataStore;
+import tk.pankajb.groupix.models.User;
 
-public class SingleImageView extends AppCompatActivity {
+public class SingleImageViewActivity extends AppCompatActivity {
 
     private CircleImageView UserProfileImage;
     private TextView UserName;
@@ -34,7 +37,7 @@ public class SingleImageView extends AppCompatActivity {
     private String OwnerId;
 
     private DataStore AppData = new DataStore();
-    private ActionHandler AppAction = new ActionHandler(SingleImageView.this);
+    private ActionHandler AppAction = new ActionHandler(SingleImageViewActivity.this);
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

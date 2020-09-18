@@ -5,6 +5,9 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import tk.pankajb.groupix.handlers.ActionHandler;
+import tk.pankajb.groupix.handlers.DataStore;
+
 public class SplashScreen extends AppCompatActivity {
 
     private DataStore AppData = new DataStore();
@@ -31,7 +34,7 @@ public class SplashScreen extends AppCompatActivity {
     }
 
     private void sendToHome() {
-        Intent sendToHome = new Intent(SplashScreen.this, tk.pankajb.groupix.Home.HomeActivity.class);
+        Intent sendToHome = new Intent(SplashScreen.this, HomeActivity.class);
         sendToHome.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(sendToHome);
         finish();

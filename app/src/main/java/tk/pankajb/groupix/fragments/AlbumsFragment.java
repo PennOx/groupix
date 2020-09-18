@@ -1,4 +1,4 @@
-package tk.pankajb.groupix.Album;
+package tk.pankajb.groupix.fragments;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,18 +13,20 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.Query;
 
-import tk.pankajb.groupix.DataStore;
 import tk.pankajb.groupix.R;
+import tk.pankajb.groupix.album.AlbumsRecyclerAdapter;
+import tk.pankajb.groupix.handlers.DataStore;
+import tk.pankajb.groupix.models.Album;
 
 
-public class Albums extends Fragment {
+public class AlbumsFragment extends Fragment {
 
     RecyclerView AlbumRecycler;
     AlbumsRecyclerAdapter Adapter;
 
     DataStore AppData = new DataStore();
 
-    public Albums() {
+    public AlbumsFragment() {
         // Required empty public constructor
     }
 
@@ -36,7 +38,7 @@ public class Albums extends Fragment {
 
         Query AlbumsQuery = AppData.getAlbumsDataRef().child(AppData.getCurrentUserId()).limitToLast(50);
 
-        FirebaseRecyclerOptions<AlbumsDataModel> options = new FirebaseRecyclerOptions.Builder<AlbumsDataModel>().setQuery(AlbumsQuery, AlbumsDataModel.class).build();
+        FirebaseRecyclerOptions<Album> options = new FirebaseRecyclerOptions.Builder<Album>().setQuery(AlbumsQuery, Album.class).build();
 
         AlbumRecycler = view.findViewById(R.id.Albums_Recycler);
         AlbumRecycler.setHasFixedSize(true);

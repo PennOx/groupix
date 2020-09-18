@@ -6,8 +6,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import tk.pankajb.groupix.Album.Albums;
-import tk.pankajb.groupix.Image.Images;
+import tk.pankajb.groupix.fragments.AlbumsFragment;
+import tk.pankajb.groupix.fragments.ImagesFragment;
 
 public class SectionAdapter extends FragmentPagerAdapter {
 
@@ -21,9 +21,9 @@ public class SectionAdapter extends FragmentPagerAdapter {
 
         switch (position) {
             case 1:
-                return new Albums();
+                return new AlbumsFragment();
             case 0:
-                return new Images();
+                return new ImagesFragment();
             default:
                 return null;
         }

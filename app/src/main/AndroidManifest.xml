@@ -23,40 +23,40 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Home.HomeActivity" />
+        <activity android:name=".HomeActivity" />
 
-        <activity android:name=".Credentials.StartActivity" />
-
-        <activity
-            android:name=".Credentials.SignInActivity"
-            android:parentActivityName=".Credentials.StartActivity" />
+        <activity android:name=".StartActivity" />
 
         <activity
-            android:name=".Credentials.SignUpActivity"
-            android:parentActivityName=".Credentials.StartActivity" />
+            android:name=".SignInActivity"
+            android:parentActivityName=".StartActivity" />
 
         <activity
-            android:name=".EditProfile"
-            android:parentActivityName=".Home.HomeActivity" />
+            android:name=".SignUpActivity"
+            android:parentActivityName=".StartActivity" />
+
+        <activity
+            android:name=".EditProfileActivity"
+            android:parentActivityName=".HomeActivity" />
 
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
 
         <activity
-            android:name=".Album.AlbumOverview"
-            android:parentActivityName=".Home.HomeActivity" />
+            android:name=".AlbumOverviewActivity"
+            android:parentActivityName=".HomeActivity" />
 
         <activity
-            android:name=".Album.CreateAlbum"
+            android:name=".album.CreateAlbum"
             android:theme="@style/AppTheme.CreateAlbum" />
 
         <activity
-            android:name=".Album.EditAlbum"
+            android:name=".album.EditAlbum"
             android:theme="@style/AppTheme.CreateAlbum" />
 
         <activity
-            android:name=".SingleImageView"
+            android:name=".SingleImageViewActivity"
             android:theme="@style/AppTheme.SingleImageView" />
 
     </application>

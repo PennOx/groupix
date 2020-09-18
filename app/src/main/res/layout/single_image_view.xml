@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/shape_single_imageview"
-    tools:context=".SingleImageView">
+    tools:context=".SingleImageViewActivity">
 
     <ImageView
         android:id="@+id/SingleImageView_Image"

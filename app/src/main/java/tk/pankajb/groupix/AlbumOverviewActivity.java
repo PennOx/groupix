@@ -1,4 +1,4 @@
-package tk.pankajb.groupix.Album;
+package tk.pankajb.groupix;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -23,13 +23,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import tk.pankajb.groupix.ActionHandler;
-import tk.pankajb.groupix.DataStore;
-import tk.pankajb.groupix.Image.ImageDataModel;
-import tk.pankajb.groupix.Image.ImagesRecyclerAdapter;
-import tk.pankajb.groupix.R;
+import tk.pankajb.groupix.album.EditAlbum;
+import tk.pankajb.groupix.handlers.ActionHandler;
+import tk.pankajb.groupix.handlers.DataStore;
+import tk.pankajb.groupix.image.ImageDataModel;
+import tk.pankajb.groupix.image.ImagesRecyclerAdapter;
 
-public class AlbumOverview extends AppCompatActivity {
+public class AlbumOverviewActivity extends AppCompatActivity {
 
     Toolbar OverviewToolbar;
     ImageView AlbumCoverImageView;
@@ -43,7 +43,7 @@ public class AlbumOverview extends AppCompatActivity {
     FirebaseRecyclerAdapter ImagesAdapter;
 
     DataStore AppData = new DataStore();
-    ActionHandler handler = new ActionHandler(AlbumOverview.this);
+    ActionHandler handler = new ActionHandler(AlbumOverviewActivity.this);
 
     String AlbumId;
     String AlbumOwnerId;
@@ -88,8 +88,8 @@ public class AlbumOverview extends AppCompatActivity {
                     }
                     AlbumNameTextView.setText(dataSnapshot.child("name").getValue(String.class));
                     AlbumDescTextView.setText(dataSnapshot.child("description").getValue(String.class));
-                    if (!dataSnapshot.child("coverimg").getValue(String.class).equals("default")) {
-                        Glide.with(getApplicationContext()).load(dataSnapshot.child("coverimg").getValue(String.class)).into(AlbumCoverImageView);
+                    if (!dataSnapshot.child("coverImage").getValue(String.class).equals(getString(R.string.DEFAULT_ALBUM_COVER_IMAGE))) {
+                        Glide.with(getApplicationContext()).load(dataSnapshot.child("coverImage").getValue(String.class)).into(AlbumCoverImageView);
                     }
 
                 } catch (NullPointerException e) {
@@ -120,7 +120,7 @@ public class AlbumOverview extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
         if (item.getItemId() == R.id.menu_editalbumbtn) {
-            Intent sendToEditAlbum = new Intent(AlbumOverview.this, EditAlbum.class);
+            Intent sendToEditAlbum = new Intent(AlbumOverviewActivity.this, EditAlbum.class);
             sendToEditAlbum.putExtra("AlbumId", AlbumId);
             sendToEditAlbum.putExtra("AlbumOwnerId", AlbumOwnerId);
             startActivity(sendToEditAlbum);

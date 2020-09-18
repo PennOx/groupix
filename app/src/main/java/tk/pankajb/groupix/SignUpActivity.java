@@ -1,4 +1,4 @@
-package tk.pankajb.groupix.Credentials;
+package tk.pankajb.groupix;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -22,8 +22,7 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 
 import java.util.HashMap;
 
-import tk.pankajb.groupix.DataStore;
-import tk.pankajb.groupix.R;
+import tk.pankajb.groupix.handlers.DataStore;
 
 public class SignUpActivity extends AppCompatActivity {
 

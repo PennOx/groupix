@@ -1,4 +1,4 @@
-package tk.pankajb.groupix.Album;
+package tk.pankajb.groupix.album;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -36,8 +36,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import id.zelory.compressor.Compressor;
-import tk.pankajb.groupix.DataStore;
 import tk.pankajb.groupix.R;
+import tk.pankajb.groupix.handlers.DataStore;
+import tk.pankajb.groupix.models.Album;
 
 public class EditAlbum extends AppCompatActivity {
 
@@ -50,7 +51,6 @@ public class EditAlbum extends AppCompatActivity {
     EditText albumDescText;
     String albumName;
     String albumDesc;
-    String albumCoverLink;
     String albumId;
     String albumOwnerId;
     DataStore AppData = new DataStore();
@@ -94,17 +94,16 @@ public class EditAlbum extends AppCompatActivity {
         AppData.getAlbumsDataRef().child(albumOwnerId).child(albumId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                String coverimg = dataSnapshot.child("coverimg").getValue(String.class);
-                String desc = dataSnapshot.child("description").getValue(String.class);
-                String name = dataSnapshot.child("name").getValue(String.class);
 
-                albumNameText.setText(name);
-                albumDescText.setText(desc);
+                Album currentAlbum = dataSnapshot.getValue(Album.class);
+
+                albumNameText.setText(currentAlbum.getName());
+                albumDescText.setText(currentAlbum.getDescription());
 
                 try {
-                    assert coverimg != null;
-                    if (!coverimg.equals("default")) {
-                        Glide.with(appContext).load(coverimg).into(albumCoverImg);
+
+                    if (!currentAlbum.getCoverImage().equals(getString(R.string.DEFAULT_ALBUM_COVER_IMAGE))) {
+                        Glide.with(appContext).load(currentAlbum.getCoverImage()).into(albumCoverImg);
                         coverBtnLayout.setVisibility(View.VISIBLE);
                         addCoverBtn.setVisibility(View.GONE);
                     } else {
@@ -196,13 +195,13 @@ public class EditAlbum extends AppCompatActivity {
             albumNameText.setError("New Album Name Required");
         } else {
             if (albumDesc.isEmpty())
-                albumDesc = getString(R.string.Default_Album_Desc);
+                albumDesc = getString(R.string.DEFAULT_ALBUM_DESCRIPTION);
 
             if (albumCoverUri != null) {
                 editAlbumProgressBar.show();
 
                 UploadTask AlbumCoverUpload = AppData.getAlbumsStorageRef().child(AppData.getCurrentUserId()).child(String.valueOf(albumId))
-                        .child("coverimg").putBytes(croppedImageBytes);
+                        .child("coverImage").putBytes(croppedImageBytes);
 
                 AlbumCoverUpload.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -216,14 +215,14 @@ public class EditAlbum extends AppCompatActivity {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         AppData.getAlbumsStorageRef().child(AppData.getCurrentUserId()).child(String.valueOf(albumId))
-                                .child("coverimg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                .child("coverImage").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
 
                                 Map<String, Object> NewAlbumMap = new HashMap<>();
                                 NewAlbumMap.put(AppData.getCurrentUserId() + "/" + albumId + "/name", albumName);
                                 NewAlbumMap.put(AppData.getCurrentUserId() + "/" + albumId + "/description", albumDesc);
-                                NewAlbumMap.put(AppData.getCurrentUserId() + "/" + albumId + "/coverimg", uri.toString());
+                                NewAlbumMap.put(AppData.getCurrentUserId() + "/" + albumId + "/coverImage", uri.toString());
 
                                 AppData.getAlbumsDataRef().updateChildren(NewAlbumMap).addOnSuccessListener(new OnSuccessListener() {
                                     @Override
@@ -256,11 +255,11 @@ public class EditAlbum extends AppCompatActivity {
     }
 
     public void deleteCover(View view) {
-        AppData.getAlbumsDataRef().child(albumOwnerId).child(albumId).child("coverimg")
-                .setValue("default").addOnSuccessListener(new OnSuccessListener<Void>() {
+        AppData.getAlbumsDataRef().child(albumOwnerId).child(albumId).child("coverImage")
+                .setValue(getString(R.string.DEFAULT_ALBUM_COVER_IMAGE)).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                AppData.getAlbumsStorageRef().child(albumOwnerId).child(albumId).child("coverimg").delete();
+                AppData.getAlbumsStorageRef().child(albumOwnerId).child(albumId).child("coverImage").delete();
                 addCoverBtn.setVisibility(View.VISIBLE);
                 coverBtnLayout.setVisibility(View.GONE);
             }

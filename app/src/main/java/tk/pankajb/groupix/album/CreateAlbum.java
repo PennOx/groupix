@@ -1,4 +1,4 @@
-package tk.pankajb.groupix.Album;
+package tk.pankajb.groupix.album;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -29,8 +29,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import id.zelory.compressor.Compressor;
-import tk.pankajb.groupix.DataStore;
 import tk.pankajb.groupix.R;
+import tk.pankajb.groupix.handlers.DataStore;
 
 public class CreateAlbum extends AppCompatActivity {
 
@@ -138,19 +138,19 @@ public class CreateAlbum extends AppCompatActivity {
 
         albumName = albumNameText.getText().toString().trim();
         albumDesc = albumDescText.getText().toString().trim();
-        albumCoverLink = getString(R.string.Default_Album_Cover);
+        albumCoverLink = getString(R.string.DEFAULT_ALBUM_COVER_IMAGE);
 
         if (albumName.isEmpty()) {
             albumNameText.setError("New Album Name Required");
         } else {
             if (albumDesc.isEmpty())
-                albumDesc = getString(R.string.Default_Album_Desc);
+                albumDesc = getString(R.string.DEFAULT_ALBUM_DESCRIPTION);
 
             if (albumCoverUri != null) {
                 createAlbumProgressBar.show();
 
                 UploadTask AlbumCoverUpload = AppData.getAlbumsStorageRef().child(AppData.getCurrentUserId()).child(String.valueOf(ALBUM_ID))
-                        .child("coverimg").putBytes(croppedImageBytes);
+                        .child("coverImage").putBytes(croppedImageBytes);
 
                 AlbumCoverUpload.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -164,14 +164,14 @@ public class CreateAlbum extends AppCompatActivity {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         AppData.getAlbumsStorageRef().child(AppData.getCurrentUserId()).child(String.valueOf(ALBUM_ID))
-                                .child("coverimg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                .child("coverImage").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
 
                                 Map<String, Object> NewAlbumMap = new HashMap<>();
                                 NewAlbumMap.put(AppData.getCurrentUserId() + "/" + ALBUM_ID + "/name", albumName);
                                 NewAlbumMap.put(AppData.getCurrentUserId() + "/" + ALBUM_ID + "/description", albumDesc);
-                                NewAlbumMap.put(AppData.getCurrentUserId() + "/" + ALBUM_ID + "/coverimg", uri.toString());
+                                NewAlbumMap.put(AppData.getCurrentUserId() + "/" + ALBUM_ID + "/coverImage", uri.toString());
                                 NewAlbumMap.put("AllAlbums/" + ALBUM_ID, AppData.getCurrentUserId());
 
                                 AppData.getAlbumsDataRef().updateChildren(NewAlbumMap).addOnSuccessListener(new OnSuccessListener() {
@@ -189,7 +189,7 @@ public class CreateAlbum extends AppCompatActivity {
                 Map<String, Object> NewAlbumMap = new HashMap<>();
                 NewAlbumMap.put(AppData.getCurrentUserId() + "/" + ALBUM_ID + "/name", albumName);
                 NewAlbumMap.put(AppData.getCurrentUserId() + "/" + ALBUM_ID + "/description", albumDesc);
-                NewAlbumMap.put(AppData.getCurrentUserId() + "/" + ALBUM_ID + "/coverimg", albumCoverLink);
+                NewAlbumMap.put(AppData.getCurrentUserId() + "/" + ALBUM_ID + "/coverImage", albumCoverLink);
                 NewAlbumMap.put("AllAlbums/" + ALBUM_ID, AppData.getCurrentUserId());
 
                 AppData.getAlbumsDataRef().updateChildren(NewAlbumMap).addOnSuccessListener(new OnSuccessListener() {

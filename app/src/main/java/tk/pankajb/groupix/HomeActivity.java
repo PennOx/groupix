@@ -1,4 +1,4 @@
-package tk.pankajb.groupix.Home;
+package tk.pankajb.groupix;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -17,11 +17,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import tk.pankajb.groupix.ActionHandler;
-import tk.pankajb.groupix.Album.CreateAlbum;
-import tk.pankajb.groupix.DataStore;
-import tk.pankajb.groupix.EditProfile;
-import tk.pankajb.groupix.R;
+import tk.pankajb.groupix.Home.SectionAdapter;
+import tk.pankajb.groupix.album.CreateAlbum;
+import tk.pankajb.groupix.handlers.ActionHandler;
+import tk.pankajb.groupix.handlers.DataStore;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -110,7 +109,7 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void SendToEditProfile() {
-        Intent EditProfileIntent = new Intent(HomeActivity.this, EditProfile.class);
+        Intent EditProfileIntent = new Intent(HomeActivity.this, EditProfileActivity.class);
         startActivity(EditProfileIntent);
     }
 

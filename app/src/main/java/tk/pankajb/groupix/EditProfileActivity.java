@@ -18,15 +18,18 @@ import com.google.firebase.database.ValueEventListener;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import tk.pankajb.groupix.handlers.ActionHandler;
+import tk.pankajb.groupix.handlers.DataStore;
+import tk.pankajb.groupix.models.User;
 
-public class EditProfile extends AppCompatActivity {
+public class EditProfileActivity extends AppCompatActivity {
 
     private TextView UserNameText;
     private TextView UserEmailText;
     private CircleImageView ProfileImg;
 
     private DataStore AppData = new DataStore();
-    private ActionHandler handler = new ActionHandler(EditProfile.this);
+    private ActionHandler handler = new ActionHandler(EditProfileActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +57,7 @@ public class EditProfile extends AppCompatActivity {
                 UserEmailText.setText(currentUser.geteMail());
 
                 if (!currentUser.getProfileThumbImage().equals(getString(R.string.DEFAULT_USER_PROFILE_THUMB))) {
-                    Glide.with(EditProfile.this).load(currentUser.getProfileThumbImage()).into(ProfileImg);
+                    Glide.with(EditProfileActivity.this).load(currentUser.getProfileThumbImage()).into(ProfileImg);
                 }
             }
 

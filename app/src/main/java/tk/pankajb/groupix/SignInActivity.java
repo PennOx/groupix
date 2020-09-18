@@ -1,4 +1,4 @@
-package tk.pankajb.groupix.Credentials;
+package tk.pankajb.groupix;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -19,9 +19,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthResult;
 
-import tk.pankajb.groupix.DataStore;
-import tk.pankajb.groupix.Home.HomeActivity;
-import tk.pankajb.groupix.R;
+import tk.pankajb.groupix.handlers.DataStore;
 
 public class SignInActivity extends AppCompatActivity {
 

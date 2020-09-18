@@ -1,4 +1,4 @@
-package tk.pankajb.groupix.Image;
+package tk.pankajb.groupix.image;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -16,8 +16,8 @@ import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
-import tk.pankajb.groupix.ActionHandler;
 import tk.pankajb.groupix.R;
+import tk.pankajb.groupix.handlers.ActionHandler;
 
 public class ImagesRecyclerAdapter extends FirebaseRecyclerAdapter<ImageDataModel, ImagesRecyclerAdapter.ImagesHolder> {
 
