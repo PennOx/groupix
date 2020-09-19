@@ -88,8 +88,8 @@ public class EditAlbum extends AppCompatActivity {
         editAlbumProgressBar = new ProgressDialog(EditAlbum.this);
         editAlbumProgressBar.setTitle("Editing album");
 
-        albumId = getIntent().getStringExtra("AlbumId");
-        albumOwnerId = getIntent().getStringExtra("AlbumOwnerId");
+        albumId = getIntent().getStringExtra(getString(R.string.ALBUM_ID_INTENT));
+        albumOwnerId = getIntent().getStringExtra(getString(R.string.ALBUM_OWNER_ID_INTENT));
 
         AppData.getAlbumsDataRef().child(albumOwnerId).child(albumId).addValueEventListener(new ValueEventListener() {
             @Override

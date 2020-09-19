@@ -101,7 +101,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void addSingleImage() {
-
         Intent addSingleImageGalleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(addSingleImageGalleryIntent, getResources().getInteger(R.integer.ADD_IMAGE));
     }
