@@ -15,10 +15,12 @@
     <string name="EDIT_PROFILE_TITLE">Profile</string>
     <string name="HOME_TITLE">GroupIX</string>
     <string name="ALBUM_OVERVIEW_TITLE">Album</string>
+    <string name="EDIT_ALBUM_TITLE">Edit album</string>
 
     <!--    Progress dialog Titles-->
     <string name="SIGNUP_DIALOG_TITLE">Creating account</string>
-    <string name="UPLOAD_IMAGE_TITLE">Uploading Image</string>
+    <string name="UPLOAD_IMAGE_DIALOG_TITLE">Uploading Image</string>
+    <string name="EDIT_ALBUM_DIALOG_TITLE">Editing album</string>
 
     <!--    Default values-->
     <string name="DEFAULT_USER_PROFILE_IMAGE">default</string>

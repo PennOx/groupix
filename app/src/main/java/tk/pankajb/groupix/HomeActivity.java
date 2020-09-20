@@ -52,7 +52,7 @@ public class HomeActivity extends AppCompatActivity {
         mTabLayout.getTabAt(1).setIcon(R.drawable.album);
 
         ProgressDialog imageUploadProgressBar = new ProgressDialog(HomeActivity.this);
-        imageUploadProgressBar.setTitle(getString(R.string.UPLOAD_IMAGE_TITLE));
+        imageUploadProgressBar.setTitle(getString(R.string.UPLOAD_IMAGE_DIALOG_TITLE));
 
     }
 

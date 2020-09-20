@@ -42,39 +42,37 @@ import tk.pankajb.groupix.models.Album;
 
 public class EditAlbum extends AppCompatActivity {
 
-    final private short ADD_ALBUM_COVER_REQUEST = 1;
-    Toolbar editAlbumToolbar;
-    ImageView albumCoverImg;
-    TextView addCoverBtn;
-    LinearLayout coverBtnLayout;
-    EditText albumNameText;
-    EditText albumDescText;
-    String albumName;
-    String albumDesc;
-    String albumId;
-    String albumOwnerId;
-    DataStore AppData = new DataStore();
-    ProgressDialog editAlbumProgressBar;
-    Uri albumCoverUri = null;
-    byte[] croppedImageBytes = null;
+    private ImageView albumCoverImg;
+    private TextView addCoverBtn;
+    private LinearLayout coverBtnLayout;
+    private EditText albumNameEditText;
+    private EditText albumDescEditText;
+    private String albumName;
+    private String albumDesc;
+    private String albumId;
+    private String albumOwnerId;
+    private ProgressDialog editAlbumProgressBar;
+    private Uri albumCoverUri = null;
+    private byte[] croppedImageBytes = null;
 
-    Context appContext;
+    private Context appContext;
+    private DataStore appData = new DataStore();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_album);
 
-        editAlbumToolbar = findViewById(R.id.Editalbum_Toolbar);
+        Toolbar editAlbumToolbar = findViewById(R.id.Editalbum_Toolbar);
         albumCoverImg = findViewById(R.id.EditAlbum_CoverImg);
         addCoverBtn = findViewById(R.id.EditAlbum_AddCoverButton);
         coverBtnLayout = findViewById(R.id.EditAlbum_CoverButtonLayout);
-        albumNameText = findViewById(R.id.EditAlbum_AlbumName);
-        albumDescText = findViewById(R.id.EditAlbum_AlbumDescription);
+        albumNameEditText = findViewById(R.id.EditAlbum_AlbumName);
+        albumDescEditText = findViewById(R.id.EditAlbum_AlbumDescription);
         appContext = getApplicationContext();
 
         setSupportActionBar(editAlbumToolbar);
-        getSupportActionBar().setTitle("Edit album");
+        getSupportActionBar().setTitle(getString(R.string.EDIT_ALBUM_TITLE));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -86,19 +84,19 @@ public class EditAlbum extends AppCompatActivity {
         });
 
         editAlbumProgressBar = new ProgressDialog(EditAlbum.this);
-        editAlbumProgressBar.setTitle("Editing album");
+        editAlbumProgressBar.setTitle(getString(R.string.EDIT_ALBUM_DIALOG_TITLE));
 
         albumId = getIntent().getStringExtra(getString(R.string.ALBUM_ID_INTENT));
         albumOwnerId = getIntent().getStringExtra(getString(R.string.ALBUM_OWNER_ID_INTENT));
 
-        AppData.getAlbumsDataRef().child(albumOwnerId).child(albumId).addValueEventListener(new ValueEventListener() {
+        appData.getAlbumsDataRef().child(albumOwnerId).child(albumId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 Album currentAlbum = dataSnapshot.getValue(Album.class);
 
-                albumNameText.setText(currentAlbum.getName());
-                albumDescText.setText(currentAlbum.getDescription());
+                albumNameEditText.setText(currentAlbum.getName());
+                albumDescEditText.setText(currentAlbum.getDescription());
 
                 try {
 
@@ -128,7 +126,7 @@ public class EditAlbum extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == ADD_ALBUM_COVER_REQUEST && resultCode == RESULT_OK) {
+        if (requestCode == getResources().getInteger(R.integer.ADD_COVER) && resultCode == RESULT_OK) {
             albumCoverUri = data.getData();
             CropImage.activity(albumCoverUri).setAspectRatio(2, 1).start(this);
             coverBtnLayout.setVisibility(View.VISIBLE);
@@ -188,11 +186,11 @@ public class EditAlbum extends AppCompatActivity {
 
     public void editAlbum() {
 
-        albumName = albumNameText.getText().toString().trim();
-        albumDesc = albumDescText.getText().toString().trim();
+        albumName = albumNameEditText.getText().toString().trim();
+        albumDesc = albumDescEditText.getText().toString().trim();
 
         if (albumName.isEmpty()) {
-            albumNameText.setError("New Album Name Required");
+            albumNameEditText.setError("New Album Name Required");
         } else {
             if (albumDesc.isEmpty())
                 albumDesc = getString(R.string.DEFAULT_ALBUM_DESCRIPTION);
@@ -200,7 +198,7 @@ public class EditAlbum extends AppCompatActivity {
             if (albumCoverUri != null) {
                 editAlbumProgressBar.show();
 
-                UploadTask AlbumCoverUpload = AppData.getAlbumsStorageRef().child(AppData.getCurrentUserId()).child(String.valueOf(albumId))
+                UploadTask AlbumCoverUpload = appData.getAlbumsStorageRef().child(appData.getCurrentUserId()).child(String.valueOf(albumId))
                         .child("coverImage").putBytes(croppedImageBytes);
 
                 AlbumCoverUpload.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -214,17 +212,17 @@ public class EditAlbum extends AppCompatActivity {
                 AlbumCoverUpload.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        AppData.getAlbumsStorageRef().child(AppData.getCurrentUserId()).child(String.valueOf(albumId))
+                        appData.getAlbumsStorageRef().child(appData.getCurrentUserId()).child(String.valueOf(albumId))
                                 .child("coverImage").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
 
                                 Map<String, Object> NewAlbumMap = new HashMap<>();
-                                NewAlbumMap.put(AppData.getCurrentUserId() + "/" + albumId + "/name", albumName);
-                                NewAlbumMap.put(AppData.getCurrentUserId() + "/" + albumId + "/description", albumDesc);
-                                NewAlbumMap.put(AppData.getCurrentUserId() + "/" + albumId + "/coverImage", uri.toString());
+                                NewAlbumMap.put(appData.getCurrentUserId() + "/" + albumId + "/name", albumName);
+                                NewAlbumMap.put(appData.getCurrentUserId() + "/" + albumId + "/description", albumDesc);
+                                NewAlbumMap.put(appData.getCurrentUserId() + "/" + albumId + "/coverImage", uri.toString());
 
-                                AppData.getAlbumsDataRef().updateChildren(NewAlbumMap).addOnSuccessListener(new OnSuccessListener() {
+                                appData.getAlbumsDataRef().updateChildren(NewAlbumMap).addOnSuccessListener(new OnSuccessListener() {
                                     @Override
                                     public void onSuccess(Object o) {
                                         close(null);
@@ -237,10 +235,10 @@ public class EditAlbum extends AppCompatActivity {
             } else {
 
                 Map<String, Object> NewAlbumMap = new HashMap<>();
-                NewAlbumMap.put(AppData.getCurrentUserId() + "/" + albumId + "/name", albumName);
-                NewAlbumMap.put(AppData.getCurrentUserId() + "/" + albumId + "/description", albumDesc);
+                NewAlbumMap.put(appData.getCurrentUserId() + "/" + albumId + "/name", albumName);
+                NewAlbumMap.put(appData.getCurrentUserId() + "/" + albumId + "/description", albumDesc);
 
-                AppData.getAlbumsDataRef().updateChildren(NewAlbumMap).addOnSuccessListener(new OnSuccessListener() {
+                appData.getAlbumsDataRef().updateChildren(NewAlbumMap).addOnSuccessListener(new OnSuccessListener() {
                     @Override
                     public void onSuccess(Object o) {
                         close(null);
@@ -255,11 +253,11 @@ public class EditAlbum extends AppCompatActivity {
     }
 
     public void deleteCover(View view) {
-        AppData.getAlbumsDataRef().child(albumOwnerId).child(albumId).child("coverImage")
+        appData.getAlbumsDataRef().child(albumOwnerId).child(albumId).child("coverImage")
                 .setValue(getString(R.string.DEFAULT_ALBUM_COVER_IMAGE)).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                AppData.getAlbumsStorageRef().child(albumOwnerId).child(albumId).child("coverImage").delete();
+                appData.getAlbumsStorageRef().child(albumOwnerId).child(albumId).child("coverImage").delete();
                 addCoverBtn.setVisibility(View.VISIBLE);
                 coverBtnLayout.setVisibility(View.GONE);
             }
@@ -268,7 +266,7 @@ public class EditAlbum extends AppCompatActivity {
 
     public void addCover(View view) {
         Intent addAlbumCoverGalleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(addAlbumCoverGalleryIntent, ADD_ALBUM_COVER_REQUEST);
+        startActivityForResult(addAlbumCoverGalleryIntent, getResources().getInteger(R.integer.ADD_COVER));
     }
 
     public void deleteAlbum() {
@@ -281,8 +279,8 @@ public class EditAlbum extends AppCompatActivity {
                 "Yes",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        AppData.getAllAlbumsDataRef().child(albumId).setValue(null);
-                        AppData.getAlbumsDataRef().child(albumOwnerId).child(albumId).setValue(null);
+                        appData.getAllAlbumsDataRef().child(albumId).setValue(null);
+                        appData.getAlbumsDataRef().child(albumOwnerId).child(albumId).setValue(null);
 
                         close(null);
 
@@ -301,6 +299,6 @@ public class EditAlbum extends AppCompatActivity {
     public void editCover(View view) {
 
         Intent editAlbumCoverGalleryIntent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(editAlbumCoverGalleryIntent, ADD_ALBUM_COVER_REQUEST);
+        startActivityForResult(editAlbumCoverGalleryIntent, getResources().getInteger(R.integer.ADD_COVER));
     }
 }

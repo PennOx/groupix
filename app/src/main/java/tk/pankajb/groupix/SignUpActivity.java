@@ -21,7 +21,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
 import tk.pankajb.groupix.handlers.DataStore;
-import tk.pankajb.groupix.handlers.Mapper;
+import tk.pankajb.groupix.handlers.Validator;
+import tk.pankajb.groupix.models.User;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -64,37 +65,28 @@ public class SignUpActivity extends AppCompatActivity {
 
     public void signUp(View view) {
 
-        final String userName = newUserName.getText().toString();
-        final String userLastName = newUserLastName.getText().toString();
-        final String userMail = newUserMail.getText().toString();
+        final User newUser = new User();
+        newUser.setName(newUserName.getText().toString().trim());
+        newUser.setLastName(newUserLastName.getText().toString().trim());
+        newUser.seteMail(newUserMail.getText().toString().trim());
         final String userPass = newUserPass.getText().toString();
 
-        if (userName.isEmpty()) {
-            Toast.makeText(SignUpActivity.this, R.string.Name_Required, Toast.LENGTH_LONG).show();
-        } else if (userLastName.isEmpty()) {
-            Toast.makeText(SignUpActivity.this, R.string.LastName_Required, Toast.LENGTH_LONG).show();
-        } else if (userMail.isEmpty()) {
-            Toast.makeText(SignUpActivity.this, R.string.Email_Required, Toast.LENGTH_LONG).show();
-        } else if (userPass.isEmpty()) {
-            Toast.makeText(SignUpActivity.this, R.string.Password_Required, Toast.LENGTH_LONG).show();
-        } else if (userPass.length() < 6) {
-            Toast.makeText(SignUpActivity.this, R.string.Password_Length, Toast.LENGTH_LONG).show();
-        } else {
+        Validator validator = new Validator(SignUpActivity.this);
+
+        if (validator.isValidNewUser(newUser) && validator.isPasswordValid(userPass)) {
             signUpProgressDialog.show();
             view.setEnabled(false);
 
-            appData.Auth.createUserWithEmailAndPassword(userMail, userPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            appData.Auth.createUserWithEmailAndPassword(newUser.geteMail(), userPass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
 
-                        Mapper mapper = new Mapper(SignUpActivity.this);
-
-                        UserProfileChangeRequest NewUserUpdates = new UserProfileChangeRequest.Builder().setDisplayName(userName).build();
+                        UserProfileChangeRequest NewUserUpdates = new UserProfileChangeRequest.Builder().setDisplayName(newUser.getFullName()).build();
                         appData.Auth.getCurrentUser().updateProfile(NewUserUpdates);
 
                         appData.getUsersDataRef().child(appData.getCurrentUserId())
-                                .setValue(mapper.getNewUserMap(userName, userLastName, userMail, userPass)).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                .setValue(newUser).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
 

@@ -14,10 +14,10 @@ public class User {
 
     public User(String eMail, String name, String lastName, String profileImage, String profileThumbImage) {
         this.eMail = eMail;
-        this.name = name;
-        this.lastName = lastName;
-        this.profileImage = profileImage;
-        this.profileThumbImage = profileThumbImage;
+        this.name = name.trim();
+        this.lastName = lastName.trim();
+        this.profileImage = profileImage.trim();
+        this.profileThumbImage = profileThumbImage.trim();
     }
 
     public String geteMail() {
@@ -42,5 +42,25 @@ public class User {
 
     public String getFullName() {
         return String.format("%s %s", name, lastName);
+    }
+
+    public void seteMail(String eMail) {
+        this.eMail = eMail.trim();
+    }
+
+    public void setName(String name) {
+        this.name = name.trim();
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName.trim();
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage.trim();
+    }
+
+    public void setProfileThumbImage(String profileThumbImage) {
+        this.profileThumbImage = profileThumbImage.trim();
     }
 }
